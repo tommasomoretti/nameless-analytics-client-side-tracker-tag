@@ -119,12 +119,14 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
       var originalHref = target.getAttribute("href");  // Mantieni il valore originale del link
       var link_url = new URL(originalHref);
+      var link_hostname = link_url.hostname
 
-      const domain_matches = saved_cross_domain_domains.some(domain => link_url.hostname === domain)
-      const is_self = (link_url.hostname == window.location.hostname) ? true : false
+      // Non va con i sottodomini
+      const domain_matches = saved_cross_domain_domains.some(domain => link_hostname.includes(domain))
+      const is_self = link_hostname.includes(window.location.hostname)
 
       console.log('CROSS-DOMAIN DATA')
-      console.log(' Clicked hostname: ' + link_url.hostname)
+      console.log(' Clicked hostname: ' + link_hostname)
       console.log(' Is self? ' + is_self)
       console.log(' Is allowed? ' + domain_matches)
       console.log(' Analytics storage value: ' + get_consent_value(window.dataLayer))
