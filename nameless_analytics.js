@@ -121,11 +121,11 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       var link_url = new URL(originalHref);
 
       const domain_matches = saved_cross_domain_domains.some(domain => link_url.hostname === domain);
-      console.log(link_url.hostname)
-      console.log(domain_matches)
-      console.log('Consent value:' + get_analytics_storage_value(window.dataLayer))
+      console.log('Clicked hostname' + link_url.hostname)
+      console.log('Is allowed? ' + domain_matches)
+      console.log('Analytics storage value: ' + get_consent_value(window.dataLayer))
 
-      if (domain_matches && get_analytics_storage_value(window.dataLayer)) {
+      if (domain_matches && get_consent_value(window.dataLayer)) {
         
         const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
         if (!session_id) {
@@ -141,8 +141,10 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
       if (target.getAttribute("target") === "_blank") {
         window.open(updatedHref, '_blank', target.getAttribute("rel") ? 'noopener' : '');
+        console.log('Redirect to: ' + updatedHref)
       } else {
         location.href = updatedHref;
+        console.log('Redirect to: ' + updatedHref)
       }
     }
   };
