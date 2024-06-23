@@ -108,41 +108,48 @@ function get_channel_grouping(referrer_hostname, source, campaign) {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Cross-domain
-let listener
 function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
-    const saved_full_endpoint = full_endpoint;
-    const saved_cross_domain_domains = cross_domain_domains;
-    console.log('Setting listener...');
-    listener = async function(event) {
-        const target = event.target;
-        const target_param = target.getAttribute("target");
-        if (target.tagName === 'A') {
-            const link_url = new URL(target.href);
-            const domain_matches = saved_cross_domain_domains.some(domain=>link_url.hostname.includes(domain));
-            if (domain_matches && get_analytics_storage_value(window.dataLayer)) {
-                event.preventDefault();
-                console.log('Cross-domain:');
-                const decorated_url = await send_data_for_cross_domain(saved_full_endpoint, {
-                    event_name: 'get_user_data'
-                }, target.href);
-                console.log('  Redirect to: ', decorated_url);
-                if (decorated_url) {
-                    target.href = decorated_url;
-                    if(target_param) {
-                        window.open(decorated_url, target_param)
-                    } else {
-                        window.open(decorated_url, '_self')
-                    }
-                }
-            } else {
-                console.log('Cross-domain not needed or not consented');
-            }
+  const saved_full_endpoint = full_endpoint;
+  const saved_cross_domain_domains = cross_domain_domains;
+
+  let listener = async function(event) {
+    var target = event.target.closest('a');  // Utilizza closest per trovare il link più vicino
+    if (target && target.getAttribute("href")) {
+      event.preventDefault();
+
+      var originalHref = target.getAttribute("href");  // Mantieni il valore originale del link
+      var link_url = new URL(originalHref);
+
+      const domain_matches = saved_cross_domain_domains.some(domain => link_url.hostname === domain);
+      console.log(link_url.hostname)
+      console.log(domain_matches)
+      console.log('Consent value:' + get_analytics_storage_value(window.dataLayer))
+
+      if (domain_matches && get_analytics_storage_value(window.dataLayer)) {
+        
+        const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
+        if (!session_id) {
+          console.error('Failed to retrieve session ID');
+          return;
         }
+
+        link_url.searchParams.set('na_id', session_id);
+      }
+
+      const updatedHref = link_url.toString();
+      console.log(updatedHref);
+
+      if (target.getAttribute("target") === "_blank") {
+        window.open(updatedHref, '_blank', target.getAttribute("rel") ? 'noopener' : '');
+      } else {
+        location.href = updatedHref;
+      }
     }
-    document.addEventListener('click', listener);
+  };
+  document.addEventListener('click', listener);
 }
 
-function get_analytics_storage_value(dataLayer) {
+function get_consent_value(dataLayer) {
   let consent_values = {
     // ad_personalization: null,
     // ad_storage: null,
@@ -176,27 +183,25 @@ function get_analytics_storage_value(dataLayer) {
   }
 }
 
-async function send_data_for_cross_domain(saved_full_endpoint, payload, linkUrl) {
-    try {
-        const response = await fetch(saved_full_endpoint, {
-            method: 'POST',
-            credentials: 'include',
-            mode: 'cors',
-            keepalive: true,
-            body: JSON.stringify(payload)
-        });
-        const response_json = await response.json();
-        if (response_json.status_code === 200) {
-            const session_id = response_json.data.session_id;
-            console.log('  Current session id: ' + session_id);
-            const url = new URL(linkUrl);
-            url.searchParams.set('na_id', session_id);
-            return url.toString();
-        } else {
-            return "";
-        }
-    } catch (error) {
-        console.error('Error during fetch:', error);
-        return "";
+async function get_session_id(saved_full_endpoint, payload) {
+  try {
+    const response = await fetch(saved_full_endpoint, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      keepalive: true,
+      body: JSON.stringify(payload)
+    });
+
+    const response_json = await response.json();
+    if (response_json.status_code === 200) {
+      return response_json.data.session_id;
+    } else {
+      console.error('Error: ', response_json.message);
+      return "";
     }
+  } catch (error) {
+    console.error('Error during fetch:', error);
+    return "";
+  }
 }
