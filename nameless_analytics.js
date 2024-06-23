@@ -108,6 +108,7 @@ function get_channel_grouping(referrer_hostname, source, campaign) {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Cross-domain
+// Cross-domain
 function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
   const saved_full_endpoint = full_endpoint;
   const saved_cross_domain_domains = cross_domain_domains;
@@ -137,7 +138,6 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       }
 
       const updatedHref = link_url.toString();
-      console.log(updatedHref);
 
       if (target.getAttribute("target") === "_blank") {
         window.open(updatedHref, '_blank', target.getAttribute("rel") ? 'noopener' : '');
