@@ -77,14 +77,17 @@ function parse_user_agent() {
 async function get_status_code(url) {
   try {
     const response = await fetch(url, {
-      method: '', // Utilizzare il metodo HEAD per ottenere solo gli header
+      method: 'HEAD', // Utilizzare il metodo HEAD per ottenere solo gli header
       cache: 'no-store' // Imposta no-store per assicurarti di ottenere una nuova risposta
     });
-    return response.status;
+    const response_status = await response.status;
+    return response_status;
   } catch (error) {
     return null;
   }
 }
+
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
