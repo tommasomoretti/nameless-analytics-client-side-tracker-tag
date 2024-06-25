@@ -77,28 +77,28 @@ function parse_user_agent() {
 // Channel grouping
 function get_channel_grouping(referrer_hostname, source, campaign) {
   const organic_search_source = new RegExp('google|bing|yahoo|baidu|yandex|duckduckgo|ask|aol|ecosia')
-  const organic_social_source = new RegExp('facebook|messenger|instagram|tiktok|t\.co|twitter|linkedin|pinterest|youtube|whatsapp|wechat')
-  const email_source = new RegExp('email')
+  const social_source = new RegExp('facebook|messenger|instagram|tiktok|t\.co|twitter|linkedin|pinterest|youtube|whatsapp|wechat')
+  const email_source = new RegExp('email|e-mail|e_mail|e mail')
     
   if (source == null) {
-    return 'internal_traffic'
+    return null
   } else if (source == 'direct' && campaign == null) {
     return 'direct'
   } else if (source == 'tagassistant.google.com'){
     return 'gtm_debugger'
   } else if (organic_search_source.test(source) && campaign == null) {
     return 'organic_search'
-  } else if (organic_social_source.test(source) && campaign == null) {
-    return 'organic_social'
   } else if (organic_search_source.test(source) && campaign !== null) {
     return 'paid_search'
-  } else if (organic_social_source.test(source) && campaign != null) {
+  } else if (social_source.test(source) && campaign == null) {
+    return 'organic_social'
+  } else if (social_source.test(source) && campaign != null) {
     return 'paid_social'
   } else if (email_source.test(source) && campaign != null) {
     return 'email'
-  } else if (referrer_hostname != null && campaign == null) {
+  } else if (source != null && campaign == null) {
     return 'referral'
-  } else if (referrer_hostname != null && campaign != null) {
+  } else if (source != null && campaign != null) {
     return 'affiliate'
   } else {
     return 'undefined'
