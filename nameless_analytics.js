@@ -73,6 +73,21 @@ function parse_user_agent() {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
+// Get status code
+async function get_status_code(url) {
+  try {
+    const response = await fetch(url, {
+      method: '', // Utilizzare il metodo HEAD per ottenere solo gli header
+      cache: 'no-store' // Imposta no-store per assicurarti di ottenere una nuova risposta
+    });
+    return response.status;
+  } catch (error) {
+    return null;
+  }
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 // Channel grouping
 function get_channel_grouping(source, campaign) {
