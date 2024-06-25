@@ -73,12 +73,12 @@ function parse_user_agent() {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-function get_status_code(url){
+function get_status_code (url){
   async function get_status_code_value(url_to_fetch) {
     try {
       const response = await fetch(url_to_fetch, {
-        method: 'HEAD',
-        cache: 'no-store'
+        method: 'HEAD', // Utilizzare il metodo HEAD per ottenere solo gli header
+        cache: 'no-store' // Imposta no-store per assicurarti di ottenere una nuova risposta
       });
       return response.status;
     } catch (error) {
@@ -88,7 +88,7 @@ function get_status_code(url){
   
   get_status_code_value(url).then(status => {
     if (status) {
-      return status
+      console.log(status);
     }
   });
 }
