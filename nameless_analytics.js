@@ -13,6 +13,7 @@ function send_data(full_endpoint, payload, data) {
   payload.event_data.os_version = parse_user_agent().os.version,
   payload.event_data.screen_size = window.screen.width + "x" + window.screen.height
   payload.event_data.wiewport_size = window.innerWidth + "x" + window.innerHeight
+  payload.event_data.page_status_code = get_status_code(window.location.href)
 
   if(data.config_variable.enable_logs){console.log('SENDING REQUEST...')} 
   
