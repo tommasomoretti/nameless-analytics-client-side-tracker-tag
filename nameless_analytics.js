@@ -1,30 +1,38 @@
-// Send hits
 async function send_data(full_endpoint, payload, data) {
-  const timestamp = payload.event_timestamp
-  payload.event_date = format_datetime(timestamp).split("T")[0]
-  payload.event_data.browser_name = parse_user_agent().browser.name,
-  payload.event_data.browser_language = parse_user_agent().browser.language,
-  payload.event_data.browser_version = parse_user_agent().browser.version,
-  payload.event_data.device_type = parse_user_agent().device.type || "desktop",
-  payload.event_data.device_vendor = parse_user_agent().device.vendor,
-  payload.event_data.device_model = parse_user_agent().device.model,
-  payload.event_data.os_name = parse_user_agent().os.name,
-  payload.event_data.os_version = parse_user_agent().os.version,
-  payload.event_data.screen_size = window.screen.width + "x" + window.screen.height
-  payload.event_data.wiewport_size = window.innerWidth + "x" + window.innerHeight
-  payload.event_data.page_status_code = await get_status_code_value(window.location.href).then(status => {if (status) {return status}});
+  const timestamp = payload.event_timestamp;
+  payload.event_date = format_datetime(timestamp).split("T")[0];
+
+  const userAgent = parse_user_agent();
+  payload.event_data.browser_name = userAgent.browser.name;
+  payload.event_data.browser_language = userAgent.browser.language;
+  payload.event_data.browser_version = userAgent.browser.version;
+  payload.event_data.device_type = userAgent.device.type || "desktop";
+  payload.event_data.device_vendor = userAgent.device.vendor;
+  payload.event_data.device_model = userAgent.device.model;
+  payload.event_data.os_name = userAgent.os.name;
+  payload.event_data.os_version = userAgent.os.version;
+  payload.event_data.screen_size = `${window.screen.width}x${window.screen.height}`;
+  payload.event_data.viewport_size = `${window.innerWidth}x${window.innerHeight}`;
+
+  try {
+    payload.event_data.page_status_code = await get_status_code_value(window.location.href);
+  } catch (error) {
+    payload.event_data.page_status_code = null;
+  }
 
   if(data.config_variable.enable_logs){console.log('SENDING REQUEST...')} 
-  
-  fetch(full_endpoint, {
-    method: 'POST',
-    credentials: 'include',
-    mode: 'cors',
-    keepalive: true,
-    body: JSON.stringify(payload)
-  })
-  .then((response) => response.json())
-  .then((response_json) => {
+
+  try {
+    const response = await fetch(full_endpoint, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      keepalive: true,
+      body: JSON.stringify(payload),
+    });
+    
+    const response_json = await response.json();
+    
     if (response_json.status_code === 200){
       if(data.config_variable.enable_logs){console.log('  Event name: ' + response_json.data.event_name)}
       if(data.config_variable.enable_logs){console.log('  Payload data: ', response_json.data)}
@@ -32,13 +40,12 @@ async function send_data(full_endpoint, payload, data) {
       return data.gtmOnSuccess()
     } else {
       if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
-      return data.gtmOnFailure()
+      return data.gtmOnFailure();
     }
-  })
-  .catch((error) => {
+  } catch (error) {
     if(data.config_variable.enable_logs){console.log(error)}
-    return data.gtmOnFailure()
-  })
+    return data.gtmOnFailure();
+  }
 }
 
 
