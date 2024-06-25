@@ -75,7 +75,7 @@ function parse_user_agent() {
 
 
 // Channel grouping
-function get_channel_grouping(referrer_hostname, source, campaign) {
+function get_channel_grouping(source, campaign) {
   const organic_search_source = new RegExp('google|bing|yahoo|baidu|yandex|duckduckgo|ask|aol|ecosia')
   const social_source = new RegExp('facebook|messenger|instagram|tiktok|t\.co|twitter|linkedin|pinterest|youtube|whatsapp|wechat')
   const email_source = new RegExp('email|e-mail|e_mail|e mail')
