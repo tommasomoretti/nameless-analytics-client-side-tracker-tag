@@ -73,20 +73,24 @@ function parse_user_agent() {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Get status code
-async function get_status_code(url) {
+async function getStatusCode(url) {
   try {
     const response = await fetch(url, {
       method: 'HEAD', // Utilizzare il metodo HEAD per ottenere solo gli header
       cache: 'no-store' // Imposta no-store per assicurarti di ottenere una nuova risposta
     });
-    const response_status = await response.status;
-    return response_status;
+    return response.status;
   } catch (error) {
     return null;
   }
 }
 
+// Usa la funzione con l'URL corrente
+getStatusCode(window.location.href).then(status => {
+  if (status) {
+    console.log(status);
+  }
+});
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
