@@ -145,8 +145,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       var link_url = new URL(originalHref);
       var link_hostname = link_url.hostname
 
-      // Non va con i sottodomini
-      const domain_matches = saved_cross_domain_domains.some(domain => link_hostname.includes(domain))
+      const domain_matches = saved_cross_domain_domains.some(domain => link_hostname === domain || link_hostname.endsWith(`.${domain}`));
       const is_self = link_hostname.includes(window.location.hostname)
 
       console.log('CROSS-DOMAIN DATA')
