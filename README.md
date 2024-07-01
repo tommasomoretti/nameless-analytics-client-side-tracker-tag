@@ -11,7 +11,7 @@ Lorem ipsum
 
 
 
-## Nameless Analytics: Client-Tag
+## Nameless Analytics: Main Tag
 Lorem ipsum
 
 
