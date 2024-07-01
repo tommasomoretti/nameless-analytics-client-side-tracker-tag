@@ -6,12 +6,12 @@ Collect, analyze and activate your website data with a real-time analytics suite
 
 
 
-## Nameless Analytics: Configuration variable
+## Client-side configuration variable
 Lorem ipsum
 
 
 
-## Nameless Analytics: Main Tag
+## Client-side main tag
 Lorem ipsum
 
 
