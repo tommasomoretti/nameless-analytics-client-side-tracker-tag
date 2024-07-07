@@ -12,7 +12,6 @@ function send_data(full_endpoint, payload, data) {
   payload.event_data.os_version = parse_user_agent().os.version,
   payload.event_data.screen_size = window.screen.width + "x" + window.screen.height
   payload.event_data.wiewport_size = window.innerWidth + "x" + window.innerHeight
-  // payload.event_data.page_status_code = await get_status_code_value(window.location.href).then(status => {if (status) {return status}});
 
   if(data.config_variable.enable_logs){console.log('SENDING REQUEST...')} 
   
@@ -73,23 +72,6 @@ function parse_user_agent() {
   
   uap_res.browser.language = navigator.language  
   return uap_res
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-// Get page status code
-async function get_status_code_value(url_to_fetch) {
-  try {
-    const response = await fetch(url_to_fetch, {
-      method: 'HEAD', // Utilizzare il metodo HEAD per ottenere solo gli header
-      cache: 'no-store' // Imposta no-store per assicurarti di ottenere una nuova risposta
-    });
-    return response.status;
-  } catch (error) {
-    return null;
-  }
 }
 
 
