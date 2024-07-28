@@ -209,7 +209,7 @@ async function get_session_id(saved_full_endpoint, payload) {
 
     const response_json = await response.json();
     if (response_json.status_code === 200) {
-      console.log('    Session_id: ' + response_json.data.session_id)
+      console.log('    Current session_id: ' + response_json.data.session_id)
       return response_json.data.session_id;
     } else {
       console.error('    Error: ', response_json.message);
