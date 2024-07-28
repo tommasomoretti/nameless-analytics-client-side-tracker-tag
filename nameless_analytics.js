@@ -140,10 +140,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
         console.log('  Cross domain ok')
         
         const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
-        if (!session_id) {
-          return;
-        }
-
+        if (!session_id || session_id === 'undefined_undefined') {return;}
         link_url.searchParams.set('na_id', session_id);
       } else (
         console.log('  Cross-domain not needed')
