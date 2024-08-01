@@ -150,10 +150,9 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       )
 
       const updatedHref = link_url.toString();
-      const windowOpener = window.open();
 
       if (target.getAttribute("target") === "_blank") {
-        windowOpener.location = updatedHref;
+        window.open(updatedHref);
         console.log('    Redirect to: ' + updatedHref)
       } else {
         location.href = updatedHref;
