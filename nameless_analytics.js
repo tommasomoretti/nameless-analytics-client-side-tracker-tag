@@ -152,7 +152,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       const updatedHref = link_url.toString();
 
       if (target.getAttribute("target") === "_blank") {
-        window.open(updatedHref);
+        window.open(updatedHref, '_blank');
         console.log('    Redirect to: ' + updatedHref)
       } else {
         location.href = updatedHref;
