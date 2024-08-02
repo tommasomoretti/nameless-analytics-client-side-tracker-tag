@@ -1,4 +1,4 @@
-﻿___TERMS_OF_SERVICE___
+___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -68,8 +68,8 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "valueHint": "event_name",
-        "help": "Event name",
+        "valueHint": "(not set)",
+        "help": "The event of the event.\u003cp\u003e\u003c/p\u003eE.g.: page_view",
         "enablingConditions": []
       },
       {
@@ -101,8 +101,18 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Insert event parameter names and values",
+        "help": "Custom parameter names and values for a specific event. \n\u003cp\u003e\u003c/p\u003e\nE.g.: parameter name \u003d page_status_code and parameter value \u003d 200",
         "enablingConditions": []
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "include_additional_event_parameters",
+        "checkboxText": "Add event data from dataLayer",
+        "simpleValueType": true,
+        "displayName": "Additional event parameters",
+        "alwaysInSummary": true,
+        "defaultValue": false,
+        "help": "If set to true, adds event parameters reading the dataLayer.push() event that has triggered the tag."
       }
     ]
   },
@@ -113,8 +123,13 @@ ___TEMPLATE_PARAMETERS___
     "subParams": [
       {
         "type": "LABEL",
+        "name": "nameless_analytics",
+        "displayName": "\u003cimg src\u003d\"https://namelessanalytics.com/img/Logo%20black.svg\" width\u003d\"400\"\u003e"
+      },
+      {
+        "type": "LABEL",
         "name": "version",
-        "displayName": "Version: 1.0"
+        "displayName": "Beta version: 1.0"
       },
       {
         "type": "LABEL",
@@ -146,6 +161,8 @@ const makeString = require('makeString');
 const getQueryParameters = require('getQueryParameters');
 const getContainerVersion = require('getContainerVersion');
 const copyFromDataLayer = require('copyFromDataLayer');
+const copyFromWindow = require('copyFromWindow'); 
+const Object = require('Object');
 
 
 const timestamp = getTimestampMillis();
@@ -153,10 +170,10 @@ const timestamp = getTimestampMillis();
 const config = data.config_variable;
 
 const dl_event_name = copyFromDataLayer('event', 2);
-const pv_event_name = 'gtm.js'; // Change this if you do not trigger pv on All Pages (gtm.js)
-const vpv_event_name = 'gtm.historyChange'; // Change this if your site not use history.pushState or history.replaceState
+const pv_event_name = 'gtm.js'; // Change this if you do not trigger pv on All Pages (default gtm.js)
+const vpv_event_name = 'gtm.historyChange'; // Change this if your site not use history.pushState or history.replaceState (default gtm.historyChange)
 
-const script_url = 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-tag@main/nameless_analytics.js';
+const script_url = 'https://rawcdn.githack.com/tommasomoretti/nameless-analytics-client-tag/54275a905b2826e14aea2056b63749f09f183ede/nameless_analytics.js';
 const ua_parser_url = 'https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js';
 
 const hostname = getUrl('host');
@@ -174,13 +191,13 @@ const gclsrc = getQueryParameters('gclsrc');
 const wbraid = getQueryParameters('wbraid');
 const gbraid = getQueryParameters('gbraid');
 
-const cross_domain_id = getQueryParameters('na_id');
-
 const source = (referrer_hostname == hostname) ? null : ((utm_source) ? utm_source : ((referrer_hostname == '') ? 'direct' : referrer_hostname));
 const campaign = utm_campaign || gclid || dclid || gclsrc || wbraid || gbraid || null;
 const campaign_id = utm_id || null;
 const campaign_term = utm_term || null;
 const campaign_content = utm_content || null;
+
+const cross_domain_id = getQueryParameters('na_id');
 
 
 if(config.enable_logs){log('NAMELESS ANALYTICS');}
@@ -263,7 +280,7 @@ function send_request(full_endpoint){
     if(config.enable_logs){log('  Checking consent mode...');}
     // Consent denied
     if (!isConsentGranted("analytics_storage")){            
-      if(config.enable_logs){log('    🔴 analytics_storage denied or not already extressed.');}
+      if(config.enable_logs){log('    🔴 analytics_storage denied or consent not already expressed');}
       let was_called = false;
       
       addConsentListener("analytics_storage", (consent_type, consent_status) => {
@@ -306,10 +323,10 @@ function build_payload(){
   const payload = {};
   payload.event_name = data.event_name;
   payload.event_timestamp = timestamp;
+
+  const event_info = update_event_storage_value.pop(); // Last event info 
   
-  // Event info
-  const event_info = update_event_storage_value.pop(); // Last event info
-  
+  // Event info from configuration variable
   const config_event_params = config.common_event_params;
   if(config_event_params != undefined){
     for (let i = 0; i < config_event_params.length; i++) {
@@ -319,6 +336,25 @@ function build_payload(){
     } 
   }
   
+  // Event info from dataLayer
+  if (data.include_additional_event_parameters){
+    const dataLayer = copyFromWindow('dataLayer');
+    const current_event_pushes = dataLayer.filter(item => item.event === dl_event_name);
+    const last_current_event_push = current_event_pushes.length > 0 ? current_event_pushes[current_event_pushes.length - 1] : null;
+    
+    for (var key of Object.keys(last_current_event_push)) {
+      // log('Key: ', key);
+      if (key != 'event' && key != 'gtm.start' && key != 'gtm.uniqueEventId') {
+        // log('Add element from dataLayer: ', key, ': ', last_current_event_push[key]);
+        event_info[key] = last_current_event_push[key];
+      } 
+      // else {
+      //   log('Nothing to add from dataLayer');
+      // }
+    }
+  }
+  
+  // Event info from tag fiels 
   const event_params = data.event_params;
   if (event_params != undefined) {
     for (let i = 0; i < event_params.length; i++) {
@@ -326,13 +362,12 @@ function build_payload(){
       const value = event_params[i].param_value;
       event_info[name] = value;
     }
-  }
-  
-  
+  } 
+   
   // Consent info
   const consent_info = {
-    // ad_user_data: isConsentGranted("ad_user_data"),
-    // ad_personalization: isConsentGranted("ad_personalization"),
+    ad_user_data: isConsentGranted('ad_user_data'),
+    ad_personalization: isConsentGranted('ad_personalization'),
     ad_storage: isConsentGranted("ad_storage"),
     analytics_storage: isConsentGranted("analytics_storage"),
     functionality_storage: isConsentGranted("functionality_storage"),
@@ -340,7 +375,6 @@ function build_payload(){
     security_storage: isConsentGranted("security_storage")
   };
 
-  
   // Build the payload
   payload.event_data = event_info;
   payload.consent_data = consent_info;
@@ -351,7 +385,8 @@ function build_payload(){
 
 // Save event info in template storage
 function set_event_info_in_storage(storage_name, storage_value) {
-  const channel_grouping = callInWindow('get_channel_grouping', referrer_hostname, source, campaign);
+  const channel_grouping = callInWindow('get_channel_grouping', source, campaign);
+  // var page_status_code = null;
     
   if (dl_event_name == pv_event_name || dl_event_name == vpv_event_name) {
     const page_id = makeString(generateRandom(1000000000, 9999999999));
@@ -368,6 +403,8 @@ function set_event_info_in_storage(storage_name, storage_value) {
       campaign_content: campaign_content,
       page_id: page_id,
       page_title: readTitle(),
+      // page_status_code: page_status_code,
+      page_hostname_protocol: getUrl('protocol'),
       page_hostname: hostname,
       page_location: getUrl('path'),
       page_fragment: getUrl('fragment') || null,
@@ -398,6 +435,8 @@ function set_event_info_in_storage(storage_name, storage_value) {
       campaign_content: campaign_content,
       page_id: full_page_id,
       page_title: readTitle(),
+      // page_status_code: page_status_code,
+      page_hostname_protocol: getUrl('protocol'),
       page_hostname: hostname,
       page_location: getUrl('path'),
       page_fragment: getUrl('fragment') || null,
@@ -453,7 +492,7 @@ ___WEB_PERMISSIONS___
             "listItem": [
               {
                 "type": 1,
-                "string": "https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-tag@main/nameless_analytics.js"
+                "string": "https://rawcdn.githack.com/tommasomoretti/nameless-analytics-client-tag/54275a905b2826e14aea2056b63749f09f183ede/nameless_analytics.js"
               },
               {
                 "type": 1,
@@ -660,19 +699,19 @@ ___WEB_PERMISSIONS___
                 "mapValue": [
                   {
                     "type": 1,
-                    "string": "remove_cross_domain_listener"
-                  },
-                  {
-                    "type": 8,
-                    "boolean": false
-                  },
-                  {
-                    "type": 8,
-                    "boolean": false
+                    "string": "dataLayer"
                   },
                   {
                     "type": 8,
                     "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
                   }
                 ]
               }
@@ -918,6 +957,68 @@ ___WEB_PERMISSIONS___
                     "boolean": false
                   }
                 ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ad_personalization"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ad_user_data"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
               }
             ]
           }
@@ -981,6 +1082,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 02/06/2024, 15:26:33
+Created on 02/08/2024, 18:18:25
 
 
