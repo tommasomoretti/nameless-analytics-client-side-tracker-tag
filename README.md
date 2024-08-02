@@ -57,13 +57,13 @@ Here a list of all the standard parameters:
 | event_data.city                      | venice                                           | City                                                                                     |
 | event_data.ss_hostname               | gtm.tommasomoretti.com                           | Server-side Google Tag Manager hostname                                                  |
 | event_data.ss_container_id           | GTM-KQG9ZNG                                      | Server-side Google Tag Manager container ID                                              |
-| consent_data.ad_user_data            | false                                            | Consent mode ad_user_data value                                                          |
-| consent_data.ad_personalization      | false                                            | Consent mode ad_personalization                                                          |
-| consent_data.ad_storage              | false                                            | Consent mode ad_storage                                                                  |
-| consent_data.analytics_storage       | true                                             | Consent mode analytics_storage                                                           |
-| consent_data.functionality_storage   | false                                            | Consent mode functionality_storage value                                                 |
-| consent_data.personalization_storage | false                                            | Consent mode personalization_storage value                                               |
-| consent_data.security_storage        | false                                            | Consent mode security_storage value                                                      |
+| consent_data.ad_user_data            | false                                            | Consent Mode ad_user_data value                                                          |
+| consent_data.ad_personalization      | false                                            | Consent Mode ad_personalization                                                          |
+| consent_data.ad_storage              | false                                            | Consent Mode ad_storage                                                                  |
+| consent_data.analytics_storage       | true                                             | Consent Mode analytics_storage                                                           |
+| consent_data.functionality_storage   | false                                            | Consent Mode functionality_storage value                                                 |
+| consent_data.personalization_storage | false                                            | Consent Mode personalization_storage value                                               |
+| consent_data.security_storage        | false                                            | Consent Mode security_storage value                                                      |
 
 
 
