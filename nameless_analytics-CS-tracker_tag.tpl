@@ -1,4 +1,4 @@
-___TERMS_OF_SERVICE___
+﻿___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -129,12 +129,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "LABEL",
         "name": "version",
-        "displayName": "Beta version: 1.0"
-      },
-      {
-        "type": "LABEL",
-        "name": "creator",
-        "displayName": "Created by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dcs_analytics_tag\u0026utm_medium\u003dreferral\"\u003eTommaso Moretti\u003c/a\u003e"
+        "displayName": "Beta version: 1.0. \n\u003cp\u003e\u003cp/\u003e\nRead more about the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics-client-tag\"\u003eClient-side Tracker Tag\u003c/a\u003e. \n\u003cp\u003e\u003c/p\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dcs_analytics_tag\"\u003eTommaso Moretti\u003c/a\u003e"
       }
     ],
     "groupStyle": "ZIPPY_OPEN"
@@ -1082,6 +1077,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 02/08/2024, 18:18:25
+Created on 03/08/2024, 09:48:17
 
 
