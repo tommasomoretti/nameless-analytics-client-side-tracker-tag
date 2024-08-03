@@ -40,7 +40,6 @@ If ```enable_cross_domain_tracking``` option is enabled, the client-side tag wil
 
 If ```enable_cross_domain_tracking``` option is disabled, the client-side tag will not set any listener.
 
-For more details, see [Nameless Analytics client side tag](https://github.com/tommasomoretti/nameless-analytics-client-tag)
 
 
 ## Payload values
