@@ -149,8 +149,6 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       } else if (domain_matches && !is_self && !analytics_storage_value) {
         console.log('  Cross domain enable')
         console.log('  Analytics storage value: ', analytics_storage_value)
-      } else {
-        console.log('  Cross-domain disabled')
       }
 
       const updatedHref = link_url.toString();
