@@ -131,13 +131,14 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       const is_self = link_hostname.includes(window.location.hostname)
 
       console.log('CROSS-DOMAIN DATA')
-      console.log(' Clicked hostname: ' + link_hostname)
-      console.log(' Is self? ' + is_self)
-      console.log(' Is allowed? ' + domain_matches)
-      console.log(' Analytics storage value: ' + get_consent_value(window.dataLayer))
+      // console.log(' Clicked hostname: ' + link_hostname)
+      // console.log(' Is self? ' + is_self)
+      // console.log(' Is allowed? ' + domain_matches)
+      const analytics_storage_value = get_consent_value(window.dataLayer)
 
-      if (domain_matches && !is_self && get_consent_value(window.dataLayer)) {
-        console.log('  Cross domain ok')
+      if (domain_matches && !is_self && analytics_storage_value) {
+        console.log('  Cross domain enable')
+        console.log('  Analytics storage value: ', analytics_storage_value)
         
         const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
         if (!session_id) {
@@ -145,9 +146,12 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
         } else if(session_id && session_id != 'undefined_undefined'){
           link_url.searchParams.set('na_id', session_id);
         }
-      } else (
-        console.log('  Cross-domain not needed')
-      )
+      } else if (domain_matches && !is_self && !analytics_storage_value) {
+        console.log('  Cross domain enable')
+        console.log('  Analytics storage value: ', analytics_storage_value)
+      } else {
+        console.log('  Cross-domain disabled')
+      }
 
       const updatedHref = link_url.toString();
 
