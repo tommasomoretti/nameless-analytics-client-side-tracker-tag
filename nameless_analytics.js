@@ -1,15 +1,18 @@
 // Send hits
 function send_data(full_endpoint, payload, data) {
   const timestamp = payload.event_timestamp
+  const ua_info = parse_user_agent()
+
   payload.event_date = format_datetime(timestamp).split("T")[0]
-  payload.event_data.browser_name = parse_user_agent().browser.name,
-  payload.event_data.browser_language = parse_user_agent().browser.language,
-  payload.event_data.browser_version = parse_user_agent().browser.version,
-  payload.event_data.device_type = parse_user_agent().device.type || "desktop",
-  payload.event_data.device_vendor = parse_user_agent().device.vendor,
-  payload.event_data.device_model = parse_user_agent().device.model,
-  payload.event_data.os_name = parse_user_agent().os.name,
-  payload.event_data.os_version = parse_user_agent().os.version,
+  payload.event_data.user_agent = ua_info.ua,
+  payload.event_data.browser_name = ua_info.browser.name,
+  payload.event_data.browser_language = ua_info.browser.language,
+  payload.event_data.browser_version = ua_info.browser.version,
+  payload.event_data.device_type = ua_info.device.type || "desktop",
+  payload.event_data.device_vendor = ua_info.device.vendor,
+  payload.event_data.device_model = ua_info.device.model,
+  payload.event_data.os_name = ua_info.os.name,
+  payload.event_data.os_version = ua_info.os.version,
   payload.event_data.screen_size = window.screen.width + "x" + window.screen.height
   payload.event_data.wiewport_size = window.innerWidth + "x" + window.innerHeight
 
@@ -60,7 +63,7 @@ function format_datetime(timestamp) {
 
 
 // Parse user agent
-function parse_user_agent() {
+const parse_user_agent = function () {
   var uap = new UAParser()
   var uap_res = uap.getResult()
   
