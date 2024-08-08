@@ -141,27 +141,24 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
         // console.log('  Cross domain enable')
         // console.log('  Analytics storage value: ', analytics_storage_value)
         
-        // const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
-        const session_id = 'DIOCANEEEEE'
+        const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
+        // const session_id = 'DC'
         
         if(session_id && session_id != 'undefined_undefined'){
           link_url.searchParams.set('na_id', session_id);
         } else {
           return;
         }
-      } else if (domain_matches && !is_self && !analytics_storage_value) {
-        // console.log('  Cross domain enable')
-        // console.log('  Analytics storage value: ', analytics_storage_value)
       }
 
-      const updatedHref = link_url.toString();
+      const updated_href = link_url.toString();
 
       if (target.getAttribute("target") === "_blank") {
-        window.open(updatedHref, '_blank');
-        console.log('    Redirect to: ' + updatedHref)
+        window.open(updated_href, '_blank');
+        console.log('    Redirect to: ' + updated_href)
       } else {
-        location.href = updatedHref;
-        console.log('    Redirect to: ' + updatedHref)
+        location.href = updated_href;
+        console.log('    Redirect to: ' + updated_href)
       }
     }
   };
