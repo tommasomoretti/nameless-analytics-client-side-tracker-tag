@@ -88,44 +88,50 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
       const domain_matches = saved_cross_domain_domains.some(domain => link_hostname === domain || link_hostname.endsWith(`.${domain}`));
       const is_self = link_hostname.includes(window.location.hostname)
+      const url_junk = link_url.startsWith('mailto:')
 
-      console.log('CROSS-DOMAIN DATA')
-      // console.log(' Clicked hostname: ' + link_hostname)
-      // console.log(' Is self? ' + is_self)
-      // console.log(' Is allowed? ' + domain_matches)
-      
-      const analytics_storage_value = get_consent_value(window.dataLayer)
-
-      if (domain_matches && !is_self && analytics_storage_value) {
-        // console.log('  Cross domain enable')
-        // console.log('  Analytics storage value: ', analytics_storage_value)
+      if(!url_junk) {
+        console.log('CROSS-DOMAIN DATA')
+        // console.log(' Clicked hostname: ' + link_hostname)
+        // console.log(' Is self? ' + is_self)
+        // console.log(' Is allowed? ' + domain_matches)
         
-        const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
-        // const session_id = 'DC'
-        
-        if(session_id && session_id != 'undefined_undefined'){
-          link_url.searchParams.set('na_id', session_id);
-        } else {
-          return;
+        const analytics_storage_value = get_consent_value(window.dataLayer)
+  
+        if (domain_matches && !is_self && analytics_storage_value) {
+          // console.log('  Cross domain enable')
+          // console.log('  Analytics storage value: ', analytics_storage_value)
+          
+          const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
+          // const session_id = 'DC'
+          
+          if(session_id && session_id != 'undefined_undefined'){
+            link_url.searchParams.set('na_id', session_id);
+          } else {
+            return;
+          }
         }
-      }
-
-      const updated_href = link_url.toString();
-
-      if (target.getAttribute("target") === "_blank") {
-        window.open(updated_href, '_blank');
-        console.log('    Redirect to: ' + updated_href)
-      } else {
-        location.href = updated_href;
-        console.log('    Redirect to: ' + updated_href)
+  
+        const updated_href = link_url.toString();
+  
+        if (target.getAttribute("target") === "_blank") {
+          window.open(updated_href, '_blank');
+          console.log('    Redirect to: ' + updated_href)
+        } else {
+          location.href = updated_href;
+          console.log('    Redirect to: ' + updated_href)
+        }
       }
     }
   };
   document.addEventListener('click', listener);
 }
 
+
+// Retreive last value of analytics_storage 
 function get_consent_value(dataLayer) {
   let consent_values = {}
+  
   for (let i = dataLayer.length - 1; i >= 0; i--) {
     const item = dataLayer[i];
     if (item[0] === "consent" && (item[1] === "default" || item[1] === "update")) {
@@ -144,6 +150,8 @@ function get_consent_value(dataLayer) {
   }
 }
 
+
+// Ask to Server-side GTM the values of 
 async function get_session_id(saved_full_endpoint, payload) {
   try {
     const response = await fetch(saved_full_endpoint, {
