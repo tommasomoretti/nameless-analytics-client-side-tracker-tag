@@ -94,7 +94,6 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       const url_junk = /^(mailto:|tel:)/.test(link_url.href)
 
       if(!url_junk) {
-        console.log('CROSS-DOMAIN DATA')
         // console.log(' Clicked hostname: ' + link_hostname)
         // console.log(' Is self? ' + is_self)
         // console.log(' Is allowed? ' + domain_matches)
@@ -102,6 +101,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
         const analytics_storage_value = get_consent_value(window.dataLayer)
   
         if (domain_matches && !is_self && analytics_storage_value) {
+          console.log('CROSS-DOMAIN DATA')
           // console.log('  Cross domain enable')
           // console.log('  Analytics storage value: ', analytics_storage_value)
           
@@ -113,20 +113,20 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
           } else if (!session_id){
             return;
           }
-        }
-  
-        const updated_href = link_url.toString();
-  
-        if (target.getAttribute("target") === "_blank") {
-          window.open(updated_href, '_blank');
-          console.log('    Redirect to: ' + updated_href)
-        } else {
-          location.href = updated_href;
-          console.log('    Redirect to: ' + updated_href)
+          
+          console.log('    Redirect to: ' + link_url.href)
         }
       }
+      
+      if (target.getAttribute("target") === "_blank") {
+        window.open(link_url.href, '_blank');
+      } else {
+        location.href = link_url.href;
+      }
+      
     }
   };
+  
   document.addEventListener('click', listener);
 }
 
