@@ -110,7 +110,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
           
           if(session_id && session_id != 'undefined_undefined'){
             link_url.searchParams.set('na_id', session_id);
-          } else {
+          } else if (!session_id){
             return;
           }
         }
