@@ -116,17 +116,14 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
         }
   
         const updated_href = link_url.toString();
-        location.href = updated_href;
-        console.log('    Redirect to: ' + updated_href)
   
-        // if (target.getAttribute("target") === "_blank") {
-        //   window.open(updated_href, '_blank');
-        //   console.log('    Redirect to: ' + updated_href)
-        // } else {
-        //   location.href = updated_href;
-        //   console.log('    Redirect to: ' + updated_href)
-        // }
-        
+        if (target.getAttribute("target") === "_blank") {
+          window.open(updated_href, '_blank');
+          console.log('    Redirect to: ' + updated_href)
+        } else {
+          location.href = updated_href;
+          console.log('    Redirect to: ' + updated_href)
+        }
       }
     }
   };
