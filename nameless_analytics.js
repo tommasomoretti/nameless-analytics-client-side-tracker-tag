@@ -109,18 +109,28 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
           const client_id = user_data.client_id
           const session_id = user_data.session_id
 
-          console.log('  Current client_id: ' + client_id)
-          console.log('  Current session_id: ' + session_id)
-
           // const session_id = '1234'
           
-          if(session_id && session_id != 'undefined_undefined'){
-            console.log('Valid session id. Cross domain will be applied.')            
+          if(client_id && session_id && session_id != 'undefined_undefined'){
+            console.log('  👍🏻 Valid Slient ID: ', client_id)
+            console.log('  👍🏻 Valid Session ID: ', session_id)
+            console.log('🟢 Cross-domain will be applied.')
             link_url.searchParams.set('na_id', session_id);
-          } else if (session_id == 'undefined_undefined') {
-            console.log('Invalid session id. No cross domain will be applied.')
-          } else if (!session_id){
-            return;
+          } else if (!client_id && session_id && session_id != 'undefined_undefined'){
+            console.log('  👎🏻 Invalid Client ID: ', client_id)
+            console.log('  👍🏻 Valid Session ID: ', session_id)
+            console.log('🟢 Cross-domain will be applied. The Client ID will be derived from the Session ID')
+            link_url.searchParams.set('na_id', session_id);
+          } else if(client_id && session_id == 'undefined_undefined') {
+            console.log('  👍🏻 Valid Client ID:', client_id)
+            console.log('  👎🏻 Invalid Session ID: ', session_id)
+            console.log('🔴 No cross-domain will be applied.')
+            return
+          } else {
+            console.log('  👎🏻 Invalid Client ID:', client_id)
+            console.log('  👎🏻 Invalid Session ID: ', session_id)
+            console.log('🔴 No cross-domain will be applied.')
+            return
           }
           
           console.log('    Redirect to: ' + link_url.href)
