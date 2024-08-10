@@ -105,11 +105,20 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
           // console.log('  Cross domain enable')
           // console.log('  Analytics storage value: ', analytics_storage_value)
           
-          const session_id = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'});
-          // const session_id = 'DC'
+          const user_data = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'})
+          const client_id = user_data.client_id
+          const session_id = user_data.session_id
+
+          console.log('  Current client_id: ' + client_id)
+          console.log('  Current session_id: ' + session_id)
+
+          // const session_id = '1234'
           
           if(session_id && session_id != 'undefined_undefined'){
+            console.log('Valid session id. Cross domain will be applied.')            
             link_url.searchParams.set('na_id', session_id);
+          } else if (session_id == 'undefined_undefined') {
+            console.log('Invalid session id. No cross domain will be applied.')
           } else if (!session_id){
             return;
           }
@@ -167,9 +176,7 @@ async function get_session_id(saved_full_endpoint, payload) {
 
     const response_json = await response.json();
     if (response_json.status_code === 200) {
-      console.log('    Current client_id: ' + response_json.data.client_id)
-      console.log('    Current session_id: ' + response_json.data.session_id)
-      return response_json.data.session_id;
+      return response_json.data;
     } else {
       console.error('    Error: ', response_json.message);
       return "";
