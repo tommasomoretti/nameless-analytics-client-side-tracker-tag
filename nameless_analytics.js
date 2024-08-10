@@ -111,26 +111,24 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
           // const session_id = '1234'
           
-          if(client_id && session_id && session_id != 'undefined_undefined'){
-            console.log('  👍🏻 Valid Slient ID: ', client_id)
-            console.log('  👍🏻 Valid Session ID: ', session_id)
+          if(client_id != 'undefined' && session_id != 'undefined_undefined'){
+            console.log('  👍🏻 Valid Client ID:', client_id)
+            console.log('  👍🏻 Valid Session ID:', session_id)
             console.log('🟢 Cross-domain will be applied.')
             link_url.searchParams.set('na_id', session_id);
-          } else if (!client_id && session_id && session_id != 'undefined_undefined'){
-            console.log('  👎🏻 Invalid Client ID: ', client_id)
-            console.log('  👍🏻 Valid Session ID: ', session_id)
-            console.log('🟢 Cross-domain will be applied. The Client ID will be derived from the Session ID')
+          } else if (client_id == 'undefined' && session_id != 'undefined_undefined' ){
+            console.log('  👎🏻 Invalid Client ID:', client_id)
+            console.log('  👍🏻 Valid Session ID:', session_id)
+            console.log('🟢 Cross-domain will be applied. Client ID will be derived from Session ID')
             link_url.searchParams.set('na_id', session_id);
-          } else if(client_id && session_id == 'undefined_undefined') {
+          } else if(client_id != 'undefined' && session_id == 'undefined_undefined') {
             console.log('  👍🏻 Valid Client ID:', client_id)
             console.log('  👎🏻 Invalid Session ID: ', session_id)
             console.log('🔴 No cross-domain will be applied.')
-            return
           } else {
             console.log('  👎🏻 Invalid Client ID:', client_id)
             console.log('  👎🏻 Invalid Session ID: ', session_id)
             console.log('🔴 No cross-domain will be applied.')
-            return
           }
           
           console.log('    Redirect to: ' + link_url.href)
