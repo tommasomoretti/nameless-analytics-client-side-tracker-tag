@@ -87,63 +87,67 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
       var original_href = target.getAttribute("href");
       var link_url = new URL(original_href);
-      var link_hostname = link_url.hostname
+      var link_hostname = link_url.hostname;
 
       const domain_matches = saved_cross_domain_domains.some(domain => link_hostname === domain || link_hostname.endsWith(`.${domain}`));
-      const is_self = link_hostname.includes(window.location.hostname)
-      const url_junk = /^(mailto:|tel:)/.test(link_url.href)
+      const is_self = link_hostname.includes(window.location.hostname);
+      const url_junk = /^(mailto:|tel:)/.test(link_url.href);
 
-      if(!url_junk) {
-        // console.log(' Clicked hostname: ' + link_hostname)
-        // console.log(' Is self? ' + is_self)
-        // console.log(' Is allowed? ' + domain_matches)
-        
-        const analytics_storage_value = get_consent_value(window.dataLayer)
-  
+      if (!url_junk) {
+        const analytics_storage_value = get_consent_value(window.dataLayer);
+
         if (domain_matches && !is_self && analytics_storage_value) {
-          console.log('CROSS-DOMAIN DATA')
-          // console.log('  Cross domain enable')
-          // console.log('  Analytics storage value: ', analytics_storage_value)
-          
-          const user_data = await get_session_id(saved_full_endpoint, {event_name: 'get_user_data'})
-          const client_id = user_data.client_id
-          const session_id = user_data.session_id
+          // Check if the parameter 'na_id' is already present in the URL
+          if (!link_url.searchParams.has('na_id')) {
 
-          // const session_id = '1234'
-          
-          if(client_id != 'undefined' && session_id != 'undefined_undefined'){
-            console.log('  👍🏻 Valid Client ID:', client_id)
-            console.log('  👍🏻 Valid Session ID:', session_id)
-            console.log('🟢 Cross-domain will be applied.')
-            link_url.searchParams.set('na_id', session_id);
-          } else if (client_id == 'undefined' && session_id != 'undefined_undefined' ){
-            console.log('  👎🏻 Invalid Client ID:', client_id)
-            console.log('  👍🏻 Valid Session ID:', session_id)
-            console.log('🟢 Cross-domain will be applied. Client ID will be derived from Session ID')
-            link_url.searchParams.set('na_id', session_id);
-          } else if(client_id != 'undefined' && session_id == 'undefined_undefined') {
-            console.log('  👍🏻 Valid Client ID:', client_id)
-            console.log('  👎🏻 Invalid Session ID: ', session_id)
-            console.log('🔴 No cross-domain will be applied.')
+            // Get user data from Server-side GTM 
+            const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
+            const client_id = user_data.client_id;
+            const session_id = user_data.session_id;
+
+            // Client ID is valid and Session ID is valid 
+            if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
+              console.log('  👍🏻 Valid Client ID:', client_id);
+              console.log('  👍🏻 Valid Session ID:', session_id);
+              console.log('🟢 Cross-domain will be applied.');
+              link_url.searchParams.set('na_id', session_id);
+            // Client ID invalid and Session ID is valid
+            } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
+              console.log('  👎🏻 Invalid Client ID:', client_id);
+              console.log('  👍🏻 Valid Session ID:', session_id);
+              console.log('🟢 Cross-domain will be applied. Client ID will be derived from Session ID');
+              link_url.searchParams.set('na_id', session_id);
+              // Client ID is valid and Session ID is invalid
+            } else if (client_id !== 'undefined' && session_id === 'undefined_undefined') {
+              console.log('  👍🏻 Valid Client ID:', client_id);
+              console.log('  👎🏻 Invalid Session ID: ', session_id);
+              console.log('🔴 No cross-domain will be applied.');
+            // Client ID is invalid and Session ID is invalid
+            } else {
+              console.log('  👎🏻 Invalid Client ID:', client_id);
+              console.log('  👎🏻 Invalid Session ID: ', session_id);
+              console.log('🔴 No cross-domain will be applied.');
+            }
+
+            target.setAttribute("href", link_url.href);
+            
           } else {
-            console.log('  👎🏻 Invalid Client ID:', client_id)
-            console.log('  👎🏻 Invalid Session ID: ', session_id)
-            console.log('🔴 No cross-domain will be applied.')
+            console.log('🟡 Parameter na_id already present in URL, skipping addition.');
           }
           
-          console.log('    Redirect to: ' + link_url.href)
+          console.log('    Redirect to: ' + link_url.href);
         }
       }
-      
+
       if (target.getAttribute("target") === "_blank") {
         window.open(link_url.href, '_blank');
       } else {
         location.href = link_url.href;
       }
-      
+
     }
   };
-  
+
   document.addEventListener('click', listener);
 }
 
@@ -151,7 +155,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 // Retreive last value of analytics_storage 
 function get_consent_value(dataLayer) {
   let consent_values = {}
-  
+
   for (let i = dataLayer.length - 1; i >= 0; i--) {
     const item = dataLayer[i];
     if (item[0] === "consent" && (item[1] === "default" || item[1] === "update")) {
@@ -162,13 +166,14 @@ function get_consent_value(dataLayer) {
       }
     }
   }
-  
+
   if (consent_values.analytics_storage === 'granted') {
     return true;
   } else {
-    return false
+    return false;
   }
 }
+
 
 
 // Ask to Server-side GTM the values of 
