@@ -105,6 +105,8 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
             const client_id = user_data.client_id;
             const session_id = user_data.session_id;
 
+            console.log('CROSS-DOMAIN', client_id);
+
             // Client ID is valid and Session ID is valid 
             if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
               console.log('  👍🏻 Valid Client ID:', client_id);
