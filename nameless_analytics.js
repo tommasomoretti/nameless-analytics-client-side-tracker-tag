@@ -94,9 +94,9 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       const url_junk = /^(mailto:|tel:)/.test(link_url.href);
 
       if (!url_junk) {
-        const analytics_storage_value = get_consent_value(window.dataLayer);
+        const analytics_storage_value = get_consent_value(window.dataLayer).analytics_storage;
 
-        if (domain_matches && !is_self && analytics_storage_value) {
+        if (domain_matches && !is_self && analytics_storage_value == 'granted') {
           // Check if the parameter 'na_id' is already present in the URL
           if (!link_url.searchParams.has('na_id')) {
 
@@ -163,17 +163,19 @@ function get_consent_value(dataLayer) {
     if (item[0] === "consent" && (item[1] === "default" || item[1] === "update")) {
       const consent_data = item[2];
       if (consent_data) {
+        consent_values.ad_personalization = consent_data.ad_personalization !== undefined ? consent_data.ad_personalization : consent_values.ad_personalization;
+        consent_values.ad_storage = consent_data.ad_storage !== undefined ? consent_data.ad_storage : consent_values.ad_storage;
+        consent_values.ad_user_data = consent_data.ad_user_data !== undefined ? consent_data.ad_user_data : consent_values.ad_user_data;
         consent_values.analytics_storage = consent_data.analytics_storage !== undefined ? consent_data.analytics_storage : consent_values.analytics_storage;
+        consent_values.functionality_storage = consent_data.functionality_storage !== undefined ? consent_data.functionality_storage : consent_values.functionality_storage;
+        consent_values.personalization_storage = consent_data.personalization_storage !== undefined ? consent_data.personalization_storage : consent_values.personalization_storage;
+        consent_values.security_storage = consent_data.security_storage !== undefined ? consent_data.security_storage : consent_values.security_storage;
         break;
       }
     }
   }
 
-  if (consent_values.analytics_storage === 'granted') {
-    return true;
-  } else {
-    return false;
-  }
+  return consent_values
 }
 
 
