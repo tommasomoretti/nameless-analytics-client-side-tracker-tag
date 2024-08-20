@@ -98,44 +98,35 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
         const analytics_storage_value = consent_values.analytics_storage;
 
         if (domain_matches && !is_self && (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0)) {
-          // Check if the parameter 'na_id' is already present in the URL
-          if (!link_url.searchParams.has('na_id')) {
+          // Get user data from Server-side GTM 
+          const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
+          const client_id = user_data.client_id;
+          const session_id = user_data.session_id;
 
-            // Get user data from Server-side GTM 
-            const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
-            const client_id = user_data.client_id;
-            const session_id = user_data.session_id;
+          console.log('CROSS-DOMAIN');
 
-            console.log('CROSS-DOMAIN');
-
-            // Client ID is valid and Session ID is valid 
-            if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
-              console.log('  👍🏻 Valid Client ID:', client_id);
-              console.log('  👍🏻 Valid Session ID:', session_id);
-              console.log('🟢 Cross-domain will be applied.');
-              link_url.searchParams.set('na_id', session_id);
-            // Client ID invalid and Session ID is valid
-            } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
-              console.log('  👎🏻 Invalid Client ID:', client_id);
-              console.log('  👍🏻 Valid Session ID:', session_id);
-              console.log('🟢 Cross-domain will be applied. Client ID will be derived from Session ID');
-              link_url.searchParams.set('na_id', session_id);
-              // Client ID is valid and Session ID is invalid
-            } else if (client_id !== 'undefined' && session_id === 'undefined_undefined') {
-              console.log('  👍🏻 Valid Client ID:', client_id);
-              console.log('  👎🏻 Invalid Session ID: ', session_id);
-              console.log('🔴 No cross-domain will be applied.');
-            // Client ID is invalid and Session ID is invalid
-            } else {
-              console.log('  👎🏻 Invalid Client ID:', client_id);
-              console.log('  👎🏻 Invalid Session ID: ', session_id);
-              console.log('🔴 No cross-domain will be applied.');
-            }
-
-            target.setAttribute("href", link_url.href);
-            
+          // Client ID is valid and Session ID is valid 
+          if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
+            console.log('  👍🏻 Valid Client ID:', client_id);
+            console.log('  👍🏻 Valid Session ID:', session_id);
+            console.log('🟢 Cross-domain will be applied.');
+            link_url.searchParams.set('na_id', session_id);
+          // Client ID invalid and Session ID is valid
+          } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
+            console.log('  👎🏻 Invalid Client ID:', client_id);
+            console.log('  👍🏻 Valid Session ID:', session_id);
+            console.log('🟢 Cross-domain will be applied. Client ID will be derived from Session ID');
+            link_url.searchParams.set('na_id', session_id);
+            // Client ID is valid and Session ID is invalid
+          } else if (client_id !== 'undefined' && session_id === 'undefined_undefined') {
+            console.log('  👍🏻 Valid Client ID:', client_id);
+            console.log('  👎🏻 Invalid Session ID: ', session_id);
+            console.log('🔴 No cross-domain will be applied.');
+          // Client ID is invalid and Session ID is invalid
           } else {
-            console.log('🟡 Parameter na_id already present in URL, skipping addition.');
+            console.log('  👎🏻 Invalid Client ID:', client_id);
+            console.log('  👎🏻 Invalid Session ID: ', session_id);
+            console.log('🔴 No cross-domain will be applied.');
           }
           
           console.log('    Redirect to: ' + link_url.href);
