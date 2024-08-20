@@ -98,7 +98,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
         if (domain_matches && !is_self && analytics_storage_value == 'granted') {
           // Check if the parameter 'na_id' is already present in the URL
-          if (!link_url.searchParams.has('na_id')) {
+          // if (!link_url.searchParams.has('na_id')) {
 
             // Get user data from Server-side GTM 
             const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
@@ -133,9 +133,9 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
             // target.setAttribute("href", link_url.href);
             
-          } else {
-            console.log('🟡 Parameter na_id already present in URL, skipping addition.');
-          }
+          // } else {
+          //  console.log('🟡 Parameter na_id already present in URL, skipping addition.');
+          // }
           
           console.log('    Redirect to: ' + link_url.href);
         }
