@@ -131,7 +131,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
               console.log('🔴 No cross-domain will be applied.');
             }
 
-            target.setAttribute("href", link_url.href);
+            // target.setAttribute("href", link_url.href);
             
           } else {
             console.log('🟡 Parameter na_id already present in URL, skipping addition.');
