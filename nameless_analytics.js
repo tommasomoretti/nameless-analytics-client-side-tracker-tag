@@ -81,7 +81,8 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
   const saved_cross_domain_domains = cross_domain_domains;
 
   let listener = async function(event) {
-    var target = event.target.closest('a');
+    //var target = event.target.closest('a');
+    var target = event.target
     if (target && target.getAttribute("href")) {
       event.preventDefault();
 
@@ -99,7 +100,9 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
         if (domain_matches && !is_self && (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-          const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
+         const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
+
+         // const user_data = {client_id : '1234',session_id : '12341111'}
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
@@ -134,15 +137,23 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
       }
 
       if (target.getAttribute("target") === "_blank") {
-        window.open(link_url.href, '_blank');
+        //window.open(link_url.href, '_blank')
+        var link = document.createElement('a');
+        link.href = link_url.href;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       } else {
         location.href = link_url.href;
       }
 
     }
   };
-
-  document.addEventListener('click', listener);
+  document.querySelectorAll('a').forEach( function(element) {
+    element.addEventListener('click', listener);
+  })
+  //document.addEventListener('click', listener);
 }
 
 
