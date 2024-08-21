@@ -81,8 +81,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
   const saved_cross_domain_domains = cross_domain_domains;
 
   let listener = async function(event) {
-    //var target = event.target.closest('a');
-    var target = event.target
+    var target = (event.target.getAttribute("href")) ? event.target : event.target.closest('a');
     if (target && target.getAttribute("href")) {
       event.preventDefault();
 
@@ -150,10 +149,13 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
     }
   };
-  document.querySelectorAll('a').forEach( function(element) {
+  
+  document.querySelectorAll('a').forEach(function(element) {
     element.addEventListener('click', listener);
+    element.childNodes.forEach(function(child) {
+      child.addEventListener('click', listener);
+    })
   })
-  //document.addEventListener('click', listener);
 }
 
 
