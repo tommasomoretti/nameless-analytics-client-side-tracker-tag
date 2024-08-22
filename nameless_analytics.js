@@ -18,29 +18,35 @@ function send_data(full_endpoint, payload, data) {
 
   if(data.config_variable.enable_logs){console.log('SENDING REQUEST...')} 
   
-  fetch(full_endpoint, {
-    method: 'POST',
-    credentials: 'include',
-    mode: 'cors',
-    keepalive: true,
-    body: JSON.stringify(payload)
-  })
-  .then((response) => response.json())
-  .then((response_json) => {
-    if (response_json.status_code === 200){
-      if(data.config_variable.enable_logs){console.log('  Event name: ' + response_json.data.event_name)}
-      if(data.config_variable.enable_logs){console.log('  Payload data: ', response_json.data)}
-      if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
-      return data.gtmOnSuccess()
-    } else {
-      if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
+  if (full_endpoint.split('/')[2] != 'undefined'){
+    try {
+      fetch(full_endpoint, {
+        method: 'POST',
+        credentials: 'include',
+        mode: 'cors',
+        keepalive: true,
+        body: JSON.stringify(payload)
+      })
+      .then((response) => response.json())
+      .then((response_json) => {
+        console.log('DC')
+        if (response_json.status_code === 200){
+          if(data.config_variable.enable_logs){console.log('  Event name: ' + response_json.data.event_name)}
+          if(data.config_variable.enable_logs){console.log('  Payload data: ', response_json.data)}
+          if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
+          return data.gtmOnSuccess()
+        } else {
+          if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
+          return data.gtmOnFailure()
+        }
+      }) 
+    } catch(error) {
+      if(data.config_variable.enable_logs){console.log('  🔴 Shit requests.')}
       return data.gtmOnFailure()
     }
-  })
-  .catch((error) => {
-    if(data.config_variable.enable_logs){console.log(error)}
-    return data.gtmOnFailure()
-  })
+  } else {
+    if(data.config_variable.enable_logs){console.log('  🔴 This website is not authorized to send Nameless Analytics requests.')}
+  }
 }
 
 
@@ -99,28 +105,26 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
         if (domain_matches && !is_self && (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-         const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
-
-         // const user_data = {client_id : '1234',session_id : '12341111'}
+          const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
           console.log('CROSS-DOMAIN');
 
           // Client ID is valid and Session ID is valid 
-          if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
+          if (client_id !== undefined && session_id !== undefined) {
             console.log('  👍🏻 Valid Client ID:', client_id);
             console.log('  👍🏻 Valid Session ID:', session_id);
             console.log('🟢 Cross-domain will be applied.');
             link_url.searchParams.set('na_id', session_id);
           // Client ID invalid and Session ID is valid
-          } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
+          } else if (client_id === undefined && session_id !== undefined) {
             console.log('  👎🏻 Invalid Client ID:', client_id);
             console.log('  👍🏻 Valid Session ID:', session_id);
             console.log('🟢 Cross-domain will be applied. Client ID will be derived from Session ID');
             link_url.searchParams.set('na_id', session_id);
             // Client ID is valid and Session ID is invalid
-          } else if (client_id !== 'undefined' && session_id === 'undefined_undefined') {
+          } else if (client_id !== undefined && session_id === undefined) {
             console.log('  👍🏻 Valid Client ID:', client_id);
             console.log('  👎🏻 Invalid Session ID: ', session_id);
             console.log('🔴 No cross-domain will be applied.');
@@ -187,25 +191,29 @@ function get_consent_value(dataLayer) {
 
 // Ask to Server-side GTM the values of 
 async function get_session_id(saved_full_endpoint, payload) {
-  try {
-    const response = await fetch(saved_full_endpoint, {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      keepalive: true,
-      body: JSON.stringify(payload)
-    });
-
-    const response_json = await response.json();
-    if (response_json.status_code === 200) {
-      return response_json.data;
-    } else {
-      console.error('    Error: ', response_json.message);
+  if (saved_full_endpoint.split('/')[2] != 'undefined'){
+    try {
+      const response = await fetch(saved_full_endpoint, {
+        method: 'POST',
+        credentials: 'include',
+        mode: 'cors',
+        keepalive: true,
+        body: JSON.stringify(payload)
+      });
+  
+      const response_json = await response.json();
+      if (response_json.status_code === 200) {
+        return response_json.data;
+      } else {
+        console.error('    Error: ', response_json.message);
+        return {client_id: undefined, session_id: undefined};
+      }
+    } catch (error) {
+      // console.error('    Error during fetch session_id.');
       return "";
     }
-  } catch (error) {
-    console.error('    Error during fetch session_id: ', error);
-    return "";
+  } else {
+    return ""
   }
 }
 
