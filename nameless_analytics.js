@@ -190,7 +190,7 @@ function get_consent_value(dataLayer) {
 
 // Ask to Server-side GTM the values of 
 async function get_user_data(saved_full_endpoint, payload) {
-  if (saved_full_endpoint.split('/')[2] != 'undefined'){
+  if (full_endpoint_domain.split('/')[2].split('.')[1] != 'undefined'){
     try {
       const response = await fetch(saved_full_endpoint, {
         method: 'POST',
@@ -208,11 +208,11 @@ async function get_user_data(saved_full_endpoint, payload) {
         return {};
       }
     } catch (error) {
-      console.log("Error during fetch: ", error)
+      console.log("Error during fetch 1")
       return {};
     }
   } else {
-    console.log("Error during fetch: ", error)
+    console.log("Error during fetch 2")
     return {}
   }
 }
