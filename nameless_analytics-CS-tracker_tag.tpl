@@ -9,11 +9,11 @@ Google may provide), as modified from time to time.
 ___INFO___
 
 {
-  "type": "CLIENT",
+  "type": "TAG",
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "Nameless Analytics | SS | Client Tag",
+  "displayName": "Nameless Analytics | CS | Tracker Tag",
   "brand": {
     "id": "brand_dummy",
     "displayName": "",
@@ -21,7 +21,7 @@ ___INFO___
   },
   "description": "",
   "containerContexts": [
-    "SERVER"
+    "WEB"
   ]
 }
 
@@ -36,97 +36,40 @@ ___TEMPLATE_PARAMETERS___
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
       {
-        "type": "SIMPLE_TABLE",
-        "name": "allowed_domains_list",
-        "simpleTableColumns": [
-          {
-            "defaultValue": "",
-            "displayName": "Domain name",
-            "name": "allowed_domain",
-            "type": "TEXT",
-            "isUnique": true,
-            "valueValidators": [
-              {
-                "type": "NON_EMPTY"
-              }
-            ],
-            "valueHint": "(not set)"
-          }
-        ],
-        "alwaysInSummary": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ],
-        "help": "Authorized domains from which to accept requests. Add the domains without the protocol, one per row.\u003cp\u003e\u003c/p\u003eE.g.:\u003c/br\u003e domain1.com\u003c/br\u003e domain2.com",
-        "displayName": "Allowed domains"
-      },
-      {
-        "type": "TEXT",
-        "name": "endpoint",
-        "displayName": "Endpoint",
+        "type": "SELECT",
+        "name": "config_variable",
+        "displayName": "Configuration variable",
+        "macrosInSelect": true,
+        "selectItems": [],
         "simpleValueType": true,
-        "alwaysInSummary": true,
-        "valueHint": "(not set)",
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
         ],
-        "help": "Custom endpoint for the requests.\u003cp\u003e\u003c/p\u003eE.g.: /collect/na"
+        "alwaysInSummary": true
       }
     ]
   },
   {
     "type": "GROUP",
-    "name": "bq_options",
-    "displayName": "Google BigQuery options",
+    "name": "event_data",
+    "displayName": "Event data",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
       {
         "type": "TEXT",
-        "name": "bq_project_id",
-        "displayName": "Project ID",
+        "name": "event_name",
+        "displayName": "Event name",
         "simpleValueType": true,
-        "valueHint": "(not set)",
-        "help": "The Google Cloud project ID for BigQuery.",
         "alwaysInSummary": true,
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
         ],
-        "enablingConditions": []
-      },
-      {
-        "type": "TEXT",
-        "name": "bq_dataset_id",
-        "displayName": "Dataset ID.",
-        "simpleValueType": true,
         "valueHint": "(not set)",
-        "help": "The BigQuery dataset ID.",
-        "alwaysInSummary": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ],
-        "enablingConditions": []
-      },
-      {
-        "type": "TEXT",
-        "name": "bq_table_id",
-        "displayName": "Table ID",
-        "simpleValueType": true,
-        "valueHint": "(not set)",
-        "help": "The BigQuery table ID. Remember to create the table before start sending events.",
-        "alwaysInSummary": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ],
+        "help": "The event of the event.\u003cp\u003e\u003c/p\u003eE.g.: page_view",
         "enablingConditions": []
       },
       {
@@ -134,10 +77,15 @@ ___TEMPLATE_PARAMETERS___
         "name": "add_parameters",
         "checkboxText": "Manually add/override event parameters",
         "simpleValueType": true,
+        "displayName": "Event parameters",
+        "alwaysInSummary": true,
+        "defaultValue": false,
+        "help": "If set to true, adds custom event parameters to the request. If a parameter is already present, it will be overridden.",
+        "enablingConditions": [],
         "subParams": [
           {
             "type": "SIMPLE_TABLE",
-            "name": "add_event_params",
+            "name": "event_params",
             "displayName": "Event parameters",
             "simpleTableColumns": [
               {
@@ -145,8 +93,8 @@ ___TEMPLATE_PARAMETERS___
                 "displayName": "Param name",
                 "name": "param_name",
                 "type": "TEXT",
-                "isUnique": true,
                 "valueHint": "(not set)",
+                "isUnique": true,
                 "valueValidators": [
                   {
                     "type": "NON_EMPTY"
@@ -158,15 +106,13 @@ ___TEMPLATE_PARAMETERS___
                 "displayName": "Param value",
                 "name": "param_value",
                 "type": "TEXT",
-                "valueHint": "(not set)"
-              }
-            ],
-            "valueValidators": [
-              {
-                "type": "NON_EMPTY"
+                "valueHint": "(not set)",
+                "isUnique": false,
+                "valueValidators": []
               }
             ],
             "alwaysInSummary": true,
+            "help": "Custom parameter names and values for a specific event. \n\u003cp\u003e\u003c/p\u003e\nE.g.: parameter name \u003d page_status_code and parameter value \u003d 200",
             "enablingConditions": [
               {
                 "paramName": "add_parameters",
@@ -174,132 +120,31 @@ ___TEMPLATE_PARAMETERS___
                 "type": "EQUALS"
               }
             ],
-            "help": "Custom parameter names and values for a specific event.  \u003cp\u003e\u003c/p\u003e E.g.: param name \u003d page_status_code and param value \u003d 200"
-          }
-        ],
-        "alwaysInSummary": true,
-        "help": "If set to true, adds custom event parameters to the BigQuery payload. If a parameter is already present, it will be overridden.",
-        "defaultValue": false,
-        "displayName": "Event parameters"
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "remove_parameters",
-        "checkboxText": "Remove parameters manually",
-        "simpleValueType": true,
-        "displayName": "",
-        "help": "If set to true, remove custom event parameters to the BigQuery payload.",
-        "defaultValue": false,
-        "alwaysInSummary": true,
-        "subParams": [
-          {
-            "type": "SIMPLE_TABLE",
-            "name": "remove_event_params",
-            "displayName": "Event parameters",
-            "simpleTableColumns": [
-              {
-                "defaultValue": "",
-                "displayName": "Param name",
-                "name": "param_name",
-                "type": "TEXT",
-                "isUnique": true,
-                "valueHint": "(not set)",
-                "valueValidators": [
-                  {
-                    "type": "NON_EMPTY"
-                  }
-                ]
-              },
-              {
-                "defaultValue": "",
-                "displayName": "Param value",
-                "name": "param_value",
-                "type": "TEXT",
-                "valueHint": "(not set)"
-              }
-            ],
             "valueValidators": [
               {
                 "type": "NON_EMPTY"
               }
-            ],
-            "alwaysInSummary": true,
-            "enablingConditions": [
-              {
-                "paramName": "remove_parameters",
-                "paramValue": true,
-                "type": "EQUALS"
-              }
-            ],
-            "help": "Custom parameter names and values for a specific event.  \u003cp\u003e\u003c/p\u003e E.g.: param name \u003d page_status_code and param value \u003d 200"
+            ]
           }
         ]
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "add_parameters_from_dataLayer",
+        "checkboxText": "Add event parameters from dataLayer",
+        "simpleValueType": true,
+        "displayName": "",
+        "alwaysInSummary": true,
+        "defaultValue": false,
+        "help": "If set to true, adds event parameters reading the dataLayer.push() event that has triggered the tag.",
+        "enablingConditions": []
       }
     ]
   },
   {
     "type": "GROUP",
-    "name": "advanced_options",
-    "displayName": "Advanced options",
-    "groupStyle": "ZIPPY_OPEN",
-    "subParams": [
-      {
-        "type": "CHECKBOX",
-        "name": "change_default_session_duration",
-        "checkboxText": "Change default session duration",
-        "simpleValueType": true,
-        "displayName": "",
-        "help": "If it set to true, overrides the default session duration (30 min)",
-        "defaultValue": false,
-        "alwaysInSummary": true,
-        "subParams": [
-          {
-            "type": "TEXT",
-            "name": "session_max_age",
-            "displayName": "Session duration",
-            "simpleValueType": true,
-            "enablingConditions": [
-              {
-                "paramName": "change_default_session_duration",
-                "paramValue": true,
-                "type": "EQUALS"
-              }
-            ],
-            "alwaysInSummary": true,
-            "valueUnit": "min",
-            "valueValidators": [
-              {
-                "type": "NON_EMPTY"
-              },
-              {
-                "type": "POSITIVE_NUMBER"
-              },
-              {
-                "type": "NUMBER"
-              }
-            ],
-            "valueHint": "(not set)"
-          }
-        ]
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "enable_logs",
-        "checkboxText": "Enable logs",
-        "simpleValueType": true,
-        "alwaysInSummary": true,
-        "displayName": "",
-        "help": "If it set to true, then enable logging on GTM debug console and Google Cloud Logs Explorer (run the query logName \u003d~ \"stdout\" to see log entries created by this API).",
-        "defaultValue": false
-      }
-    ],
-    "help": "Lorem ipsum"
-  },
-  {
-    "type": "GROUP",
     "name": "credits",
     "displayName": "Tag info",
-    "groupStyle": "ZIPPY_OPEN",
     "subParams": [
       {
         "type": "LABEL",
@@ -308,475 +153,331 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "LABEL",
-        "name": "info",
-        "displayName": "Beta version: 1.0. \n\u003cp\u003e\u003cp/\u003e\nRead more about the \n\u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics-server-tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eServer-side Client Tag\u003c/a\u003e.\n\u003cp\u003e\u003c/p\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eTommaso Moretti\u003c/a\u003e"
+        "name": "version",
+        "displayName": "Beta version: 1.0. \n\u003cp\u003e\u003cp/\u003e\nRead more about the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics-client-tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eClient-side Tracker Tag\u003c/a\u003e. \n\u003cp\u003e\u003c/p\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dcs_analytics_tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eTommaso Moretti\u003c/a\u003e"
       }
-    ]
+    ],
+    "groupStyle": "ZIPPY_OPEN"
   }
 ]
 
 
-___SANDBOXED_JS_FOR_SERVER___
+___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-const claimRequest = require('claimRequest');
-const getRequestHeader = require('getRequestHeader');
-const getRequestBody = require('getRequestBody');
-const getRequestMethod = require('getRequestMethod');
-const getRequestPath = require('getRequestPath');
-const setResponseHeader = require('setResponseHeader');
-const setResponseBody = require('setResponseBody');
-const setResponseStatus = require('setResponseStatus');
-const returnResponse = require('returnResponse');
-const runContainer = require('runContainer');
 const log = require('logToConsole');
-const JSON = require('JSON');
-const Object = require('Object');
-const BigQuery = require('BigQuery');
-const Firestore = require('Firestore');
 const getTimestampMillis = require('getTimestampMillis');
-const getType = require('getType');
-const makeNumber = require('makeNumber');
-const getContainerVersion = require('getContainerVersion');
-const getCookieValues = require('getCookieValues');
-const setCookie = require ('setCookie');
-const makeString = require('makeString');
+const queryPermission = require('queryPermission');
+const injectScript = require('injectScript');
+const callInWindow = require('callInWindow');
+const getUrl = require('getUrl');
+const readTitle = require('readTitle');
+const getReferrerUrl = require('getReferrerUrl');
+const isConsentGranted = require('isConsentGranted');
+const addConsentListener = require('addConsentListener');
+const templateStorage = require('templateStorage');
+const JSON = require('JSON');
 const generateRandom = require('generateRandom');
-const computeEffectiveTldPlusOne = require('computeEffectiveTldPlusOne');
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------------
-
-const endpoint = data.endpoint;
-const request_origin = getRequestHeader('Origin');
-const request_endpoint = getRequestPath();
-const request_method = getRequestMethod();
-const allowed_request_method = data.request_method;
-const allowed_domains_list = data.allowed_domains_list;
-var allowed_domains = '';
-
-const user_cookie_name = 'nameless_analytics_user';
-const session_cookie_name = 'nameless_analytics_session';
-
-if(data.enable_logs){log('NAMELESS ANALYTICS');}
-if(data.enable_logs){log('TAG CONFIGURATION');}
-
-for(let i = 0; i < allowed_domains_list.length; i++){
-  const allowed_domains_tld = computeEffectiveTldPlusOne(allowed_domains_list[i].allowed_domain);
-  allowed_domains = allowed_domains.concat(', ', allowed_domains_tld);
-} 
-if(data.enable_logs){log('👉 Authorized origins:', allowed_domains.slice(2));}
-if(data.enable_logs){log('👉 Request origin:', computeEffectiveTldPlusOne(request_origin));}
+const makeString = require('makeString');
+const getQueryParameters = require('getQueryParameters');
+const getContainerVersion = require('getContainerVersion');
+const copyFromDataLayer = require('copyFromDataLayer');
+const copyFromWindow = require('copyFromWindow'); 
+const Object = require('Object');
 
 
-//Check origin and request path
-if (check_origin()){  
-  if(data.enable_logs){log('👉 Endpoint:', endpoint);}
-  if(data.enable_logs){log('👉 Request endpoint:', getRequestPath());}
-  if(getRequestPath() === endpoint){  
-    if(request_method === 'POST'){
-      const event_data = JSON.parse(getRequestBody());
-      
-      if(event_data && Object.keys(event_data).length > 0){
-        if (event_data.event_name == 'get_user_data') { // For cross-domain only
-            claim_request(get_user_data(event_data)); 
-        } else {
-          claim_request(build_hit_payload(event_data));
-        }
+const timestamp = getTimestampMillis();
+
+const config = data.config_variable;
+const respect_consent_mode = config.respect_consent_mode;
+
+const dl_event_name = copyFromDataLayer('event', 2);
+const pv_event_name = 'gtm.js'; // Change this if you do not trigger pv on All Pages (default gtm.js)
+const vpv_event_name = 'gtm.historyChange'; // Change this if your site not use history.pushState or history.replaceState (default gtm.historyChange)
+
+const script_url = 'https://rawcdn.githack.com/tommasomoretti/nameless-analytics-client-tag/ddfa99cf51fcf756e03352c16f99be09e04fb70c/nameless_analytics.js';
+const ua_parser_url = 'https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js';
+
+const hostname = getUrl('host');
+const referrer_hostname = getReferrerUrl('host');
+
+const utm_source = getQueryParameters('utm_source');
+const utm_campaign = getQueryParameters('utm_campaign');
+const utm_id = getQueryParameters('utm_id');
+const utm_term = getQueryParameters('utm_term');
+const utm_content = getQueryParameters('utm_content');
+
+const gclid = getQueryParameters('gclid');
+const dclid = getQueryParameters('dclid');
+const gclsrc = getQueryParameters('gclsrc');
+const wbraid = getQueryParameters('wbraid');
+const gbraid = getQueryParameters('gbraid');
+
+const source = (referrer_hostname == hostname) ? null : ((utm_source) ? utm_source : ((referrer_hostname == '') ? 'direct' : referrer_hostname));
+const campaign = utm_campaign || gclid || dclid || gclsrc || wbraid || gbraid || null;
+const campaign_id = utm_id || null;
+const campaign_term = utm_term || null;
+const campaign_content = utm_content || null;
+
+const cross_domain_id = getQueryParameters('na_id');
+
+
+if(config.enable_logs){log('NAMELESS ANALYTICS');}
+
+// Load external libraries
+// Inject UA Parser JS
+if(config.enable_logs){log('LOADING LIBRARIES...');}
+if (queryPermission('inject_script', ua_parser_url)) {
+  injectScript(
+    ua_parser_url, 
+    () => { //Injection succeed 
+      if(config.enable_logs){log('  🟢 UA parser script loaded.');}
+
+      // Inject main script
+      if (queryPermission('inject_script', script_url)) {
+        injectScript(
+          script_url,
+          () => { // Injection succeed      
+            if(config.enable_logs){log('  🟢 Main script loaded.');}
+            
+            const endpoint_domain_name = config.endpoint_domain_name;
+            if(config.enable_logs){log('TAG CONFIGURATION');}
+            if(config.enable_logs){log('  👉 Endpoint hostname:', endpoint_domain_name);}
+            
+            const endpoint_path = config.endpoint_path;
+            if(config.enable_logs){log('  👉 Endpoint path:', endpoint_path);}
+            const full_endpoint = 'https://' + endpoint_domain_name + endpoint_path;
+                  
+            send_request(full_endpoint);    
+          },
+          () => { // External script not loaded
+            if(config.enable_logs){log('  🔴 Main script not loaded');}
+            data.gtmOnFailure();
+          }, script_url // cache the external js
+        );
+      } else { // Incorrect script path
+        if(config.enable_logs){log('  🔴 Main script, incorrect path');}
+        data.gtmOnFailure();
       }
-    }
-  } else {
-    if(data.enable_logs){log('🔴 The request endpoint is not correct');}
-    setResponseStatus(500);
-    setResponseHeader('Access-Control-Allow-Headers', 'application/json');
-    setResponseHeader('Access-Control-Allow-Credentials', 'true');
-    setResponseHeader('Access-Control-Allow-Origin', request_origin);
-    setResponseBody(JSON.stringify({
-      status_code: 500,
-      response: '🔴 The request endpoint is not correct'
-    }));
-    returnResponse();
-  }
-} else {
-  if(data.enable_logs){log('🔴 The request origin is not allowed');}
-  setResponseStatus(500);
-  setResponseHeader('Access-Control-Allow-Headers', 'application/json');
-  setResponseHeader('Access-Control-Allow-Credentials', 'true');
-  setResponseHeader('Access-Control-Allow-Origin', request_origin);
-  setResponseBody(JSON.stringify({
-    status_code: 500,
-    response: '🔴 The request origin is not allowed'
-  }));
-  returnResponse();
-}
-
-
-function check_origin(){
-  for(let i = 0; i < allowed_domains_list.length; i++){
-    if(computeEffectiveTldPlusOne(request_origin) == computeEffectiveTldPlusOne(allowed_domains_list[i].allowed_domain)){
-      return true;
-    }
-  }
-}
-
-
-// Claim requests
-function claim_request(event_data) {
-  if(data.enable_logs){log('CLAIM REQUEST...');}
-  claimRequest();
-  runContainer(event_data, () => {
-    setResponseStatus(200);
-    setResponseHeader('Access-Control-Allow-Headers', 'application/json');
-    setResponseHeader('Access-Control-Allow-Credentials', 'true');
-    setResponseHeader('Access-Control-Allow-Origin', request_origin);
-    setResponseHeader('Access-Control-Allow-Methods', 'POST');
-    setResponseHeader('cache-control', 'no-store');
-    setResponseBody(JSON.stringify({
-      status_code: 200,
-      response: '🟢 Request claimed succesfully',
-      data: event_data
-    }));
-    returnResponse();
-  });
-  
-  if(data.enable_logs){log('🟢 Request claimed succesfully');}
-  
-  if (event_data.event_name == 'get_user_data') {
-    if(data.enable_logs){log('GET USER DATA...');}
-    if(data.enable_logs){log('👉 Client ID:', event_data.client_id);}
-    if(data.enable_logs){log('👉 Session ID:', event_data.session_id);}
-    if(data.enable_logs){log('🟢 User data has been sent back correctly to the browser');}
-  } else {
-    if(data.enable_logs){log('SEND EVENT DATA TO GOOGLE BIGQUERY...');}    
-    if(data.enable_logs){log('👉 Payload to send: ', event_data);}
-    send_to_bq(event_data);
-  }
-}
-
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// Build response for user data (For cross-domain only)
-function get_user_data(event_data) {
-  // if(data.enable_logs){log('Cookies found');}
-  // if(data.enable_logs){log('User cookie value: ', getCookieValues(user_cookie_name)[0]);}
-  // if(data.enable_logs){log('Sessions cookie value', getCookieValues(session_cookie_name)[0]}
-  
-  event_data.client_id = getCookieValues(user_cookie_name)[0] || 'undefined';
-  event_data.session_id = (getCookieValues(session_cookie_name)[0] || 'undefined_undefined'); 
-
-  return event_data;
-}
-
-
-// Build response for generic data
-function build_hit_payload(event_data){ 
-  const page_id = event_data.event_data.page_id;
-  const event_id = event_data.event_data.event_id;  
-  
-  // Set Cookies
-  if(data.enable_logs){log('READ COOKIES...');}
-  
-  // Cross domain
-  const cross_domain_id = event_data.event_data.cross_domain_id;
-  
-  if (cross_domain_id) {
-    const client_id = cross_domain_id.split('_')[0];
-    const session_id = cross_domain_id;
-
-    if(data.enable_logs){log('Cross-domain visit.');}
-    if(data.enable_logs){log('Create or overwrite User cookie: ', client_id);}
-    if(data.enable_logs){log('Create or overwrite Session cookie: ', session_id);}
-    
-    event_data.client_id = client_id;
-    event_data.session_id = session_id;
-    event_data.event_data.page_id = session_id + '_' + page_id;
-    event_data.event_data.event_id = session_id + '_' + event_id;
-    
-    set_user_cookie(user_cookie_name, client_id);
-    set_session_cookie(session_cookie_name, session_id);
-  
-  // No cross domain
-  } else {
-    const user_cookie_value = getCookieValues(user_cookie_name)[0];
-    const session_cookie_value = getCookieValues(session_cookie_name)[0];
-        
-    // New user
-    if (user_cookie_value === undefined) {
-      const new_client_id = makeString(generateRandom(1000000000, 9999999999));
-      const new_session_id = new_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));
-      
-      if(data.enable_logs){log('New user.');}
-      if(data.enable_logs){log('Create new User cookie: ', new_client_id);}
-      if(data.enable_logs){log('Create new Session cookie: ', new_session_id);}
-
-      
-      event_data.client_id = new_client_id;
-      event_data.session_id = new_session_id;
-      event_data.event_data.page_id = new_session_id + '_' + page_id;
-      event_data.event_data.event_id = new_session_id + '_' + event_id;
-      
-      set_user_cookie(user_cookie_name, new_client_id);
-      set_session_cookie(session_cookie_name, new_session_id);
-    
-    // Returning user
-    } else if (user_cookie_value != undefined) {
-      // No session cookie
-      if (session_cookie_value === undefined){
-        const old_client_id = user_cookie_value;
-        const new_session_id = old_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));
-
-        if(data.enable_logs){log('Returning user, no active session.');}       
-        if(data.enable_logs){log('Create new Session cookie: ', new_session_id);}      
-        
-        event_data.client_id = old_client_id;
-        event_data.session_id = new_session_id;
-        event_data.event_data.page_id = new_session_id + '_' + page_id;
-        event_data.event_data.event_id = new_session_id + '_' + event_id;     
-    
-        set_user_cookie(user_cookie_name, old_client_id);
-        set_session_cookie(session_cookie_name, new_session_id);
-      // Yes session cookie
-      } else {        
-        const old_client_id = user_cookie_value;
-        const old_session_id = session_cookie_value.split('-')[0];
-              
-        if(data.enable_logs){log('Returning user, same session. Extend cookie max-age.');}
-
-        event_data.client_id = old_client_id;
-        event_data.session_id = old_session_id;
-        event_data.event_data.page_id = old_session_id + '_' + page_id;
-        event_data.event_data.event_id = old_session_id + '_' + event_id;
-
-        set_user_cookie(user_cookie_name, old_client_id);
-        set_session_cookie(session_cookie_name, old_session_id);
-      }
-    }
-  }
-  
-  
-  // Add additional info    
-  event_data.received_event_timestamp = getTimestampMillis();
-  log(event_data.received_event_timestamp);
-  event_data.event_data.country = getRequestHeader('X-Appengine-Country');
-  event_data.event_data.city = getRequestHeader('X-Appengine-City');
-  event_data.event_data.ss_hostname = getRequestHeader('Host');
-  event_data.event_data.ss_container_id = getContainerVersion().containerId;
-  
-  
-  
-  // Add data manually
-  if(data.add_parameters){
-    const event_params = data.add_event_params;
-    if (event_params != undefined) {
-      for (let i = 0; i < event_params.length; i++) {
-        const name = event_params[i].param_name;
-        const value = event_params[i].param_value;
-        event_data.event_data[name] = value;
-      }
-    } 
-  }
-  
-   // Remove data manually  
-  if(data.remove_parameters){
-    const event_params = data.remove_event_params;
-    if (event_params != undefined) {
-      for (let i = 0; i < event_params.length; i++) {
-        const name = event_params[i].param_name;
-        const value = event_params[i].param_value;
-        Object.delete(event_data.event_data, name);
-      }
-    } 
-  }
-  
-  return event_data;
-} 
-
-
-// Set user cookie
-function set_user_cookie(cookie_name, cookie_value){  
-  const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
-  const cookie_path = '/';
-  const cookie_secure = true;
-  const sameSite = "strict";
-  const user_max_age = 400 * 24 * 60 * 60;
-  const httpOnly = true;
-  
-  const cookie_options = {
-    domain: cookie_domain, 
-    path: cookie_path,
-    secure: cookie_secure,
-    sameSite: sameSite,
-    'max-age': user_max_age,
-    httpOnly: httpOnly
-  };
-      
-  setCookie(cookie_name, cookie_value, cookie_options);
-}
-
-
-// Set session cookie
-function set_session_cookie(cookie_name, cookie_value){    
-  const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
-  const cookie_path = '/';
-  const cookie_secure = true;
-  const sameSite = "strict";
-  const session_max_age = (makeNumber(data.session_max_age) || 30) * 60;
-  const httpOnly = true;
-  
-  const cookie_options = {
-    domain: cookie_domain, 
-    path: cookie_path,
-    secure: cookie_secure,
-    sameSite: sameSite,
-    'max-age': session_max_age,
-    httpOnly: httpOnly
-  };
-      
-  setCookie(cookie_name, cookie_value, cookie_options);
-}
-
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-// Send data to Google BigQuery
-function send_to_bq(event_data){
-  // Google BigQuery project settings
-  const project = {
-    projectId: data.bq_project_id,
-    datasetId: data.bq_dataset_id,
-    tableId: data.bq_table_id
-  };
-    
-  const payload_copy = JSON.parse(JSON.stringify(event_data));
-  
-  // Encode data in GA4 style        
-  encode_event_data(payload_copy, 'event_data');
-  encode_consent_data(payload_copy);
-  
-  // Write options
-  const options = {
-    skipInvalidRows: false,
-    ignoreUnknownValues: false
-  };
-  
-  // Write to Google BigQuery
-  BigQuery.insert(project, [payload_copy], options,
-    () => {
-      if(data.enable_logs){log('🟢 Payload data inserted successfully to ' +  project.projectId + "." + project.datasetId + "." + project.tableId);}
     },
-    () => {
-      if(data.enable_logs){log('🔴 Payload data not inserted to ' +  project.projectId + "." + project.datasetId + "." + project.tableId);}
-    }
+    () => { // External script not loaded
+      if(config.enable_logs){log('    🔴 UA parser script not loaded');}
+      data.gtmOnFailure();
+    }, ua_parser_url // cache the external js
   );
-}
+} else { // Incorrect script path
+  if(config.enable_logs){log('    🔴 UA parser script, incorrect path');}
+  data.gtmOnFailure();
+} 
 
 
-// Encode event data
-function encode_event_data(bq_event_data, prop){
-  if(bq_event_data[prop] && Object.keys(bq_event_data[prop]).length > 0){
-    var mapped_data = [];
-    Object.keys(bq_event_data[prop]).forEach((key) => {
-      var temp_data = {};
-      // Is string 
-      if (getType(bq_event_data[prop][key]) == 'string'){     
-        temp_data.name = key;
-        temp_data.value = {string: bq_event_data[prop][key] || null};
-      // Is number (integer or float)    
-      } else if (getType(bq_event_data[prop][key]) == 'number'){
-        if(bq_event_data[prop][key] % 1 != 0){
-          temp_data.name = key;
-          temp_data.value = {float: bq_event_data[prop][key]};
-        } else {
-          temp_data.name = key;
-          temp_data.value = {int: bq_event_data[prop][key]};
-        }
-      // Is JSON (object or array) 
-      } else if (getType(bq_event_data[prop][key]) == 'object' | getType(bq_event_data[prop][key]) == 'array') {
-        temp_data.name = key;
-        temp_data.value = {json: JSON.stringify(bq_event_data[prop][key])};
-      // is null or undefined
-      } else if (getType(bq_event_data[prop][key]) == 'null' || getType(bq_event_data[prop][key]) == 'undefined'){
-        temp_data.name = key;
-        temp_data.value = null;
+// Set cross-domain listener
+function set_cross_domain_listener(full_endpoint) {
+  if (config.enable_cross_domain_tracking) {
+    var cross_domain_listener_status = templateStorage.getItem('cross_domain_listener') || false;
+    const domains = config.cross_domain_domains.map(obj => obj.domain);
+    if(config.enable_logs){log('  👉 Cross-domain enabled for this domains: ', domains);}
+    
+    if (!cross_domain_listener_status) {
+      if(queryPermission('access_globals', 'execute', 'set_cross_domain_listener')) {
+        callInWindow('set_cross_domain_listener', full_endpoint, domains, respect_consent_mode);
+        templateStorage.setItem('cross_domain_listener', true);
       }
-      mapped_data.push(temp_data);
-    });
-    bq_event_data[prop] = mapped_data;
+    }
+  } else {
+    if(config.enable_logs){log('  👉 Cross-domain disabled.');}
   }
 }
 
 
-// Encode consent data
-function encode_consent_data(bq_event_data){
-  var mapped_data = [];
-  Object.keys(bq_event_data.consent_data).forEach((key) => {
-    var temp_data = {};
-    temp_data.name = key;
-    temp_data.value = bq_event_data.consent_data[key];
-    mapped_data.push(temp_data);
-  });
-  bq_event_data.consent_data = mapped_data;
+// Send request
+function send_request(full_endpoint){
+  if(queryPermission('access_globals', 'execute', 'set_cross_domain_listener')) {
+    set_cross_domain_listener(full_endpoint);
+  }
+  
+  log('RESPECT CONSENT CHOISES? ' + ((respect_consent_mode) ? 'Yes' : 'No'));
+  // Respect consent mode
+  if(respect_consent_mode){
+    if(config.enable_logs){log('  Checking consent mode...');}
+    // Consent denied
+    if (!isConsentGranted("analytics_storage")){            
+      if(config.enable_logs){log('    🔴 analytics_storage denied');}
+      let was_called = false;
+      
+      addConsentListener("analytics_storage", (consent_type, consent_status) => {
+        // Listener added and consent changed from granted to denied  
+        if (was_called || !consent_status) {
+          return;
+        }
+        
+        was_called = true;        
+        if(queryPermission('access_globals', 'execute', 'send_data')) {
+          if(config.enable_logs){log('    🟢 analytics_storage granted');}
+          callInWindow('send_data', full_endpoint, build_payload(), data);
+        }
+        
+      });
+    // Consent granted  
+    } else if(isConsentGranted("analytics_storage")) {
+      if(queryPermission('access_globals', 'execute', 'send_data')) {
+        if(config.enable_logs){log('    🟢 analytics_storage granted');}
+        callInWindow('send_data', full_endpoint, build_payload(), data);
+      }
+    }
+  } else {
+     // Do not respect consent mode
+    if(queryPermission('access_globals', 'execute', 'send_data')) {
+      callInWindow('send_data', full_endpoint, build_payload(), data);
+    }
+  }
 }
 
 
-___SERVER_PERMISSIONS___
+// Build the payload
+function build_payload(){
+  // Save event info in template storage
+  const event_storage_name = '_nameless_analytics';
+  const event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
+  set_event_info_in_storage(event_storage_name, event_storage_value);
+  const update_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name)); 
+    
+  const payload = {};
+  payload.event_name = data.event_name;
+  payload.event_timestamp = timestamp;
+
+  const event_info = update_event_storage_value.pop(); // Last event info 
+  
+  // Event data from configuration variable
+  const config_event_params = config.common_event_params;
+  if(config_event_params != undefined){
+    for (let i = 0; i < config_event_params.length; i++) {
+      const name = config_event_params[i].param_name;
+      const value = config_event_params[i].param_value;
+      event_info[name] = value;
+    } 
+  }
+  
+
+  // Add event data from dataLayer
+  if(data.add_parameters_from_dataLayer){
+    const dataLayer = copyFromWindow('dataLayer');
+    const current_event_pushes = dataLayer.filter(item => item.event === dl_event_name);
+    const last_current_event_push = current_event_pushes.length > 0 ? current_event_pushes[current_event_pushes.length - 1] : null;
+    
+    for (var key of Object.keys(last_current_event_push)) {
+      if (key != 'event' && key != 'gtm.start' && key != 'gtm.uniqueEventId') {
+        // log('Add element from dataLayer: ', key, ': ', last_current_event_push[key]);
+        event_info[key] = last_current_event_push[key];
+      } 
+    }
+  }
+
+
+  // Event data from tag fiels 
+  if(data.add_parameters){
+    const event_params = data.event_params;
+    if (event_params != undefined) {
+      for (let i = 0; i < event_params.length; i++) {
+        const name = event_params[i].param_name;
+        const value = event_params[i].param_value;
+        event_info[name] = value;
+      }
+    } 
+  }
+  
+   
+  // Consent data
+  const consent_info = {
+    ad_user_data: isConsentGranted('ad_user_data'),
+    ad_personalization: isConsentGranted('ad_personalization'),
+    ad_storage: isConsentGranted("ad_storage"),
+    analytics_storage: isConsentGranted("analytics_storage"),
+    functionality_storage: isConsentGranted("functionality_storage"),
+    personalization_storage: isConsentGranted("personalization_storage"),
+    security_storage: isConsentGranted("security_storage")
+  };
+
+  payload.event_data = event_info;
+  payload.consent_data = consent_info;
+  
+  return payload;
+}
+
+
+// Save event info in template storage
+function set_event_info_in_storage(storage_name, storage_value) {
+  const channel_grouping = callInWindow('get_channel_grouping', source, campaign);
+  // var page_status_code = null;
+    
+  if (dl_event_name == pv_event_name || dl_event_name == vpv_event_name) {
+    const page_id = makeString(generateRandom(1000000000, 9999999999));
+    const event_id = page_id + "_" + makeString(generateRandom(1000000000, 9999999999));
+    
+    const event_info = [{
+      event_id: event_id,
+      event_type: (dl_event_name == pv_event_name) ? 'page_view' : 'virtual_page_view',
+      channel_grouping: channel_grouping,
+      source: source,
+      campaign: campaign,
+      campaign_id: campaign_id,
+      campaign_term: campaign_term,
+      campaign_content: campaign_content,
+      page_id: page_id,
+      page_title: readTitle(),
+      // page_status_code: page_status_code,
+      page_hostname_protocol: getUrl('protocol'),
+      page_hostname: hostname,
+      page_location: getUrl('path'),
+      page_fragment: getUrl('fragment') || null,
+      page_query: getUrl('query') || null,
+      page_extension: getUrl('extension') || null,
+      page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),
+      cs_container_id: getContainerVersion().containerId,
+      cross_domain_id: cross_domain_id
+    }];
+    
+    templateStorage.setItem(storage_name, JSON.stringify(event_info));
+  } else {
+    const current_event_info = storage_value.pop(); // Last event info in template storage
+    const full_page_id = current_event_info.page_id;
+    const event_id = full_page_id + "_" + makeString(generateRandom(1000000000, 9999999999));
+    
+    log('  You are in the same page');
+    log('  Event id: ' + event_id);
+    
+    const event_info = {
+      event_id: event_id,
+      event_type: 'event',
+      channel_grouping: channel_grouping,
+      source: source,
+      campaign: campaign,
+      campaign_id: campaign_id,
+      campaign_term: campaign_term,
+      campaign_content: campaign_content,
+      page_id: full_page_id,
+      page_title: readTitle(),
+      // page_status_code: page_status_code,
+      page_hostname_protocol: getUrl('protocol'),
+      page_hostname: hostname,
+      page_location: getUrl('path'),
+      page_fragment: getUrl('fragment') || null,
+      page_query: getUrl('query') || null,
+      page_extension: getUrl('extension') || null,
+      page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),     
+      cs_container_id: getContainerVersion().containerId,
+      cross_domain_id: cross_domain_id
+    };
+    
+    storage_value.push(event_info);
+    
+    templateStorage.setItem(storage_name, JSON.stringify(storage_value));
+  }
+}
+
+
+___WEB_PERMISSIONS___
 
 [
-  {
-    "instance": {
-      "key": {
-        "publicId": "read_request",
-        "versionId": "1"
-      },
-      "param": [
-        {
-          "key": "requestAccess",
-          "value": {
-            "type": 1,
-            "string": "any"
-          }
-        },
-        {
-          "key": "headerAccess",
-          "value": {
-            "type": 1,
-            "string": "any"
-          }
-        },
-        {
-          "key": "queryParameterAccess",
-          "value": {
-            "type": 1,
-            "string": "any"
-          }
-        }
-      ]
-    },
-    "clientAnnotations": {
-      "isEditedByUser": true
-    },
-    "isRequired": true
-  },
-  {
-    "instance": {
-      "key": {
-        "publicId": "return_response",
-        "versionId": "1"
-      },
-      "param": []
-    },
-    "isRequired": true
-  },
-  {
-    "instance": {
-      "key": {
-        "publicId": "run_container",
-        "versionId": "1"
-      },
-      "param": []
-    },
-    "isRequired": true
-  },
   {
     "instance": {
       "key": {
@@ -801,22 +502,24 @@ ___SERVER_PERMISSIONS___
   {
     "instance": {
       "key": {
-        "publicId": "access_response",
+        "publicId": "inject_script",
         "versionId": "1"
       },
       "param": [
         {
-          "key": "writeResponseAccess",
+          "key": "urls",
           "value": {
-            "type": 1,
-            "string": "any"
-          }
-        },
-        {
-          "key": "writeHeaderAccess",
-          "value": {
-            "type": 1,
-            "string": "specific"
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "https://rawcdn.githack.com/tommasomoretti/nameless-analytics-client-tag/ddfa99cf51fcf756e03352c16f99be09e04fb70c/nameless_analytics.js"
+              },
+              {
+                "type": 1,
+                "string": "https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js"
+              }
+            ]
           }
         }
       ]
@@ -829,12 +532,12 @@ ___SERVER_PERMISSIONS___
   {
     "instance": {
       "key": {
-        "publicId": "access_bigquery",
+        "publicId": "access_globals",
         "versionId": "1"
       },
       "param": [
         {
-          "key": "allowedTables",
+          "key": "keys",
           "value": {
             "type": 2,
             "listItem": [
@@ -843,37 +546,459 @@ ___SERVER_PERMISSIONS___
                 "mapKey": [
                   {
                     "type": 1,
-                    "string": "projectId"
+                    "string": "key"
                   },
                   {
                     "type": 1,
-                    "string": "datasetId"
+                    "string": "read"
                   },
                   {
                     "type": 1,
-                    "string": "tableId"
+                    "string": "write"
                   },
                   {
                     "type": 1,
-                    "string": "operation"
+                    "string": "execute"
                   }
                 ],
                 "mapValue": [
                   {
                     "type": 1,
-                    "string": "*"
+                    "string": "send_data"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
                   },
                   {
                     "type": 1,
-                    "string": "*"
-                  },
-                  {
-                    "type": 1,
-                    "string": "*"
+                    "string": "read"
                   },
                   {
                     "type": 1,
                     "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "get_channel_grouping"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "set_cross_domain_listener"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "dataLayer"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "read_title",
+        "versionId": "1"
+      },
+      "param": []
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_referrer",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "urlParts",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        },
+        {
+          "key": "queriesAllowed",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_url",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "urlParts",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        },
+        {
+          "key": "queriesAllowed",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "access_consent",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "consentTypes",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ad_storage"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "analytics_storage"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "functionality_storage"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "personalization_storage"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "security_storage"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ad_personalization"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ad_user_data"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
                   }
                 ]
               }
@@ -900,137 +1025,25 @@ ___SERVER_PERMISSIONS___
   {
     "instance": {
       "key": {
-        "publicId": "get_cookies",
+        "publicId": "access_template_storage",
+        "versionId": "1"
+      },
+      "param": []
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "read_data_layer",
         "versionId": "1"
       },
       "param": [
         {
-          "key": "cookieAccess",
+          "key": "allowedKeys",
           "value": {
             "type": 1,
             "string": "any"
-          }
-        }
-      ]
-    },
-    "clientAnnotations": {
-      "isEditedByUser": true
-    },
-    "isRequired": true
-  },
-  {
-    "instance": {
-      "key": {
-        "publicId": "set_cookies",
-        "versionId": "1"
-      },
-      "param": [
-        {
-          "key": "allowedCookies",
-          "value": {
-            "type": 2,
-            "listItem": [
-              {
-                "type": 3,
-                "mapKey": [
-                  {
-                    "type": 1,
-                    "string": "name"
-                  },
-                  {
-                    "type": 1,
-                    "string": "domain"
-                  },
-                  {
-                    "type": 1,
-                    "string": "path"
-                  },
-                  {
-                    "type": 1,
-                    "string": "secure"
-                  },
-                  {
-                    "type": 1,
-                    "string": "session"
-                  }
-                ],
-                "mapValue": [
-                  {
-                    "type": 1,
-                    "string": "*"
-                  },
-                  {
-                    "type": 1,
-                    "string": "*"
-                  },
-                  {
-                    "type": 1,
-                    "string": "*"
-                  },
-                  {
-                    "type": 1,
-                    "string": "any"
-                  },
-                  {
-                    "type": 1,
-                    "string": "any"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "clientAnnotations": {
-      "isEditedByUser": true
-    },
-    "isRequired": true
-  },
-  {
-    "instance": {
-      "key": {
-        "publicId": "access_firestore",
-        "versionId": "1"
-      },
-      "param": [
-        {
-          "key": "allowedOptions",
-          "value": {
-            "type": 2,
-            "listItem": [
-              {
-                "type": 3,
-                "mapKey": [
-                  {
-                    "type": 1,
-                    "string": "projectId"
-                  },
-                  {
-                    "type": 1,
-                    "string": "path"
-                  },
-                  {
-                    "type": 1,
-                    "string": "operation"
-                  }
-                ],
-                "mapValue": [
-                  {
-                    "type": 1,
-                    "string": "*"
-                  },
-                  {
-                    "type": 1,
-                    "string": "*"
-                  },
-                  {
-                    "type": 1,
-                    "string": "read"
-                  }
-                ]
-              }
-            ]
           }
         }
       ]
@@ -1051,6 +1064,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 25/08/2024, 11:09:07
+Created on 25/08/2024, 11:10:42
 
 
