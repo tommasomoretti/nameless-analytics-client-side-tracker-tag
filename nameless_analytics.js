@@ -205,17 +205,19 @@ async function get_user_data(saved_full_endpoint, payload) {
         return response_json.data;
       } else {
         console.log(response_json.status_code)
-        return '';
+        return {};
       }
     } catch (error) {
-      return "";
+      console.log("Error during fetch: ", error)
+      return {};
     }
   } else {
-    return ""
+    console.log("Error during fetch: ", error)
+    return {}
   }
 }
 
-        return {client_id: undefined, session_id: undefined};
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
