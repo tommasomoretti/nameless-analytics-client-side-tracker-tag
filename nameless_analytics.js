@@ -202,6 +202,7 @@ async function get_user_data(saved_full_endpoint, payload) {
   
       const response_json = await response.json();
       if (response_json.status_code === 200) {
+        delete response_json.data.event_name        
         return response_json.data;
       } else {
         console.log(response_json.status_code)
