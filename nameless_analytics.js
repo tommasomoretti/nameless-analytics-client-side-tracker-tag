@@ -231,23 +231,23 @@ function get_channel_grouping(source, campaign) {
     
   if (source == null) {
     return null
-  } else if (source == 'direct' && campaign == null) {
+  } else if (source == 'direct' && (campaign == null ||  campaign == '')) {
     return 'direct'
   } else if (source == 'tagassistant.google.com'){
     return 'gtm_debugger'
-  } else if (organic_search_source.test(source) && campaign == null) {
+  } else if (organic_search_source.test(source) && (campaign == null ||  campaign == '')) {
     return 'organic_search'
-  } else if (organic_search_source.test(source) && campaign !== null) {
+  } else if (organic_search_source.test(source) && (campaign != null ||  campaign != '')) {
     return 'paid_search'
-  } else if (social_source.test(source) && campaign == null) {
+  } else if (social_source.test(source) && (campaign == null ||  campaign == '')) {
     return 'organic_social'
-  } else if (social_source.test(source) && campaign != null) {
+  } else if (social_source.test(source) && (campaign != null ||  campaign != '')) {
     return 'paid_social'
-  } else if (email_source.test(source) && campaign != null) {
+  } else if (email_source.test(source) && (campaign != null ||  campaign != '')) {
     return 'email'
-  } else if (source != null && campaign == null) {
+  } else if (source != null && (campaign == null ||  campaign == '')) {
     return 'referral'
-  } else if (source != null && campaign != null) {
+  } else if (source != null && (campaign != null ||  campaign != '')) {
     return 'affiliate'
   } else {
     return 'undefined'
