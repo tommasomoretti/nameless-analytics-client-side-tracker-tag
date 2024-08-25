@@ -104,7 +104,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
         if (domain_matches && !is_self && (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-          const user_data = await get_session_id(saved_full_endpoint, { event_name: 'get_user_data' });
+          const user_data = await get_user_data(saved_full_endpoint, { event_name: 'get_user_data' });
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
@@ -189,7 +189,7 @@ function get_consent_value(dataLayer) {
 
 
 // Ask to Server-side GTM the values of 
-async function get_session_id(saved_full_endpoint, payload) {
+async function get_user_data(saved_full_endpoint, payload) {
   if (saved_full_endpoint.split('/')[2] != 'undefined'){
     try {
       const response = await fetch(saved_full_endpoint, {
@@ -204,11 +204,10 @@ async function get_session_id(saved_full_endpoint, payload) {
       if (response_json.status_code === 200) {
         return response_json.data;
       } else {
-        console.error('    Error: ', response_json.message);
-        return {client_id: undefined, session_id: undefined};
+        console.log(response_json.status_code)
+        return '';
       }
     } catch (error) {
-      // console.error('    Error during fetch session_id.');
       return "";
     }
   } else {
@@ -216,7 +215,7 @@ async function get_session_id(saved_full_endpoint, payload) {
   }
 }
 
-
+        return {client_id: undefined, session_id: undefined};
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
