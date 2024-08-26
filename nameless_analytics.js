@@ -105,7 +105,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
         if (domain_matches && !is_self && (respect_consent_mode == 'granted' || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-          const user_data = await get_user_data(saved_full_endpoint, { event_name: 'get_user_data' });
+          const user_data = await get_user_data(saved_full_endpoint, { event_name: 'get_user_data', from_measurement_protocol: 'No' });
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
@@ -203,7 +203,8 @@ async function get_user_data(saved_full_endpoint, payload) {
   
       const response_json = await response.json();
       if (response_json.status_code === 200) {
-        delete response_json.data.event_name        
+        delete response_json.data.event_name
+        delete response_json.data.from_measurement_protocol
         return response_json.data;
       } else {
         console.log(response_json.status_code)
