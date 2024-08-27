@@ -106,7 +106,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
 
         if (domain_matches && !is_self && (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-          const user_data = await get_user_data(saved_full_endpoint, { event_name: 'get_user_data' });
+          const user_data = await get_user_data(saved_full_endpoint, {event_name: 'get_user_data', from_measurement_protocol: 'No'});
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
@@ -192,7 +192,7 @@ function get_consent_value(dataLayer) {
 
 // Ask to Server-side GTM the values of 
 async function get_user_data(saved_full_endpoint, payload) {
-  if (full_endpoint_domain.split('/')[2].split('.')[1] != 'undefined'){
+  if (saved_full_endpoint.split('/')[2].split('.')[1] != 'undefined'){
     try {
       const response = await fetch(saved_full_endpoint, {
         method: 'POST',
