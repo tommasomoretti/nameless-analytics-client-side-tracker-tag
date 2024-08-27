@@ -1,9 +1,11 @@
 // Send hits
 function send_data(full_endpoint, payload, data) {
   const timestamp = payload.event_timestamp
+  const format_datetime = format_datetime(timestamp)
   const ua_info = parse_user_agent()
 
-  payload.event_date = format_datetime(timestamp).split("T")[0]
+  payload.event_date = format_datetime.split("T")[0],
+  payload.event_datetime = format_datetime,
   payload.event_data.user_agent = ua_info.ua,
   payload.event_data.browser_name = ua_info.browser.name,
   payload.event_data.browser_language = ua_info.browser.language,
