@@ -1,11 +1,11 @@
 // Send hits
 function send_data(full_endpoint, payload, data) {
   const timestamp = payload.event_timestamp
-  const format_datetime = format_datetime(timestamp)
+  const formatted_datetime = format_datetime(timestamp)
   const ua_info = parse_user_agent()
 
-  payload.event_date = format_datetime.split("T")[0],
-  payload.event_datetime = format_datetime,
+  payload.event_date = formatted_datetime.split("T")[0],
+  payload.event_datetime = formatted_datetime,
   payload.event_data.user_agent = ua_info.ua,
   payload.event_data.browser_name = ua_info.browser.name,
   payload.event_data.browser_language = ua_info.browser.language,
@@ -42,7 +42,7 @@ function send_data(full_endpoint, payload, data) {
         }
       }) 
     } catch(error) {
-      if(data.config_variable.enable_logs){console.log('  🔴 Shitty requests.')}
+      if(data.config_variable.enable_logs){console.log('  🔴 Shit requests.')}
       return data.gtmOnFailure()
     }
   } else {
@@ -83,7 +83,7 @@ const parse_user_agent = function () {
 
 
 // Cross-domain
-function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_gcs) {
+function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
   const saved_full_endpoint = full_endpoint;
   const saved_cross_domain_domains = cross_domain_domains;
 
@@ -103,11 +103,10 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
       if (!url_junk) {
         const consent_values = get_consent_value(window.dataLayer);
         const analytics_storage_value = consent_values.analytics_storage;
-        const respect_consent_mode = (!respect_gcs) ? 'granted' : analytics_storage_value;
 
-        if (domain_matches && !is_self && (respect_consent_mode == 'granted' || Object.entries(consent_values) == 0)) {
+        if (domain_matches && !is_self && (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-          const user_data = await get_user_data(saved_full_endpoint, {event_name: 'get_user_data', from_measurement_protocol: 'No'});
+          const user_data = await get_user_data(saved_full_endpoint, { event_name: 'get_user_data' });
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
@@ -190,9 +189,10 @@ function get_consent_value(dataLayer) {
 }
 
 
+
 // Ask to Server-side GTM the values of 
 async function get_user_data(saved_full_endpoint, payload) {
-  if (saved_full_endpoint.split('/')[2].split('.')[1] != 'undefined'){
+  if (full_endpoint_domain.split('/')[2].split('.')[1] != 'undefined'){
     try {
       const response = await fetch(saved_full_endpoint, {
         method: 'POST',
@@ -204,19 +204,17 @@ async function get_user_data(saved_full_endpoint, payload) {
   
       const response_json = await response.json();
       if (response_json.status_code === 200) {
-        delete response_json.data.event_name
-        delete response_json.data.from_measurement_protocol
         return response_json.data;
       } else {
-        console.log(response_json.response)
+        console.log(response_json.status_code)
         return {};
       }
     } catch (error) {
-      console.log("🔴 Error during fetch")
+      console.log("Error during fetch 1")
       return {};
     }
   } else {
-    console.log("🔴 Error during fetch")
+    console.log("Error during fetch 2")
     return {}
   }
 }
@@ -233,23 +231,23 @@ function get_channel_grouping(source, campaign) {
     
   if (source == null) {
     return null
-  } else if (source == 'direct' && (campaign == null ||  campaign == '')) {
+  } else if (source == 'direct' && (campaign == null || campaign == "")) {
     return 'direct'
   } else if (source == 'tagassistant.google.com'){
     return 'gtm_debugger'
-  } else if (organic_search_source.test(source) && (campaign == null ||  campaign == '')) {
+  } else if (organic_search_source.test(source) && (campaign == null || campaign == "")) {
     return 'organic_search'
-  } else if (organic_search_source.test(source) && (campaign != null ||  campaign != '')) {
+  } else if (organic_search_source.test(source) && (campaign != null || campaign != "")) {
     return 'paid_search'
-  } else if (social_source.test(source) && (campaign == null ||  campaign == '')) {
+  } else if (social_source.test(source) && (campaign == null || campaign == "")) {
     return 'organic_social'
-  } else if (social_source.test(source) && (campaign != null ||  campaign != '')) {
+  } else if (social_source.test(source) && (campaign != null || campaign != "")) {
     return 'paid_social'
-  } else if (email_source.test(source) && (campaign != null ||  campaign != '')) {
+  } else if (email_source.test(source) && (campaign != null || campaign != "")) {
     return 'email'
-  } else if (source != null && (campaign == null ||  campaign == '')) {
+  } else if (source != null && (campaign == null || campaign == "")) {
     return 'referral'
-  } else if (source != null && (campaign != null ||  campaign != '')) {
+  } else if (source != null && source != 'direct'  && (campaign != null || campaign != "")) {
     return 'affiliate'
   } else {
     return 'undefined'
