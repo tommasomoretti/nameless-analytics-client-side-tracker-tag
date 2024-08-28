@@ -42,7 +42,7 @@ function send_data(full_endpoint, payload, data) {
         }
       }) 
     } catch(error) {
-      if(data.config_variable.enable_logs){console.log('  🔴 Shit requests.')}
+      if(data.config_variable.enable_logs){console.log('  🔴 Error while fetch')}
       return data.gtmOnFailure()
     }
   } else {
@@ -205,13 +205,15 @@ async function get_user_data(saved_full_endpoint, payload) {
       if (response_json.status_code === 200) {
         return response_json.data;
       } else {
-        console.log(response_json.response)
+        console.log("🔴 This website is not authorized to send Nameless Analytics requests")
       }
     } catch (error) {
-      console.log("🔴 Error during fetch")
+      console.log("🔴 Error while fetch")
+      return {}
     }
   } else {
-    console.log("🔴 Unautorized domain")
+    console.log("🔴 Undefined endpoint domain")
+    return {}
   }
 }
 
