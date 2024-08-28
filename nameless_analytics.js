@@ -206,8 +206,7 @@ async function get_user_data(saved_full_endpoint, payload) {
       if (response_json.status_code === 200) {
         return response_json.data;
       } else {
-        console.log(response_json.status_code)
-        return {};
+        console.log(response_json)
       }
     } catch (error) {
       console.log("Error during fetch 1")
