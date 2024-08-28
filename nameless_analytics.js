@@ -189,8 +189,7 @@ function get_consent_value(dataLayer) {
 }
 
 
-
-// Ask to Server-side GTM the values of 
+// Ask to Server-side GTM the values of the client_id, session_id and page_id
 async function get_user_data(saved_full_endpoint, payload) {
   if (saved_full_endpoint.split('/')[2].split('.')[1] != 'undefined'){
     try {
@@ -209,12 +208,10 @@ async function get_user_data(saved_full_endpoint, payload) {
         console.log(response_json)
       }
     } catch (error) {
-      console.log("Error during fetch 1")
-      return {};
+      console.log("🔴 Error during fetch")
     }
   } else {
-    console.log("Error during fetch 2")
-    return {}
+    console.log("🔴 Unautorized domain")
   }
 }
 
