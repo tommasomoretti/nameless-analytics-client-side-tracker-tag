@@ -223,31 +223,31 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 // Channel grouping
 function get_channel_grouping(source, campaign) {
-  const organic_search_source = new RegExp('google|bing|yahoo|baidu|yandex|duckduckgo|ask|aol|ecosia')
-  const social_source = new RegExp('facebook|messenger|instagram|tiktok|t\.co|twitter|linkedin|pinterest|youtube|whatsapp|wechat')
-  const email_source = new RegExp('email|e-mail|e_mail|e mail')
-    
+  const organic_search_source = new RegExp('google|bing|yahoo|baidu|yandex|duckduckgo|ask|aol|ecosia');
+  const social_source = new RegExp('facebook|messenger|instagram|tiktok|t\\.co|twitter|linkedin|pinterest|youtube|whatsapp|wechat');
+  const email_source = new RegExp('email|e-mail|e_mail|e mail');
+
   if (source == null) {
-    return null
-  } else if (source == 'direct' && (campaign == null || campaign == "")) {
-    return 'direct'
-  } else if (source == 'tagassistant.google.com'){
-    return 'gtm_debugger'
-  } else if (organic_search_source.test(source) && (campaign == null || campaign == "")) {
-    return 'organic_search'
-  } else if (organic_search_source.test(source) && (campaign != null || campaign != "")) {
-    return 'paid_search'
-  } else if (social_source.test(source) && (campaign == null || campaign == "")) {
-    return 'organic_social'
-  } else if (social_source.test(source) && (campaign != null || campaign != "")) {
-    return 'paid_social'
-  } else if (email_source.test(source) && (campaign != null || campaign != "")) {
-    return 'email'
-  } else if (source != null && (campaign == null || campaign == "")) {
-    return 'referral'
-  } else if (source != null && source != 'direct'  && (campaign != null || campaign != "")) {
-    return 'affiliate'
+    return 'internal_traffic';
+  } else if (source == 'direct') {
+    return 'direct';
+  } else if (source === 'tagassistant.google.com') {
+    return 'gtm_debugger';
+  } else if (organic_search_source.test(source) && (!campaign || campaign === '')) {
+    return 'organic_search';
+  } else if (organic_search_source.test(source) && campaign && campaign !== '') {
+    return 'paid_search';
+  } else if (social_source.test(source) && (!campaign || campaign === '')) {
+    return 'organic_social';
+  } else if (social_source.test(source) && campaign && campaign !== '') {
+    return 'paid_social';
+  } else if (email_source.test(source) && campaign && campaign !== '') {
+    return 'email';
+  } else if (!organic_search_source.test(source) && !social_source.test(source) && !email_source.test(source) && source != "" && (!campaign || campaign === '')) {
+    return 'referral';
+  } else if (!organic_search_source.test(source) && !social_source.test(source) && !email_source.test(source) && source != "" && campaign && campaign !== '') {
+    return 'affiliate';
   } else {
-    return 'undefined'
+    return 'undefined';
   }
 }
