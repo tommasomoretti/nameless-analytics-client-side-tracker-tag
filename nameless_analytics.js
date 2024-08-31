@@ -82,6 +82,41 @@ const parse_user_agent = function () {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+// Channel grouping
+function get_channel_grouping(source, campaign) {
+  const organic_search_source = new RegExp('google|bing|yahoo|baidu|yandex|duckduckgo|ask|aol|ecosia');
+  const social_source = new RegExp('facebook|messenger|instagram|tiktok|t\\.co|twitter|linkedin|pinterest|youtube|whatsapp|wechat');
+  const email_source = new RegExp('email|e-mail|e_mail|e mail');
+
+  if (source == null) {
+    return 'internal_traffic';
+  } else if (source == 'direct') {
+    return 'direct';
+  } else if (source === 'tagassistant.google.com') {
+    return 'gtm_debugger';
+  } else if (organic_search_source.test(source) && (!campaign || campaign === '')) {
+    return 'organic_search';
+  } else if (organic_search_source.test(source) && campaign && campaign !== '') {
+    return 'paid_search';
+  } else if (social_source.test(source) && (!campaign || campaign === '')) {
+    return 'organic_social';
+  } else if (social_source.test(source) && campaign && campaign !== '') {
+    return 'paid_social';
+  } else if (email_source.test(source) && campaign && campaign !== '') {
+    return 'email';
+  } else if (!organic_search_source.test(source) && !social_source.test(source) && !email_source.test(source) && source != "" && (!campaign || campaign === '')) {
+    return 'referral';
+  } else if (!organic_search_source.test(source) && !social_source.test(source) && !email_source.test(source) && source != "" && campaign && campaign !== '') {
+    return 'affiliate';
+  } else {
+    return 'undefined';
+  }
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 // Cross-domain
 function set_cross_domain_listener(full_endpoint, cross_domain_domains) {
   const saved_full_endpoint = full_endpoint;
@@ -221,33 +256,40 @@ async function get_user_data(saved_full_endpoint, payload) {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-// Channel grouping
-function get_channel_grouping(source, campaign) {
-  const organic_search_source = new RegExp('google|bing|yahoo|baidu|yandex|duckduckgo|ask|aol|ecosia');
-  const social_source = new RegExp('facebook|messenger|instagram|tiktok|t\\.co|twitter|linkedin|pinterest|youtube|whatsapp|wechat');
-  const email_source = new RegExp('email|e-mail|e_mail|e mail');
+// Page closed
+var beforeunload = false;
+var navigate = false;
+var popstate = false;
+var eventPushed = false;
 
-  if (source == null) {
-    return 'internal_traffic';
-  } else if (source == 'direct') {
-    return 'direct';
-  } else if (source === 'tagassistant.google.com') {
-    return 'gtm_debugger';
-  } else if (organic_search_source.test(source) && (!campaign || campaign === '')) {
-    return 'organic_search';
-  } else if (organic_search_source.test(source) && campaign && campaign !== '') {
-    return 'paid_search';
-  } else if (social_source.test(source) && (!campaign || campaign === '')) {
-    return 'organic_social';
-  } else if (social_source.test(source) && campaign && campaign !== '') {
-    return 'paid_social';
-  } else if (email_source.test(source) && campaign && campaign !== '') {
-    return 'email';
-  } else if (!organic_search_source.test(source) && !social_source.test(source) && !email_source.test(source) && source != "" && (!campaign || campaign === '')) {
-    return 'referral';
-  } else if (!organic_search_source.test(source) && !social_source.test(source) && !email_source.test(source) && source != "" && campaign && campaign !== '') {
-    return 'affiliate';
-  } else {
-    return 'undefined';
+// Funzione per eseguire push su dataLayer una sola volta
+function push_page_closed_event() {
+  if (!eventPushed) {
+    window.dataLayer.push({
+      'event': 'page_closed'
+    });
+    eventPushed = true; // Imposta a true dopo che l'evento è stato inviato
   }
 }
+
+// Page closed with beforeunload (Reload)
+window.addEventListener('beforeunload', function (event) {
+  beforeunload = true;
+  console.log('La pagina sta per essere chiusa o ricaricata');
+  push_page_closed_event();
+});
+
+if (window.navigation) {
+  window.navigation.addEventListener("navigate", (event) => {
+    navigate = true;
+    console.log('Location changed!');
+    push_page_closed_event();
+  });
+}
+
+// Intercetta il cambio di pagina con popstate
+window.addEventListener('popstate', function (event) {
+  popstate = true;
+  console.log('Navigazione della cronologia rilevata', document.location.href);
+  push_page_closed_event();
+});
