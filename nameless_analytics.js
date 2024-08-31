@@ -255,41 +255,31 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
+var eventPushed = false
 
 // Page closed
-var beforeunload = false;
-var navigate = false;
-var popstate = false;
-var eventPushed = false;
-
-// Funzione per eseguire push su dataLayer una sola volta
 function push_page_closed_event() {
   if (!eventPushed) {
     window.dataLayer.push({
       'event': 'page_closed'
     });
-    eventPushed = true; // Imposta a true dopo che l'evento è stato inviato
+    eventPushed = true;
   }
 }
 
 // Page closed with beforeunload (Reload)
 window.addEventListener('beforeunload', function (event) {
-  beforeunload = true;
-  console.log('La pagina sta per essere chiusa o ricaricata');
   push_page_closed_event();
 });
 
+// Page closed with navigate 
 if (window.navigation) {
   window.navigation.addEventListener("navigate", (event) => {
-    navigate = true;
-    console.log('Location changed!');
     push_page_closed_event();
   });
 }
 
-// Intercetta il cambio di pagina con popstate
+// Page closed with popstate
 window.addEventListener('popstate', function (event) {
-  popstate = true;
-  console.log('Navigazione della cronologia rilevata', document.location.href);
   push_page_closed_event();
 });
