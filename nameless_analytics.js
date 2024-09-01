@@ -258,10 +258,11 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 var eventPushed = false; // Variabile di stato per tracciare se l'evento è già stato pushato
 
-function pushPageClosedEvent() {
+function pushPageClosedEvent(event) {
   if (!eventPushed) { // Controlla se l'evento non è già stato pushato
     window.dataLayer.push({
-      'event': 'page_closed'
+      'event': 'page_closed',
+      'triggered_event': event
     });
     eventPushed = true; // Imposta la variabile a true per evitare futuri push
   }
@@ -269,21 +270,25 @@ function pushPageClosedEvent() {
 
 // Listener per l'evento 'beforeunload'
 window.addEventListener('beforeunload', function (event) {
-  pushPageClosedEvent();
+  pushPageClosedEvent('beforeunload');
+  console.log('🐷 beforeunload')
 });
 
 // Listener per l'evento 'navigate'
 if (window.navigation) {
   window.navigation.addEventListener('navigate', (event) => {
-    pushPageClosedEvent();
+    pushPageClosedEvent('navigate');
     resetEventPushedIfVirtualPageChange(event); // Verifica se è un cambio pagina virtuale
+    console.log('🐷 navigate')
   });
 }
 
 // Listener per l'evento 'popstate'
 window.addEventListener('popstate', function (event) {
-  pushPageClosedEvent();
+  pushPageClosedEvent('popstate');
   resetEventPushedIfVirtualPageChange(event); // Verifica se è un cambio pagina virtuale
+  console.log('🐷 popstate')
+
 });
 
 // Funzione per resettare 'eventPushed' in caso di cambio pagina virtuale
