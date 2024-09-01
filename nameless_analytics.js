@@ -256,49 +256,60 @@ async function get_user_data(saved_full_endpoint, payload) {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-var eventPushed = false; // Variabile di stato per tracciare se l'evento è già stato pushato
 
-function pushPageClosedEvent(event) {
-  if (!eventPushed) { // Controlla se l'evento non è già stato pushato
+let eventPushed = false; // Variabile di stato per tracciare se l'evento è già stato pushato
+let timeoutId = null; // Variabile per memorizzare l'ID del timeout
+
+// Funzione per pushare l'evento di chiusura della pagina in dataLayer
+function pushPageClosedEvent(eventType) {
+  if (!eventPushed) {
     window.dataLayer.push({
       'event': 'page_closed',
-      'triggered_event': event
+      'triggered_event': eventType
     });
     eventPushed = true; // Imposta la variabile a true per evitare futuri push
+    console.log(`🐷 Evento pushato: ${eventType}`);
   }
 }
 
 // Listener per l'evento 'beforeunload'
-window.addEventListener('beforeunload', function (event) {
+window.addEventListener('beforeunload', function () {
+  clearTimeout(timeoutId); // Cancella eventuali timeout esistenti
   pushPageClosedEvent('beforeunload');
-  console.log('🐷 beforeunload')
+  // console.log('🐷 beforeunload');
 });
 
 // Listener per l'evento 'navigate'
 if (window.navigation) {
   window.navigation.addEventListener('navigate', (event) => {
-    pushPageClosedEvent('navigate');
-    resetEventPushedIfVirtualPageChange(event); // Verifica se è un cambio pagina virtuale
-    console.log('🐷 navigate')
+    if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
+      timeoutId = setTimeout(() => {
+        pushPageClosedEvent('navigate');
+        eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
+        // console.log('🐷 navigate');
+      }, 50); // Throttle di 50ms per evitare duplicati
+    }
+    resetEventPushedIfVirtualPageChange(event);
   });
 }
 
 // Listener per l'evento 'popstate'
 window.addEventListener('popstate', function (event) {
-  pushPageClosedEvent('popstate');
-  resetEventPushedIfVirtualPageChange(event); // Verifica se è un cambio pagina virtuale
-  console.log('🐷 popstate')
-
+  if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
+    timeoutId = setTimeout(() => {
+      pushPageClosedEvent('popstate');
+      eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
+      // console.log('🐷 popstate');
+    }, 50); // Throttle di 50ms per evitare duplicati
+  }
+  resetEventPushedIfVirtualPageChange(event);
 });
 
 // Funzione per resettare 'eventPushed' in caso di cambio pagina virtuale
 function resetEventPushedIfVirtualPageChange(event) {
-  // Esegui il reset solo se si tratta di un cambio pagina virtuale
-  // La logica per determinare un cambio pagina virtuale può variare
-  // Qui potresti usare l'URL o altre proprietà dell'evento per determinare il cambio di stato
-
   if (isVirtualPageChange(event)) {
     eventPushed = false;
+    console.log('Reset eventPushed: cambio pagina virtuale rilevato');
   }
 }
 
