@@ -256,66 +256,116 @@ async function get_user_data(saved_full_endpoint, payload) {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+// Page load time 
+function get_page_load_time() {
+  const consent_values = get_consent_value(window.dataLayer);
+  const analytics_storage_value = consent_values.analytics_storage;
 
-let eventPushed = false; // Variabile di stato per tracciare se l'evento è già stato pushato
-let timeoutId = null; // Variabile per memorizzare l'ID del timeout
+  if (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0) {
+    
+    const dom_interactive = performance.timing.domInteractive
+    const response_start = performance.timing.responseStart
+    const dom_complete = performance.timing.domComplete
+    const dom_loading = performance.timing.domLoading
+    const load_event_end = performance.timing.loadEventEnd
+    const navigation_start = performance.timing.navigationStart
 
-// Funzione per pushare l'evento di chiusura della pagina in dataLayer
-function pushPageClosedEvent(eventType) {
-  if (!eventPushed) {
+    // console.log('performance.timing', performance.timing)
+    // console.log('dom_interactive', performance.timing.domInteractive)
+    // console.log('response_start', performance.timing.responseStart)
+    // console.log('dom_complete', performance.timing.domComplete)
+    // console.log('dom_loading', performance.timing.domLoading)
+    // console.log('load_event_end', performance.timing.loadEventEnd)
+    // console.log('navigation_start', performance.timing.navigationStart)
+    
+    const time_to_dom_interactive = dom_interactive - response_start
+    const time_to_dom_complete = dom_complete - response_start
+    const page_render_time = dom_complete - dom_loading
+    const total_page_load_time = load_event_end - navigation_start
+    
+    // console.log('time_to_dom_interactive:', time_to_dom_interactive)
+    // console.log('time_to_dom_complete:', time_to_dom_complete)
+    // console.log('page_render_time:', page_render_time)
+    // console.log('total_page_load_time:', total_page_load_time)
+  
     window.dataLayer.push({
-      'event': 'page_closed',
-      'triggered_event': eventType
-    });
-    eventPushed = true; // Imposta la variabile a true per evitare futuri push
-    console.log(`🐷 Evento pushato: ${eventType}`);
+      'event': 'page_load_time',
+      'time_to_dom_interactive': time_to_dom_interactive,
+      'time_to_dom_complete': time_to_dom_complete,
+      'page_render_time': page_render_time,
+      'total_page_load_time': total_page_load_time  
+    })
   }
 }
-
-// Listener per l'evento 'beforeunload'
-window.addEventListener('beforeunload', function () {
-  clearTimeout(timeoutId); // Cancella eventuali timeout esistenti
-  pushPageClosedEvent('beforeunload');
-  // console.log('🐷 beforeunload');
+  
+window.addEventListener('load', function() {
+    setTimeout(get_page_load_time, 0);
 });
 
-// Listener per l'evento 'navigate'
-if (window.navigation) {
-  window.navigation.addEventListener('navigate', (event) => {
-    if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
-      timeoutId = setTimeout(() => {
-        pushPageClosedEvent('navigate');
-        eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
-        // console.log('🐷 navigate');
-      }, 50); // Throttle di 50ms per evitare duplicati
-    }
-    resetEventPushedIfVirtualPageChange(event);
-  });
-}
 
-// Listener per l'evento 'popstate'
-window.addEventListener('popstate', function (event) {
-  if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
-    timeoutId = setTimeout(() => {
-      pushPageClosedEvent('popstate');
-      eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
-      // console.log('🐷 popstate');
-    }, 50); // Throttle di 50ms per evitare duplicati
-  }
-  resetEventPushedIfVirtualPageChange(event);
-});
+//----------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Funzione per resettare 'eventPushed' in caso di cambio pagina virtuale
-function resetEventPushedIfVirtualPageChange(event) {
-  if (isVirtualPageChange(event)) {
-    eventPushed = false;
-    console.log('Reset eventPushed: cambio pagina virtuale rilevato');
-  }
-}
 
-// Funzione fittizia per determinare se l'evento rappresenta un cambio pagina virtuale
-function isVirtualPageChange(event) {
-  // Aggiungi qui la logica per determinare un cambio pagina virtuale
-  // Ad esempio, verifica l'URL o l'evento state
-  return event.type === 'popstate' || (window.navigation && event.type === 'navigate');
-}
+// Page closed 
+// let eventPushed = false; // Variabile di stato per tracciare se l'evento è già stato pushato
+// let timeoutId = null; // Variabile per memorizzare l'ID del timeout
+
+// // Funzione per pushare l'evento di chiusura della pagina in dataLayer
+// function pushPageClosedEvent(eventType) {
+//   if (!eventPushed) {
+//     window.dataLayer.push({
+//       'event': 'page_closed',
+//       'triggered_event': eventType
+//     });
+//     eventPushed = true; // Imposta la variabile a true per evitare futuri push
+//     console.log(`🐷 Evento pushato: ${eventType}`);
+//   }
+// }
+
+// // Listener per l'evento 'beforeunload'
+// window.addEventListener('beforeunload', function () {
+//   clearTimeout(timeoutId); // Cancella eventuali timeout esistenti
+//   pushPageClosedEvent('beforeunload');
+//   // console.log('🐷 beforeunload');
+// });
+
+// // Listener per l'evento 'navigate'
+// if (window.navigation) {
+//   window.navigation.addEventListener('navigate', (event) => {
+//     if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
+//       timeoutId = setTimeout(() => {
+//         pushPageClosedEvent('navigate');
+//         eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
+//         // console.log('🐷 navigate');
+//       }, 50); // Throttle di 50ms per evitare duplicati
+//     }
+//     resetEventPushedIfVirtualPageChange(event);
+//   });
+// }
+
+// // Listener per l'evento 'popstate'
+// window.addEventListener('popstate', function (event) {
+//   if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
+//     timeoutId = setTimeout(() => {
+//       pushPageClosedEvent('popstate');
+//       eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
+//       // console.log('🐷 popstate');
+//     }, 50); // Throttle di 50ms per evitare duplicati
+//   }
+//   resetEventPushedIfVirtualPageChange(event);
+// });
+
+// // Funzione per resettare 'eventPushed' in caso di cambio pagina virtuale
+// function resetEventPushedIfVirtualPageChange(event) {
+//   if (isVirtualPageChange(event)) {
+//     eventPushed = false;
+//     console.log('Reset eventPushed: cambio pagina virtuale rilevato');
+//   }
+// }
+
+// // Funzione fittizia per determinare se l'evento rappresenta un cambio pagina virtuale
+// function isVirtualPageChange(event) {
+//   // Aggiungi qui la logica per determinare un cambio pagina virtuale
+//   // Ad esempio, verifica l'URL o l'evento state
+//   return event.type === 'popstate' || (window.navigation && event.type === 'navigate');
+// }
