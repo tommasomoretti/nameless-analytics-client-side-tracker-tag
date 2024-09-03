@@ -288,8 +288,6 @@ function get_page_load_time(respect_consent_mode) {
       'page_render_time': page_render_time,
       'total_page_load_time': total_page_load_time  
     })
-  } else {
-    console.log('Consent denied')
   }
 }
 
