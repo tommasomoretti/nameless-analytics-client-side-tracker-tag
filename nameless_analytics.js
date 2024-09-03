@@ -140,6 +140,10 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         const analytics_storage_value = (consent_values.analytics_storage == 'granted') ? true : false;
         const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
 
+          // console.log('respect_consent_mode', respect_consent_mode);
+          // console.log('analytics_storage_value', analytics_storage_value);
+          // console.log('consent_granted_or_not_needed', consent_granted_or_not_needed);
+
         if (domain_matches && !is_self && (consent_granted_or_not_needed || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
           const user_data = await get_user_data(saved_full_endpoint, {event_name: 'get_user_data', from_measurement_protocol: 'No'});
@@ -267,7 +271,6 @@ function get_page_load_time(respect_consent_mode) {
   console.log('consent_values', consent_values);
   console.log('analytics_storage_value', analytics_storage_value);
   console.log('consent_granted_or_not_needed', consent_granted_or_not_needed);
-  
 
   if (consent_granted_or_not_needed || Object.entries(consent_values) == 0) {
     const dom_interactive = performance.timing.domInteractive
@@ -299,9 +302,9 @@ function get_page_load_time(respect_consent_mode) {
   }
 }
 
-function set_page_load_time_listener(){
+function set_page_load_time_listener(respect_consent_mode){
   window.addEventListener('load', function() {
-      setTimeout(get_page_load_time, 100);
+      setTimeout(get_page_load_time(respect_consent_mode), 100);
   });
 }
 
