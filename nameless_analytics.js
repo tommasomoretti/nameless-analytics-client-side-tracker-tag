@@ -257,36 +257,44 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 
 // Page load time 
-function get_page_load_time() {  
-  const dom_interactive = performance.timing.domInteractive
-  const response_start = performance.timing.responseStart
-  const dom_complete = performance.timing.domComplete
-  const dom_loading = performance.timing.domLoading
-  const load_event_end = performance.timing.loadEventEnd
-  const navigation_start = performance.timing.navigationStart
-  
-  const time_to_dom_interactive = dom_interactive - response_start
-  const time_to_dom_complete = dom_complete - response_start
-  const page_render_time = dom_complete - dom_loading
-  const total_page_load_time = load_event_end - navigation_start
-  
-  // console.log('time_to_dom_interactive:', time_to_dom_interactive)
-  // console.log('time_to_dom_complete:', time_to_dom_complete)
-  // console.log('page_render_time:', page_render_time)
-  // console.log('total_page_load_time:', total_page_load_time)
-  
-  window.dataLayer.push({
-    'event': 'page_load_time',
-    'time_to_dom_interactive': time_to_dom_interactive,
-    'time_to_dom_complete': time_to_dom_complete,
-    'page_render_time': page_render_time,
-    'total_page_load_time': total_page_load_time  
-  })
+function get_page_load_time(respect_consent_mode) {
+  const consent_values = get_consent_value(window.dataLayer);
+  const analytics_storage_value = (consent_values.analytics_storage == 'granted') ? true : false;
+  const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
+
+  if (consent_granted_or_not_needed || Object.entries(consent_values) == 0) {
+    const dom_interactive = performance.timing.domInteractive
+    const response_start = performance.timing.responseStart
+    const dom_complete = performance.timing.domComplete
+    const dom_loading = performance.timing.domLoading
+    const load_event_end = performance.timing.loadEventEnd
+    const navigation_start = performance.timing.navigationStart
+    
+    const time_to_dom_interactive = dom_interactive - response_start
+    const time_to_dom_complete = dom_complete - response_start
+    const page_render_time = dom_complete - dom_loading
+    const total_page_load_time = load_event_end - navigation_start
+    
+    // console.log('time_to_dom_interactive:', time_to_dom_interactive)
+    // console.log('time_to_dom_complete:', time_to_dom_complete)
+    // console.log('page_render_time:', page_render_time)
+    // console.log('total_page_load_time:', total_page_load_time)
+    
+    window.dataLayer.push({
+      'event': 'page_load_time',
+      'time_to_dom_interactive': time_to_dom_interactive,
+      'time_to_dom_complete': time_to_dom_complete,
+      'page_render_time': page_render_time,
+      'total_page_load_time': total_page_load_time  
+    })
+  } else {
+    console.log('Consent denied')
+  }
 }
 
 function set_page_load_time_listener(){
   window.addEventListener('load', function() {
-      setTimeout(get_page_load_time, 0);
+      setTimeout(get_page_load_time, 100);
   });
 }
 
