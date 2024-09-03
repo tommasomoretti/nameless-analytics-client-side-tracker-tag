@@ -257,50 +257,40 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 
 // Page load time 
-function get_page_load_time() {
-  const consent_values = get_consent_value(window.dataLayer);
-  const analytics_storage_value = consent_values.analytics_storage;
-
-  if (analytics_storage_value == 'granted' || Object.entries(consent_values) == 0) {
-    
-    const dom_interactive = performance.timing.domInteractive
-    const response_start = performance.timing.responseStart
-    const dom_complete = performance.timing.domComplete
-    const dom_loading = performance.timing.domLoading
-    const load_event_end = performance.timing.loadEventEnd
-    const navigation_start = performance.timing.navigationStart
-
-    // console.log('performance.timing', performance.timing)
-    // console.log('dom_interactive', performance.timing.domInteractive)
-    // console.log('response_start', performance.timing.responseStart)
-    // console.log('dom_complete', performance.timing.domComplete)
-    // console.log('dom_loading', performance.timing.domLoading)
-    // console.log('load_event_end', performance.timing.loadEventEnd)
-    // console.log('navigation_start', performance.timing.navigationStart)
-    
-    const time_to_dom_interactive = dom_interactive - response_start
-    const time_to_dom_complete = dom_complete - response_start
-    const page_render_time = dom_complete - dom_loading
-    const total_page_load_time = load_event_end - navigation_start
-    
-    // console.log('time_to_dom_interactive:', time_to_dom_interactive)
-    // console.log('time_to_dom_complete:', time_to_dom_complete)
-    // console.log('page_render_time:', page_render_time)
-    // console.log('total_page_load_time:', total_page_load_time)
+function get_page_load_time() {  
+  const dom_interactive = performance.timing.domInteractive
+  const response_start = performance.timing.responseStart
+  const dom_complete = performance.timing.domComplete
+  const dom_loading = performance.timing.domLoading
+  const load_event_end = performance.timing.loadEventEnd
+  const navigation_start = performance.timing.navigationStart
   
-    window.dataLayer.push({
-      'event': 'page_load_time',
-      'time_to_dom_interactive': time_to_dom_interactive,
-      'time_to_dom_complete': time_to_dom_complete,
-      'page_render_time': page_render_time,
-      'total_page_load_time': total_page_load_time  
-    })
-  }
+  const time_to_dom_interactive = dom_interactive - response_start
+  const time_to_dom_complete = dom_complete - response_start
+  const page_render_time = dom_complete - dom_loading
+  const total_page_load_time = load_event_end - navigation_start
+  
+  // console.log('time_to_dom_interactive:', time_to_dom_interactive)
+  // console.log('time_to_dom_complete:', time_to_dom_complete)
+  // console.log('page_render_time:', page_render_time)
+  // console.log('total_page_load_time:', total_page_load_time)
+  
+  window.dataLayer.push({
+    'event': 'page_load_time',
+    'time_to_dom_interactive': time_to_dom_interactive,
+    'time_to_dom_complete': time_to_dom_complete,
+    'page_render_time': page_render_time,
+    'total_page_load_time': total_page_load_time  
+  })
 }
-  
-window.addEventListener('load', function() {
-    setTimeout(get_page_load_time, 0);
-});
+
+function set_page_load_time_function(){
+  window.addEventListener('load', function() {
+      setTimeout(get_page_load_time, 0);
+  });
+}
+
+set_page_load_time_function()
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
