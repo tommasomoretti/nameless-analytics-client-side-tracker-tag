@@ -284,7 +284,7 @@ function get_page_load_time() {
   })
 }
 
-function set_page_load_time_function(){
+function set_page_load_time_listener(){
   window.addEventListener('load', function() {
       setTimeout(get_page_load_time, 0);
   });
