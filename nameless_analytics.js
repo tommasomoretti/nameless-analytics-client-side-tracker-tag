@@ -263,6 +263,12 @@ function get_page_load_time(respect_consent_mode) {
   const analytics_storage_value = (consent_values.analytics_storage == 'granted') ? true : false;
   const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
 
+  console.log('respect_consent_mode', respect_consent_mode);
+  console.log('consent_values', consent_values);
+  console.log('analytics_storage_value', analytics_storage_value);
+  console.log('consent_granted_or_not_needed', consent_granted_or_not_needed);
+  
+
   if (consent_granted_or_not_needed || Object.entries(consent_values) == 0) {
     const dom_interactive = performance.timing.domInteractive
     const response_start = performance.timing.responseStart
