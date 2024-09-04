@@ -136,6 +136,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
       const url_junk = /^(mailto:|tel:)/.test(link_url.href);
 
       if (!url_junk) {
+        window.dataLayer = window.dataLayer || [];
         const consent_values = get_consent_value(window.dataLayer);
         const analytics_storage_value = (consent_values.analytics_storage == 'granted') ? true : false;
         const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
@@ -204,7 +205,8 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 function get_consent_value(dataLayer) {
   let consent_values = {}
 
-  for (let i = dataLayer.length - 1; i >= 0; i--) {
+  for (let i = 
+    .length - 1; i >= 0; i--) {
     const item = dataLayer[i];
     if (item[0] === "consent" && (item[1] === "default" || item[1] === "update")) {
       const consent_data = item[2];
@@ -275,7 +277,8 @@ function get_page_load_time() {
   // console.log('time_to_dom_complete:', time_to_dom_complete)
   // console.log('page_render_time:', page_render_time)
   // console.log('total_page_load_time:', total_page_load_time)
-    
+  
+  window.dataLayer = window.dataLayer || [];  
   window.dataLayer.push({
     'event': 'page_load_time',
     'time_to_dom_interactive': time_to_dom_interactive,
