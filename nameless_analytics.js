@@ -312,7 +312,7 @@ function set_page_load_time_listener(){
             return;
         }
 
-        window.dataLayer.push({ event: 'page_closed' });
+        window.dataLayer.push({ event: event });
         console.log('Event pushed:', event); // Per debug
 
         lastEvent = { name: event, time: now };
@@ -322,18 +322,18 @@ function set_page_load_time_listener(){
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
-    function handleStateChange() {
-        pushEvent('page_virtual_change');
-    }
-
     history.pushState = function() {
-        originalPushState.apply(this, arguments);
-        handleStateChange();
+        setTimeout(() => {
+            pushEvent('page_virtual_change'); // Effettua il push prima del cambiamento
+            originalPushState.apply(this, arguments); // Esegue il cambiamento
+        }, 0); // Eseguito nel prossimo ciclo di eventi
     };
 
     history.replaceState = function() {
-        originalReplaceState.apply(this, arguments);
-        handleStateChange();
+        setTimeout(() => {
+            pushEvent('page_virtual_change'); // Effettua il push prima del cambiamento
+            originalReplaceState.apply(this, arguments); // Esegue il cambiamento
+        }, 0); // Eseguito nel prossimo ciclo di eventi
     };
 
     // 2. Chiusura della pagina o aggiornamento
@@ -364,18 +364,7 @@ function set_page_load_time_listener(){
         window.addEventListener('pagehide', handleBeforeUnload, { capture: true });
     }
 
-    // 5. Ascolta cambiamenti nel titolo e URL
-    const originalTitle = document.title;
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList' && mutation.target === document.querySelector('title')) {
-                handleStateChange();
-            }
-        });
-    });
-
-    observer.observe(document.querySelector('title'), { childList: true });
-
 })();
+
 
 
