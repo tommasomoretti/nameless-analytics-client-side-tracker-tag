@@ -312,7 +312,9 @@ function set_page_load_time_listener(){
             return;
         }
 
-        window.dataLayer.push({ event: 'page_closed' });
+        window.dataLayer.push({ event: event });
+        console.log('Event pushed:', event); // Per debug
+
         lastEvent = { name: event, time: now };
     }
 
@@ -320,27 +322,41 @@ function set_page_load_time_listener(){
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
+    function handleStateChange() {
+        // Aggiorna l'eventuale stato
+        pushEvent('page_virtual_change');
+    }
+
     history.pushState = function() {
-        setTimeout(() => {
-            pushEvent('page_virtual_change'); // Effettua il push prima del cambiamento
-            originalPushState.apply(this, arguments); // Esegue il cambiamento
-        }, 0); // Eseguito nel prossimo ciclo di eventi
+        // Push l'evento prima del cambiamento
+        handleStateChange();
+        // Esegui il cambiamento dello stato
+        originalPushState.apply(this, arguments);
     };
 
     history.replaceState = function() {
-        setTimeout(() => {
-            pushEvent('page_virtual_change'); // Effettua il push prima del cambiamento
-            originalReplaceState.apply(this, arguments); // Esegue il cambiamento
-        }, 0); // Eseguito nel prossimo ciclo di eventi
+        // Push l'evento prima del cambiamento
+        handleStateChange();
+        // Esegui il cambiamento dello stato
+        originalReplaceState.apply(this, arguments);
     };
 
-    // 2. Chiusura della pagina o aggiornamento
+    // 2. Gestire gli eventi popstate e hashchange
+    window.addEventListener('popstate', function(event) {
+        pushEvent('page_navigation_back_forward');
+    });
+
+    window.addEventListener('hashchange', function(event) {
+        pushEvent('page_virtual_change');
+    });
+
+    // 3. Chiusura della pagina o aggiornamento
     function handleBeforeUnload(event) {
         pushEvent('page_closed');
     }
     window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
 
-    // 3. Navigazione tramite link (clic su un link)
+    // 4. Navigazione tramite link (clic su un link)
     document.addEventListener('click', function(event) {
         const target = event.target.closest('a');
 
@@ -351,16 +367,6 @@ function set_page_load_time_listener(){
             }
         }
     }, { capture: true });
-
-    // 4. Navigazione con pulsanti "Avanti" e "Indietro" del browser
-    window.addEventListener('popstate', function(event) {
-        pushEvent('page_navigation_back_forward');
-    }, { capture: true });
-
-    // Safari iOS - Aggiunge pagehide per sicurezza
-    if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
-        window.addEventListener('pagehide', handleBeforeUnload, { capture: true });
-    }
 
 })();
 
