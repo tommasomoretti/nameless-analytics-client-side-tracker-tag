@@ -259,10 +259,6 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 // Page load time 
 function get_page_load_time() {
-  const consent_values = get_consent_value(window.dataLayer);
-  const analytics_storage_value = (consent_values.analytics_storage == 'granted') ? true : false;
-  const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
-
   const dom_interactive = performance.timing.domInteractive
   const response_start = performance.timing.responseStart
   const dom_complete = performance.timing.domComplete
