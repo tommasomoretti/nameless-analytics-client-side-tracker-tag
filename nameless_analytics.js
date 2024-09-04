@@ -318,13 +318,7 @@ function set_page_load_time_listener(){
         lastEvent = { name: event, time: now };
     }
 
-    // 1. Chiusura della pagina o aggiornamento
-    function handleBeforeUnload(event) {
-        pushEvent('page_closed');
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
-
-    // 2. Cambio di pagina virtuale (es. tramite history API)
+    // 1. Sovrascrivere le funzioni pushState e replaceState
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
@@ -341,6 +335,12 @@ function set_page_load_time_listener(){
         originalReplaceState.apply(this, arguments);
         handleStateChange();
     };
+
+    // 2. Chiusura della pagina o aggiornamento
+    function handleBeforeUnload(event) {
+        pushEvent('page_closed');
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
 
     // 3. Navigazione tramite link (clic su un link)
     document.addEventListener('click', function(event) {
@@ -364,5 +364,18 @@ function set_page_load_time_listener(){
         window.addEventListener('pagehide', handleBeforeUnload, { capture: true });
     }
 
+    // 5. Ascolta cambiamenti nel titolo e URL
+    const originalTitle = document.title;
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList' && mutation.target === document.querySelector('title')) {
+                handleStateChange();
+            }
+        });
+    });
+
+    observer.observe(document.querySelector('title'), { childList: true });
+
 })();
+
 
