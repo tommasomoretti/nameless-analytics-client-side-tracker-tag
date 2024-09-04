@@ -296,65 +296,73 @@ function set_page_load_time_listener(){
 
 
 // Page closed 
-// let eventPushed = false; // Variabile di stato per tracciare se l'evento è già stato pushato
-// let timeoutId = null; // Variabile per memorizzare l'ID del timeout
+(function() {
+    // Assicurati che window.dataLayer esista
+    window.dataLayer = window.dataLayer || [];
 
-// // Funzione per pushare l'evento di chiusura della pagina in dataLayer
-// function pushPageClosedEvent(eventType) {
-//   if (!eventPushed) {
-//     window.dataLayer.push({
-//       'event': 'page_closed',
-//       'triggered_event': eventType
-//     });
-//     eventPushed = true; // Imposta la variabile a true per evitare futuri push
-//     console.log(`🐷 Evento pushato: ${eventType}`);
-//   }
-// }
+    let lastEvent = null;
+    const debounceTime = 200; // 200ms debounce time
 
-// // Listener per l'evento 'beforeunload'
-// window.addEventListener('beforeunload', function () {
-//   clearTimeout(timeoutId); // Cancella eventuali timeout esistenti
-//   pushPageClosedEvent('beforeunload');
-//   // console.log('🐷 beforeunload');
-// });
+    // Funzione per fare push nel dataLayer con debounce
+    function pushEvent(event) {
+        const now = Date.now();
 
-// // Listener per l'evento 'navigate'
-// if (window.navigation) {
-//   window.navigation.addEventListener('navigate', (event) => {
-//     if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
-//       timeoutId = setTimeout(() => {
-//         pushPageClosedEvent('navigate');
-//         eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
-//         // console.log('🐷 navigate');
-//       }, 50); // Throttle di 50ms per evitare duplicati
-//     }
-//     resetEventPushedIfVirtualPageChange(event);
-//   });
-// }
+        // Evita il push se lo stesso evento è stato recentemente pushato
+        if (lastEvent && lastEvent.name === event && now - lastEvent.time < debounceTime) {
+            return;
+        }
 
-// // Listener per l'evento 'popstate'
-// window.addEventListener('popstate', function (event) {
-//   if (!eventPushed) { // Esegui solo se l'evento non è già stato pushato
-//     timeoutId = setTimeout(() => {
-//       pushPageClosedEvent('popstate');
-//       eventPushed = false; // Resetta dopo l'evento per permettere nuovi push
-//       // console.log('🐷 popstate');
-//     }, 50); // Throttle di 50ms per evitare duplicati
-//   }
-//   resetEventPushedIfVirtualPageChange(event);
-// });
+        window.dataLayer.push({ event: event });
+        console.log('Event pushed:', event); // Per debug
 
-// // Funzione per resettare 'eventPushed' in caso di cambio pagina virtuale
-// function resetEventPushedIfVirtualPageChange(event) {
-//   if (isVirtualPageChange(event)) {
-//     eventPushed = false;
-//     console.log('Reset eventPushed: cambio pagina virtuale rilevato');
-//   }
-// }
+        lastEvent = { name: event, time: now };
+    }
 
-// // Funzione fittizia per determinare se l'evento rappresenta un cambio pagina virtuale
-// function isVirtualPageChange(event) {
-//   // Aggiungi qui la logica per determinare un cambio pagina virtuale
-//   // Ad esempio, verifica l'URL o l'evento state
-//   return event.type === 'popstate' || (window.navigation && event.type === 'navigate');
-// }
+    // 1. Chiusura della pagina o aggiornamento
+    function handleBeforeUnload(event) {
+        pushEvent('page_closed');
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
+
+    // 2. Cambio di pagina virtuale (es. tramite history API)
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    function handleStateChange() {
+        pushEvent('page_virtual_change');
+    }
+
+    history.pushState = function() {
+        originalPushState.apply(this, arguments);
+        handleStateChange();
+    };
+
+    history.replaceState = function() {
+        originalReplaceState.apply(this, arguments);
+        handleStateChange();
+    };
+
+    // 3. Navigazione tramite link (clic su un link)
+    document.addEventListener('click', function(event) {
+        const target = event.target.closest('a');
+
+        if (target && target.href) {
+            // Esclude gli anchor link che non cambiano pagina
+            if (target.href !== window.location.href.split('#')[0] + target.hash) {
+                pushEvent('page_link_navigation');
+            }
+        }
+    }, { capture: true });
+
+    // 4. Navigazione con pulsanti "Avanti" e "Indietro" del browser
+    window.addEventListener('popstate', function(event) {
+        pushEvent('page_navigation_back_forward');
+    }, { capture: true });
+
+    // Safari iOS - Aggiunge pagehide per sicurezza
+    if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+        window.addEventListener('pagehide', handleBeforeUnload, { capture: true });
+    }
+
+})();
+
