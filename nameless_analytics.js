@@ -312,7 +312,7 @@ function set_page_load_time_listener(){
             return;
         }
 
-        window.dataLayer.push({ event: event });
+        window.dataLayer.push({ event: 'page_closed' });
         console.log('Event pushed:', event); // Per debug
 
         lastEvent = { name: event, time: now };
