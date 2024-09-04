@@ -314,9 +314,7 @@ function set_page_load_time_listener(){
             return;
         }
 
-        window.dataLayer.push({ event: event });
-        console.log('Event pushed:', event); // Per debug
-
+        window.dataLayer.push({ event: 'page_closed' });
         lastEvent = { name: event, time: now };
     }
 
