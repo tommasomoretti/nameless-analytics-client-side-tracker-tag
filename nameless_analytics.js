@@ -272,10 +272,10 @@ function get_page_load_time() {
   const page_render_time = dom_complete - dom_loading
   const total_page_load_time = load_event_end - navigation_start
     
-  // console.log('time_to_dom_interactive:', time_to_dom_interactive)
-  // console.log('time_to_dom_complete:', time_to_dom_complete)
-  // console.log('page_render_time:', page_render_time)
-  // console.log('total_page_load_time:', total_page_load_time)
+  console.log('time_to_dom_interactive:', time_to_dom_interactive)
+  console.log('time_to_dom_complete:', time_to_dom_complete)
+  console.log('page_render_time:', page_render_time)
+  console.log('total_page_load_time:', total_page_load_time)
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
