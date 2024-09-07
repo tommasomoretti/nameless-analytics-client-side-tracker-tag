@@ -297,75 +297,75 @@ function set_page_load_time_listener(){
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-// Page closed 
-(function() {
-    // Assicurati che window.dataLayer esista
-    window.dataLayer = window.dataLayer || [];
+// // Page closed 
+// (function() {
+//     // Assicurati che window.dataLayer esista
+//     window.dataLayer = window.dataLayer || [];
 
-    let lastEvent = null;
-    const debounceTime = 200; // 200ms debounce time
+//     let lastEvent = null;
+//     const debounceTime = 200; // 200ms debounce time
 
-    // Funzione per fare push nel dataLayer con debounce
-    function pushEvent(event) {
-        const now = Date.now();
+//     // Funzione per fare push nel dataLayer con debounce
+//     function pushEvent(event) {
+//         const now = Date.now();
 
-        // Evita il push se lo stesso evento è stato recentemente pushato
-        if (lastEvent && lastEvent.name === event && now - lastEvent.time < debounceTime) {
-            return;
-        }
+//         // Evita il push se lo stesso evento è stato recentemente pushato
+//         if (lastEvent && lastEvent.name === event && now - lastEvent.time < debounceTime) {
+//             return;
+//         }
 
-        window.dataLayer.push({ event: 'page_closed' });
-        lastEvent = { name: event, time: now };
-    }
+//         window.dataLayer.push({ event: 'page_closed' });
+//         lastEvent = { name: event, time: now };
+//     }
 
-    // 1. Sovrascrivere le funzioni pushState e replaceState
-    const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
+//     // 1. Sovrascrivere le funzioni pushState e replaceState
+//     const originalPushState = history.pushState;
+//     const originalReplaceState = history.replaceState;
 
-    function handleStateChange() {
-        // Aggiorna l'eventuale stato
-        pushEvent('page_virtual_change');
-    }
+//     function handleStateChange() {
+//         // Aggiorna l'eventuale stato
+//         pushEvent('page_virtual_change');
+//     }
 
-    history.pushState = function() {
-        // Push l'evento prima del cambiamento
-        handleStateChange();
-        // Esegui il cambiamento dello stato
-        originalPushState.apply(this, arguments);
-    };
+//     history.pushState = function() {
+//         // Push l'evento prima del cambiamento
+//         handleStateChange();
+//         // Esegui il cambiamento dello stato
+//         originalPushState.apply(this, arguments);
+//     };
 
-    history.replaceState = function() {
-        // Push l'evento prima del cambiamento
-        handleStateChange();
-        // Esegui il cambiamento dello stato
-        originalReplaceState.apply(this, arguments);
-    };
+//     history.replaceState = function() {
+//         // Push l'evento prima del cambiamento
+//         handleStateChange();
+//         // Esegui il cambiamento dello stato
+//         originalReplaceState.apply(this, arguments);
+//     };
 
-    // 2. Gestire gli eventi popstate e hashchange
-    window.addEventListener('popstate', function(event) {
-        pushEvent('page_navigation_back_forward');
-    });
+//     // 2. Gestire gli eventi popstate e hashchange
+//     window.addEventListener('popstate', function(event) {
+//         pushEvent('page_navigation_back_forward');
+//     });
 
-    window.addEventListener('hashchange', function(event) {
-        pushEvent('page_virtual_change');
-    });
+//     window.addEventListener('hashchange', function(event) {
+//         pushEvent('page_virtual_change');
+//     });
 
-    // 3. Chiusura della pagina o aggiornamento
-    function handleBeforeUnload(event) {
-        pushEvent('page_closed');
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
+//     // 3. Chiusura della pagina o aggiornamento
+//     function handleBeforeUnload(event) {
+//         pushEvent('page_closed');
+//     }
+//     window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
 
-    // 4. Navigazione tramite link (clic su un link)
-    document.addEventListener('click', function(event) {
-        const target = event.target.closest('a');
+//     // 4. Navigazione tramite link (clic su un link)
+//     document.addEventListener('click', function(event) {
+//         const target = event.target.closest('a');
 
-        if (target && target.href) {
-            // Esclude gli anchor link che non cambiano pagina
-            if (target.href !== window.location.href.split('#')[0] + target.hash) {
-                pushEvent('page_link_navigation');
-            }
-        }
-    }, { capture: true });
+//         if (target && target.href) {
+//             // Esclude gli anchor link che non cambiano pagina
+//             if (target.href !== window.location.href.split('#')[0] + target.hash) {
+//                 pushEvent('page_link_navigation');
+//             }
+//         }
+//     }, { capture: true });
 
-})();
+// })();
