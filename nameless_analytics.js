@@ -369,3 +369,51 @@ function set_page_load_time_listener(){
 //     }, { capture: true });
 
 // })();
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Get consent values
+
+function get_last_consent_values(dataLayer) {
+    let last_default = null;
+    let last_update = null;
+
+    dataLayer.forEach(item => {
+        if (item[0] === "consent") {
+            if (item[1] === "default") {
+                last_default = item; // Last default event
+            } else if (item[1] === "update") {
+                last_update = item; // Last update event
+            }
+        }
+    });
+
+    const result = last_update || last_default;
+
+    if (result) {
+        const consent_type = result[1];
+        const storage_info = result[2];
+      
+        const consent_push = {
+            consent_type: consent_type,
+            analytics_storage: storage_info.analytics_storage || "denied",
+            ad_storage: storage_info.ad_storage || "denied",
+            functionality_storage: storage_info.functionality_storage || "denied",
+            personalization_storage: storage_info.personalization_storage || "denied",
+            security_storage: storage_info.security_storage || "denied",
+            ad_user_data: storage_info.ad_user_data || "denied",
+            ad_personalization: storage_info.ad_personalization || "denied"
+        };
+
+        console.log("Last consent type:", consent_push.consent_type);
+        console.log("Last value details:", consent_push);
+      
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(consent_push)
+      
+        return consent_push
+    } else {
+        console.log("No consent data found");
+    }
+}
