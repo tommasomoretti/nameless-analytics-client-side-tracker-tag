@@ -375,11 +375,11 @@ function set_page_load_time_listener(){
 
 // Get consent values
 
-function get_last_consent_values(dataLayer) {
+function get_last_consent_values() {
     let last_default = null;
     let last_update = null;
 
-    dataLayer.forEach(item => {
+    window.dataLayer.forEach(item => {
         if (item[0] === "consent") {
             if (item[1] === "default") {
                 last_default = item; // Last default event
