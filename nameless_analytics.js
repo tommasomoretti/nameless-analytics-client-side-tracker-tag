@@ -299,8 +299,10 @@ function get_page_loading_time() {
 
 function set_page_loading_time_listener(){
   window.addEventListener('load', function() {
-      const timing_data = setTimeout(get_page_loading_time, 0);
-      window.dataLayer.push(timing_data)
+    setTimeout(function() {
+      const timing_data_res = get_page_loading_time();
+      window.dataLayer.push(timing_data_res);
+    }, 0);
   });
 }
 
