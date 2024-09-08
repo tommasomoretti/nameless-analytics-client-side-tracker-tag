@@ -388,7 +388,6 @@ function get_last_consent_values() {
             }
         }
     });
-
     const result = last_update || last_default;
 
     if (result) {
@@ -405,13 +404,6 @@ function get_last_consent_values() {
             ad_user_data: storage_info.ad_user_data || "denied",
             ad_personalization: storage_info.ad_personalization || "denied"
         };
-
-        console.log("Last consent type:", consent_push.consent_type);
-        console.log("Last value details:", consent_push);
-      
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push(consent_push)
-      
         return consent_push
     } else {
         console.log("No consent data found");
