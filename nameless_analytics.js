@@ -286,19 +286,21 @@ function get_page_loading_time() {
   const page_render_time = dom_complete - dom_loading
   const total_page_load_time = load_event_end - navigation_start
   
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
+  const timing_data = {
     'event': 'page_load_time',
     'time_to_dom_interactive': time_to_dom_interactive,
     'time_to_dom_complete': time_to_dom_complete,
     'page_render_time': page_render_time,
     'total_page_load_time': total_page_load_time  
-  })
+  }
+  
+  return timing_data
 }
 
 function set_page_loading_time_listener(){
   window.addEventListener('load', function() {
-      setTimeout(get_page_loading_time, 0);
+      const timing_data = setTimeout(get_page_loading_time, 0);
+      window.dataLayer.push(timing_data)
   });
 }
 
