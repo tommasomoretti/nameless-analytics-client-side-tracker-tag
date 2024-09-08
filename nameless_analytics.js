@@ -137,7 +137,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
       if (!url_junk) {
         window.dataLayer = window.dataLayer || [];
-        const consent_values = get_consent_value(window.dataLayer);
+        const consent_values = get_last_consent_values();
         const analytics_storage_value = (consent_values.analytics_storage == 'granted') ? true : false;
         const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
 
@@ -202,27 +202,41 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
 
 // Retreive last value of analytics_storage 
-function get_consent_value(dataLayer) {
-  let consent_values = {}
+function get_last_consent_values() {
+    let last_default = null;
+    let last_update = null;
 
-  for (let i = dataLayer.length - 1; i >= 0; i--) {
-    const item = dataLayer[i];
-    if (item[0] === "consent" && (item[1] === "default" || item[1] === "update")) {
-      const consent_data = item[2];
-      if (consent_data) {
-        consent_values.ad_personalization = consent_data.ad_personalization !== undefined ? consent_data.ad_personalization : consent_values.ad_personalization;
-        consent_values.ad_storage = consent_data.ad_storage !== undefined ? consent_data.ad_storage : consent_values.ad_storage;
-        consent_values.ad_user_data = consent_data.ad_user_data !== undefined ? consent_data.ad_user_data : consent_values.ad_user_data;
-        consent_values.analytics_storage = consent_data.analytics_storage !== undefined ? consent_data.analytics_storage : consent_values.analytics_storage;
-        consent_values.functionality_storage = consent_data.functionality_storage !== undefined ? consent_data.functionality_storage : consent_values.functionality_storage;
-        consent_values.personalization_storage = consent_data.personalization_storage !== undefined ? consent_data.personalization_storage : consent_values.personalization_storage;
-        consent_values.security_storage = consent_data.security_storage !== undefined ? consent_data.security_storage : consent_values.security_storage;
-        break;
-      }
+    window.dataLayer.forEach(item => {
+        if (item[0] === "consent") {
+            if (item[1] === "default") {
+                last_default = item; // Last default event
+            } else if (item[1] === "update") {
+                last_update = item; // Last update event
+            }
+        }
+    });
+    const result = last_update || last_default;
+    var consents = {}
+
+    if (result) {
+        const consent_type = result[1];
+        const storage_info = result[2];
+      
+        consents = {
+            consent_type: consent_type,
+            analytics_storage: storage_info.analytics_storage || "denied",
+            ad_storage: storage_info.ad_storage || "denied",
+            functionality_storage: storage_info.functionality_storage || "denied",
+            personalization_storage: storage_info.personalization_storage || "denied",
+            security_storage: storage_info.security_storage || "denied",
+            ad_user_data: storage_info.ad_user_data || "denied",
+            ad_personalization: storage_info.ad_personalization || "denied"
+        };
+        return consents
+    } else {
+        console.log("No consent data found");
+        return consents
     }
-  }
-
-  return consent_values
 }
 
 
@@ -271,12 +285,7 @@ function get_page_load_time() {
   const time_to_dom_complete = dom_complete - response_start
   const page_render_time = dom_complete - dom_loading
   const total_page_load_time = load_event_end - navigation_start
-    
-  // console.log('time_to_dom_interactive:', time_to_dom_interactive)
-  // console.log('time_to_dom_complete:', time_to_dom_complete)
-  // console.log('page_render_time:', page_render_time)
-  // console.log('total_page_load_time:', total_page_load_time)
-
+  
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     'event': 'page_load_time',
@@ -369,43 +378,3 @@ function set_page_load_time_listener(){
 //     }, { capture: true });
 
 // })();
-
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-// Get consent values
-
-function get_last_consent_values() {
-    let last_default = null;
-    let last_update = null;
-
-    window.dataLayer.forEach(item => {
-        if (item[0] === "consent") {
-            if (item[1] === "default") {
-                last_default = item; // Last default event
-            } else if (item[1] === "update") {
-                last_update = item; // Last update event
-            }
-        }
-    });
-    const result = last_update || last_default;
-
-    if (result) {
-        const consent_type = result[1];
-        const storage_info = result[2];
-      
-        const consent_push = {
-            consent_type: consent_type,
-            analytics_storage: storage_info.analytics_storage || "denied",
-            ad_storage: storage_info.ad_storage || "denied",
-            functionality_storage: storage_info.functionality_storage || "denied",
-            personalization_storage: storage_info.personalization_storage || "denied",
-            security_storage: storage_info.security_storage || "denied",
-            ad_user_data: storage_info.ad_user_data || "denied",
-            ad_personalization: storage_info.ad_personalization || "denied"
-        };
-        return consent_push
-    } else {
-        console.log("No consent data found");
-    }
-}
