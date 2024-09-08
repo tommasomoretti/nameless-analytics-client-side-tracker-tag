@@ -273,7 +273,7 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 
 // Page load time 
-function get_page_load_time() {
+function get_page_loading_time() {
   const dom_interactive = performance.timing.domInteractive
   const response_start = performance.timing.responseStart
   const dom_complete = performance.timing.domComplete
@@ -296,9 +296,9 @@ function get_page_load_time() {
   })
 }
 
-function set_page_load_time_listener(){
+function set_page_loading_time_listener(){
   window.addEventListener('load', function() {
-      setTimeout(get_page_load_time, 0);
+      setTimeout(get_page_loading_time, 0);
   });
 }
 
