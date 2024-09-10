@@ -209,13 +209,13 @@ function get_last_consent_values(){
     
     const consents = {
       consent_type: (!used_default && !used_update) ? "Consent mode not present" : ((used_default && !used_update) ? "default" : "update"),
-      ad_user_data: (used_default) ? (raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default) : 'abcd',
-      ad_personalization: (used_default) ? (raw_consent_data.ad_personalization.update || raw_consent_data.ad_personalization.default) : 'abcd',
-      ad_storage: (used_default) ? (raw_consent_data.ad_storage.update || raw_consent_data.ad_storage.default) : 'abcd',
-      analytics_storage: (used_default) ? (raw_consent_data.analytics_storage.update || raw_consent_data.analytics_storage.default) : 'abcd',
-      functionality_storage: (used_default) ? (raw_consent_data.functionality_storage.update || raw_consent_data.functionality_storage.default) : 'abcd',
-      personalization_storage: (used_default) ? (raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default) : 'abcd',
-      security_storage: (used_default) ? (raw_consent_data.security_storage.update || raw_consent_data.security_storage.default) : 'abcd',
+      ad_user_data: (used_default) ? (raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default) : true,
+      ad_personalization: (used_default) ? (raw_consent_data.ad_personalization.update || raw_consent_data.ad_personalization.default) : true,
+      ad_storage: (used_default) ? (raw_consent_data.ad_storage.update || raw_consent_data.ad_storage.default) : true,
+      analytics_storage: (used_default) ? (raw_consent_data.analytics_storage.update || raw_consent_data.analytics_storage.default) : true,
+      functionality_storage: (used_default) ? (raw_consent_data.functionality_storage.update || raw_consent_data.functionality_storage.default) : true,
+      personalization_storage: (used_default) ? (raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default) : true,
+      security_storage: (used_default) ? (raw_consent_data.security_storage.update || raw_consent_data.security_storage.default) : true,
     }
     
     return consents
