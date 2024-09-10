@@ -138,7 +138,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
       if (!url_junk) {
         window.dataLayer = window.dataLayer || [];
         const consent_values = get_last_consent_values();
-        const analytics_storage_value = (consent_values.analytics_storage == 'granted') ? true : false;
+        const analytics_storage_value = (consent_values.analytics_storage == true || consent_values.analytics_storage == null) ? true : false;
         const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
 
         if (domain_matches && !is_self && (consent_granted_or_not_needed || Object.entries(consent_values) == 0)) {
@@ -209,13 +209,13 @@ function get_last_consent_values(){
     
     const consents = {
       consent_type: (!used_default && !used_update) ? "Consent mode not present" : ((used_default && !used_update) ? "default" : "update"),
-      ad_user_data: (used_default) ? (raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default) : true,
-      ad_personalization: (used_default) ? (raw_consent_data.ad_personalization.update || raw_consent_data.ad_personalization.default) : true,
-      ad_storage: (used_default) ? (raw_consent_data.ad_storage.update || raw_consent_data.ad_storage.default) : true,
-      analytics_storage: (used_default) ? (raw_consent_data.analytics_storage.update || raw_consent_data.analytics_storage.default) : true,
-      functionality_storage: (used_default) ? (raw_consent_data.functionality_storage.update || raw_consent_data.functionality_storage.default) : true,
-      personalization_storage: (used_default) ? (raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default) : true,
-      security_storage: (used_default) ? (raw_consent_data.security_storage.update || raw_consent_data.security_storage.default) : true,
+      ad_user_data: (used_default) ? (raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default) : null,
+      ad_personalization: (used_default) ? (raw_consent_data.ad_personalization.update || raw_consent_data.ad_personalization.default) : null,
+      ad_storage: (used_default) ? (raw_consent_data.ad_storage.update || raw_consent_data.ad_storage.default) : null,
+      analytics_storage: (used_default) ? (raw_consent_data.analytics_storage.update || raw_consent_data.analytics_storage.default) : null,
+      functionality_storage: (used_default) ? (raw_consent_data.functionality_storage.update || raw_consent_data.functionality_storage.default) : null,
+      personalization_storage: (used_default) ? (raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default) : null,
+      security_storage: (used_default) ? (raw_consent_data.security_storage.update || raw_consent_data.security_storage.default) : null,
     }
     
     return consents
