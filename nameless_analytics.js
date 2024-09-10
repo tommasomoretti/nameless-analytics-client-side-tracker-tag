@@ -202,41 +202,21 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
 
 // Retreive last value of analytics_storage 
-function get_last_consent_values() {
-    let last_default = null;
-    let last_update = null;
-
-    window.dataLayer.forEach(item => {
-        if (item[0] === "consent") {
-            if (item[1] === "default") {
-                last_default = item; // Last default event
-            } else if (item[1] === "update") {
-                last_update = item; // Last update event
-            }
-        }
-    });
-    const result = last_update || last_default;
-    var consents = {}
-
-    if (result) {
-        const consent_type = result[1];
-        const storage_info = result[2];
-      
-        consents = {
-            consent_type: consent_type,
-            analytics_storage: storage_info.analytics_storage || "denied",
-            ad_storage: storage_info.ad_storage || "denied",
-            functionality_storage: storage_info.functionality_storage || "denied",
-            personalization_storage: storage_info.personalization_storage || "denied",
-            security_storage: storage_info.security_storage || "denied",
-            ad_user_data: storage_info.ad_user_data || "denied",
-            ad_personalization: storage_info.ad_personalization || "denied"
-        };
-        return consents
-    } else {
-        console.log("No consent data found");
-        return consents
+function get_last_consent_values(){
+    const raw_consent_data = google_tag_data.ics.entries
+    
+    const consents = {
+      consent_type: (raw_consent_data.ad_storage.update || raw_consent_data.analytics_storage.update)? 'update' : 'default',
+      ad_storage: raw_consent_data.ad_storage.update || raw_consent_data.ad_storage.default,
+      analytics_storage: raw_consent_data.analytics_storage.update || raw_consent_data.analytics_storage.default,
+      ad_user_data: raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default,
+      ad_personalization: raw_consent_data.ad_personalization.update || raw_consent_data.ad_personalization.default,
+      functionality_storage: raw_consent_data.functionality_storage.update || raw_consent_data.functionality_storage.default,
+      personalization_storage: raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default,
+      security_storage: raw_consent_data.security_storage.update || raw_consent_data.security_storage.default
     }
+    
+    return consents
 }
 
 
