@@ -202,11 +202,12 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
 
 // Retreive last value of analytics_storage 
-function get_last_consent_values(){
-    const used_default = google_tag_data.ics.usedDefault // Is default consent set?
-    const used_update = google_tag_data.ics.usedUpdate // Is consent update?
-    const raw_consent_data = google_tag_data.ics.entries // Consent values
-    
+function get_last_consent_values() {
+  if (typeof google_tag_data !== 'undefined' && google_tag_data) {
+    const used_default = google_tag_data.ics.usedDefault; // Is default consent set?
+    const used_update = google_tag_data.ics.usedUpdate; // Is consent update?
+    const raw_consent_data = google_tag_data.ics.entries; // Consent values
+
     const consents = {
       consent_type: (!used_default && !used_update) ? "Consent mode not present" : ((used_default && !used_update) ? "default" : "update"),
       ad_user_data: (used_default) ? (raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default) : null,
@@ -216,9 +217,11 @@ function get_last_consent_values(){
       functionality_storage: (used_default) ? (raw_consent_data.functionality_storage.update || raw_consent_data.functionality_storage.default) : null,
       personalization_storage: (used_default) ? (raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default) : null,
       security_storage: (used_default) ? (raw_consent_data.security_storage.update || raw_consent_data.security_storage.default) : null,
-    }
-    
-    return consents
+    };
+    return consents;
+  } else {
+    return 'No GTM found';
+  }
 }
 
 
