@@ -252,30 +252,3 @@ async function get_user_data(saved_full_endpoint, payload) {
     return {}
   }
 }
-
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-// Check if cookie exists from client (only when consent is denied)
-function get_user_data_final(full_endpoint_domain, payload, callback) {
-  get_user_data(full_endpoint_domain, payload)
-    .then(data => {
-      callback(null, data);
-    })
-    .catch(error => {
-      callback(error, null);
-    });
-}
-
-function get_user_data_final_wrapper(full_endpoint_domain) {
-  get_user_data_final(full_endpoint_domain, {"event_name": "get_user_data", "from_measurement_protocol": "No"}, (error, data) => {
-    if (error) {
-      console.log('ERROR')
-      return error;
-    } else {
-      console.log(data)
-      return data;
-    }
-  });
-}
