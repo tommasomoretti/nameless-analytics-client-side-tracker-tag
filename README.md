@@ -16,8 +16,6 @@ When the Client-side Tracker Tag is fired, if the ```respect_consent_mode``` opt
     
 If the ```respect_consent_mode``` option is disabled, the tag fires regardless of the user's consent.
 
-For more details, see [Nameless Analytics client side tag](https://github.com/tommasomoretti/nameless-analytics-client-tag)
-
 
 
 ## Cross Domain
