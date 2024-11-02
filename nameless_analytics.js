@@ -151,25 +151,25 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
           // Client ID is valid and Session ID is valid 
           if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
-            console.log('  👍🏻 Valid Client ID:', client_id);
-            console.log('  👍🏻 Valid Session ID:', session_id);
+            console.log('  👍Valid Client ID:', client_id);
+            console.log('  👍 Valid Session ID:', session_id);
             console.log('  🟢 Cross-domain will be applied.');
             link_url.searchParams.set('na_id', session_id);
           // Client ID invalid and Session ID is valid
           } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
-            console.log('  👎🏻 Invalid Client ID:', client_id);
-            console.log('  👍🏻 Valid Session ID:', session_id);
+            console.log('  👎 Invalid Client ID:', client_id);
+            console.log('  👍 Valid Session ID:', session_id);
             console.log('  🟢 Cross-domain will be applied. Client ID will be derived from Session ID');
             link_url.searchParams.set('na_id', session_id);
             // Client ID is valid and Session ID is invalid
           } else if (client_id !== 'undefined' && session_id === 'undefined_undefined') {
-            console.log('  👍🏻 Valid Client ID:', client_id);
-            console.log('  👎🏻 Invalid Session ID: ', session_id);
+            console.log('  👍 Valid Client ID:', client_id);
+            console.log('  👎 Invalid Session ID: ', session_id);
             console.log('  🔴 No cross-domain will be applied.');
           // Client ID is invalid and Session ID is invalid
           } else {
-            console.log('  👎🏻 Invalid Client ID:', client_id);
-            console.log('  👎🏻 Invalid Session ID: ', session_id);
+            console.log('  👎 Invalid Client ID:', client_id);
+            console.log('  👎 Invalid Session ID: ', session_id);
             console.log('  🔴 No cross-domain will be applied.');
           }
           
