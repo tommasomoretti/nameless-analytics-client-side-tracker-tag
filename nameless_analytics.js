@@ -32,8 +32,8 @@ function send_data(full_endpoint, payload, data) {
       .then((response) => response.json())
       .then((response_json) => {
         if (response_json.status_code === 200){
-          if(data.config_variable.enable_logs){console.log('  Event name: ' + response_json.data.event_name)}
-          if(data.config_variable.enable_logs){console.log('  Payload data: ', response_json.data)}
+          if(data.config_variable.enable_logs){console.log('  👉 Event name: ' + response_json.data.event_name)}
+          if(data.config_variable.enable_logs){console.log('  👉 Payload data: ', response_json.data)}
           if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
           return data.gtmOnSuccess()
         } else {
