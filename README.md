@@ -6,7 +6,8 @@ This is the UI of the Client-side Tracker Tag.
 <img width="1265" alt="Nameless Analytics Client-side Tracker Tag" src="https://github.com/user-attachments/assets/7475102a-af38-435e-9d42-c2989c7d69ff">
 
 
-### Client-side configuration variable
+### Basic settings
+Client-side configuration variable
 Lorem ipsum
 
 
