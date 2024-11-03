@@ -8,7 +8,9 @@ This is the UI of the Client-side Tracker Tag.
 
 
 ### Basic settings
-Client-side configuration variable
+This is the UI of the Client-side Configuration Variable
+
+<img width="1265" alt="Screenshot 2024-11-03 alle 15 49 44" src="https://github.com/user-attachments/assets/6cedd11a-c9ed-4d9a-9850-b8f64f98ac2b">
 
 
 ### Event data
