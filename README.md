@@ -3,12 +3,12 @@
 
 ## Client-side Tracker Tag
 This is the UI of the Client-side Tracker Tag.
-<img width="1265" alt="Nameless Analytics Client-side Tracker Tag" src="https://github.com/user-attachments/assets/7475102a-af38-435e-9d42-c2989c7d69ff">
+
+<img width="1265" alt="Screenshot 2024-11-03 alle 15 32 46" src="https://github.com/user-attachments/assets/598813d3-1956-487d-bfc9-83a27465cc76">
 
 
 ### Basic settings
 Client-side configuration variable
-Lorem ipsum
 
 
 ### Event data
