@@ -178,18 +178,10 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
       }
 
       if (target.getAttribute("target") === "_blank") {
-        // Creare un link temporaneo per aprire l'URL in una nuova scheda
-        var link = document.createElement('a');
-        link.href = link_url.href;
-        link.target = '_blank';
-        if (target.hasAttribute('rel')) {
-          link.setAttribute('rel', target.getAttribute('rel'));
-        } else {
-          link.setAttribute('rel', 'noopener');
-        }
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Creare un link temporaneo per aprire l'URL in una nuova scheda, supportando Safari mobile
+        setTimeout(function() {
+          window.open(link_url.href, '_blank', target.hasAttribute('rel') ? target.getAttribute('rel') : 'noopener');
+        }, 0);
       } else {
         window.location.href = link_url.href;
       }
