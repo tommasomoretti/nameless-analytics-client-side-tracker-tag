@@ -178,17 +178,11 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
       }
 
       if (target.getAttribute("target") === "_blank") {
-        //window.open(link_url.href, '_blank')
-        var link = document.createElement('a');
-        link.href = link_url.href;
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Aprire il link senza creare una finestra popup bloccata su Safari
+        window.open(link_url.href, '_blank', 'noopener,noreferrer');
       } else {
-        location.href = link_url.href;
+        window.location.href = link_url.href;
       }
-
     }
   };
   
