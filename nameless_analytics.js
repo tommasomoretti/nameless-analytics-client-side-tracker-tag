@@ -246,25 +246,3 @@ async function get_user_data(saved_full_endpoint, payload) {
     return {}
   }
 }
-
-
-
-// Test Andrea 
-/* function nameTheRealBigCockTracker() {
-    const updateBlankLinks = () => {
-        const blankLinks = document.querySelectorAll('a[target="_blank"]');
-    
-        for(const link of blankLinks) {
-            const isAlreadyParsed = link.getAttribute('data-original-link')
-            if(!isAlreadyParsed) {
-                link.setAttribute('data-original-link', link.href)
-            }
-            
-            link.href = link.getAttribute('data-original-link') + '&moretti=cazzo-lungo'
-        }
-    }    
-    setInterval(updateBlankLinks, 5000)    
-    updateBlankLinks()
-}
-nameTheRealBigCockTracker()
-*/
