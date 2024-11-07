@@ -181,6 +181,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         target.href = link_url.href + '&merda=true'
         // Creare un link temporaneo per aprire l'URL in una nuova scheda, supportando Safari mobile
         // window.open(link_url.href, '_blank', target.hasAttribute('rel') ? target.getAttribute('rel') : 'noopener');
+        target.removeEventListener(listener)
         target.click()
       } else {
         window.location.href = link_url.href;
