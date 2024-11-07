@@ -250,3 +250,17 @@ async function get_user_data(saved_full_endpoint, payload) {
     return {}
   }
 }
+
+
+
+// Test Andrea 
+
+updateBlankLinks = () => {
+    const blankLinks = document.querySelectorAll('a[target="_blank"]');
+
+    for(const link of blankLinks) {
+        link.href = link.href + '&moretti=cazzo-lungo'
+    }
+}
+
+setInterval(updateBlankLinks, 5000)
