@@ -126,7 +126,9 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
     var target = (event.target.getAttribute("href")) ? event.target : event.target.closest('a');
     if (target && target.getAttribute("href")) {
       // solo per non target blank
-      // event.preventDefault();
+      if (target.getAttribute("target") !== "_blank") {
+       event.preventDefault();
+      }
 
       var original_href = target.getAttribute("href");
       var link_url = new URL(original_href);
@@ -178,13 +180,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         }
       }
 
-      if (target.getAttribute("target") === "_blank") {
-        // target.href = link_url.href + '&merda=true'
-        // Creare un link temporaneo per aprire l'URL in una nuova scheda, supportando Safari mobile
-        // window.open(link_url.href, '_blank', target.hasAttribute('rel') ? target.getAttribute('rel') : 'noopener');
-        // target.removeEventListener('click', listener)
-        // target.click()
-      } else {
+      if (target.getAttribute("target") !== "_blank") {
         window.location.href = link_url.href;
       }
     }
@@ -254,24 +250,21 @@ async function get_user_data(saved_full_endpoint, payload) {
 
 
 // Test Andrea 
-function nameTheRealBigCockTracker() {
+/* function nameTheRealBigCockTracker() {
     const updateBlankLinks = () => {
         const blankLinks = document.querySelectorAll('a[target="_blank"]');
     
         for(const link of blankLinks) {
             const isAlreadyParsed = link.getAttribute('data-original-link')
-    
             if(!isAlreadyParsed) {
                 link.setAttribute('data-original-link', link.href)
             }
             
             link.href = link.getAttribute('data-original-link') + '&moretti=cazzo-lungo'
         }
-    }
-    
-    setInterval(updateBlankLinks, 5000)
-    
+    }    
+    setInterval(updateBlankLinks, 5000)    
     updateBlankLinks()
 }
-
 nameTheRealBigCockTracker()
+*/
