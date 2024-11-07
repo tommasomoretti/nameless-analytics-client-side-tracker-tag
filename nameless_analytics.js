@@ -134,7 +134,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
       const domain_matches = saved_cross_domain_domains.some(domain => link_hostname === domain || link_hostname.endsWith(`.${domain}`));
       const is_self = link_hostname.includes(window.location.hostname);
-      const url_junk = /^(mailto:|tel:)/.test(link_url.href);
+      const url_junk = /^(#|javascript:|tel:|mailto:)/.test(link_url.href);
 
       if (!url_junk) {
         window.dataLayer = window.dataLayer || [];
