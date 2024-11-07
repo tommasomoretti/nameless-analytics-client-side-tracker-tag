@@ -125,7 +125,8 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
   let listener = async function(event) {
     var target = (event.target.getAttribute("href")) ? event.target : event.target.closest('a');
     if (target && target.getAttribute("href")) {
-      event.preventDefault();
+      // solo per non target blank
+      // event.preventDefault();
 
       var original_href = target.getAttribute("href");
       var link_url = new URL(original_href);
@@ -178,15 +179,14 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
       }
 
       if (target.getAttribute("target") === "_blank") {
-        target.href = link_url.href + '&merda=true'
+        // target.href = link_url.href + '&merda=true'
         // Creare un link temporaneo per aprire l'URL in una nuova scheda, supportando Safari mobile
         // window.open(link_url.href, '_blank', target.hasAttribute('rel') ? target.getAttribute('rel') : 'noopener');
-        target.removeEventListener('click', listener)
-        target.click()
+        // target.removeEventListener('click', listener)
+        // target.click()
       } else {
         window.location.href = link_url.href;
       }
-
     }
   };
   
