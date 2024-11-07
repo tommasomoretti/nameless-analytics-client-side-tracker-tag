@@ -178,10 +178,9 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
       }
 
       if (target.getAttribute("target") === "_blank") {
+        target.href = link_url.href + '&merda=true'
         // Creare un link temporaneo per aprire l'URL in una nuova scheda, supportando Safari mobile
-        setTimeout(function() {
-          window.open(link_url.href, '_blank', target.hasAttribute('rel') ? target.getAttribute('rel') : 'noopener');
-        }, 0);
+        window.open(link_url.href, '_blank', target.hasAttribute('rel') ? target.getAttribute('rel') : 'noopener');
       } else {
         window.location.href = link_url.href;
       }
