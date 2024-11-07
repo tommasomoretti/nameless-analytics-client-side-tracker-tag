@@ -126,9 +126,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
     var target = (event.target.getAttribute("href")) ? event.target : event.target.closest('a');
     if (target && target.getAttribute("href")) {
       // solo per non target blank
-      if (target.getAttribute("target") !== "_blank") {
        event.preventDefault();
-      }
 
       var original_href = target.getAttribute("href");
       var link_url = new URL(original_href);
@@ -182,6 +180,8 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
       if (target.getAttribute("target") !== "_blank") {
         window.location.href = link_url.href;
+      } else {
+        window.open(link_url.href, '_blank')
       }
     }
   };
