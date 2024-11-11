@@ -1,21 +1,11 @@
 ![Na logo beta](https://github.com/tommasomoretti/nameless-analytics/assets/29273232/7d4ded5e-4b79-46a2-b089-03997724fd10)
 
 
-## Client-side Tracker Tag
-This is the UI of the Client-side Tracker Tag.
 
-<img width="1265" alt="Screenshot 2024-11-03 alle 15 32 46" src="https://github.com/user-attachments/assets/598813d3-1956-487d-bfc9-83a27465cc76">
-
-
-### Basic settings
+## Client-side Configuration Variable
 This is the UI of the Client-side Configuration Variable
 
 <img width="1265" alt="Screenshot 2024-11-03 alle 15 49 44" src="https://github.com/user-attachments/assets/6cedd11a-c9ed-4d9a-9850-b8f64f98ac2b">
-
-
-### Event data
-Here is how to declare the event_name. You can add custom parameters or overwrite standard parameters (page_id and event_id parameters cannot be overwritten).
-You can retrieve the dataLayer values from the event that triggered the tag. Those values will be added to the payload automatically.
 
 
 ### Consent Mode
@@ -53,6 +43,17 @@ If ```enable_cross_domain_tracking``` option is enabled, the client-side tag wil
     <img width="1264" alt="Nameless Analytics client-side cross domain" src="https://github.com/tommasomoretti/nameless-analytics/assets/29273232/e32d530a-bdb5-479c-9da9-7ec669a03cf5">
 
 If ```enable_cross_domain_tracking``` option is disabled, the client-side tag will not set any listener.
+
+
+
+## Client-side Tracker Tag
+This is the UI of the Client-side Tracker Tag.
+
+<img width="1265" alt="Screenshot 2024-11-03 alle 15 32 46" src="https://github.com/user-attachments/assets/598813d3-1956-487d-bfc9-83a27465cc76">
+
+### Event data
+Here is how to declare the event_name. You can add custom parameters or overwrite standard parameters (page_id and event_id parameters cannot be overwritten).
+You can retrieve the dataLayer values from the event that triggered the tag. Those values will be added to the payload automatically.
 
 
 
@@ -107,12 +108,12 @@ Here a list of all the standard event parameters:
 |                 | security_storage        | false                                            | Consent Mode security_storage value                                                      |
 
 
+
 ## Troubleshooting
 Lorem ipsum
 
 
 ### Things to keep in mind
-
 Lorem ipsum
 
 ---
