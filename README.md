@@ -8,7 +8,18 @@ This is the UI of the Client-side Configuration Variable
 <img width="1265" alt="Screenshot 2024-11-03 alle 15 49 44" src="https://github.com/user-attachments/assets/6cedd11a-c9ed-4d9a-9850-b8f64f98ac2b">
 
 
-### Consent Mode
+### Basic settings
+#### Endpoint domain name:
+#### Endpoint path:
+
+
+### Parameters
+#### Add shared event parameters
+#### Add user ID
+
+
+### Advanced settings
+#### Respect Google Consent Mode
 When the Client-side Tracker Tag is fired, if the ```respect_consent_mode``` option is enabled, it checks the ```analytics_storage``` status.
 - If ```analytics_storage``` is equal to denied, the tag waits until consent is granted. If consent is granted (in the context of the same page), all pending tags will be fired.
   <img width="1265" alt="Nameless Analytics client-side logs" src="https://github.com/user-attachments/assets/5ecaea7e-6940-45aa-a740-5f301d321a8f">
@@ -18,8 +29,8 @@ When the Client-side Tracker Tag is fired, if the ```respect_consent_mode``` opt
     
 If the ```respect_consent_mode``` option is disabled, the tag fires regardless of the user's consent.
 
-
-### Cross Domain
+### Tracking
+#### Cross Domain
 If ```enable_cross_domain_tracking``` option is enabled, the client-side tag will set a javascript event listener on every link click. 
   - When a user clicks on a link with a authorized domain for cross-domain, a javascript event listener sends a ```get_user_data``` request to the server. The server responds with the two cookie values and the javascript event listener decorates the URL with a parameter named ```na_id```. After that, the user is redirected to the destination website.
   - When the user lands on the destination website, the first tag that fires checks if there is a ```na_id``` parameter in the URL. If it is present, the hit will contain a ```cross_domain_id``` parameter, the server-side Client Tag will add it to the request and set back the cookies with those values.
@@ -43,6 +54,12 @@ If ```enable_cross_domain_tracking``` option is enabled, the client-side tag wil
     <img width="1264" alt="Nameless Analytics client-side cross domain" src="https://github.com/tommasomoretti/nameless-analytics/assets/29273232/e32d530a-bdb5-479c-9da9-7ec669a03cf5">
 
 If ```enable_cross_domain_tracking``` option is disabled, the client-side tag will not set any listener.
+
+
+#### Customize source and campaign url parameters
+
+### Logs
+#### Enable Logs
 
 
 
