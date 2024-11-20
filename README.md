@@ -32,8 +32,11 @@ This is the UI of the Client-side Configuration Variable
 
 
 ### Basic settings
-#### Endpoint domain name:
-#### Endpoint path:
+#### Endpoint domain name
+This is the domain name of the server-side GTM instance. The tag assumes the protocol is HTTPS. Example: gtm.domain.com.
+
+#### Endpoint path
+This is the endpoint path where the Nameless Analytics Server-side Client Tag listens. For example: /nameless_analytics.
 
 
 ### Parameters
@@ -148,6 +151,11 @@ Here a list of all the standard event parameters:
 |                 | functionality_storage   | false                                            | Consent Mode functionality_storage value                                                 |
 |                 | personalization_storage | false                                            | Consent Mode personalization_storage value                                               |
 |                 | security_storage        | false                                            | Consent Mode security_storage value                                                      |
+
+
+
+## Temporary cookie value
+Lorem ipsum
 
 
 
