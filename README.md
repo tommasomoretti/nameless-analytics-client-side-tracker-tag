@@ -33,29 +33,37 @@ This is the UI of the Client-side Configuration Variable
 
 ### Basic settings
 #### Endpoint domain name
-This is the domain name of the server-side GTM instance. The tag assumes the protocol is HTTPS. Example: gtm.domain.com.
+The domain name of the server-side GTM instance. The tag assumes the protocol is HTTPS. Example: gtm.domain.com.
 
 #### Endpoint path
-This is the endpoint path where the Nameless Analytics Server-side Client Tag listens. For example: /nameless_analytics.
+The endpoint path where the Nameless Analytics Server-side Client Tag listens. For example: /nameless_analytics.
 
 
 ### Parameters
 #### Add shared event parameters
+Add shared event parameters across all events. The parameters will be added to the `event_data` object in the payload.
+
 #### Add user ID
+Add user ID parameters across all events (if it persist across page_views). The parameters will be added to the `user_id` key in the payload.
 
 
 ### Advanced settings
 #### Respect Google Consent Mode
-When the Client-side Tracker Tag is fired, if the ```respect_consent_mode``` option is enabled, it checks the ```analytics_storage``` status.
-- If ```analytics_storage``` is equal to denied, the tag waits until consent is granted. If consent is granted (in the context of the same page), all pending tags will be fired.
+Set if respect user consents on ```analytics_storage``` or track all events.
 
+If the ```respect_consent_mode``` option is enabled, the Client-side Tracker Tag checks the ```analytics_storage``` status.
+  - If ```analytics_storage``` is equal to denied, the tag waits until consent is granted. If consent is granted (in the context of the same page), all pending tags will be fired.
+  
   <img width="1265" alt="Nameless Analytics client-side logs" src="https://github.com/user-attachments/assets/5ecaea7e-6940-45aa-a740-5f301d321a8f">
-
-- If ```analytics_storage``` is equal to granted, the tag sends the hit to the server-side Google Tag Manager endpoint, with the event name and event parameters configured in the tag.
-
+  
+  - If ```analytics_storage``` is equal to granted, the tag sends the hit to the server-side Google Tag Manager endpoint, with the event name and event parameters configured in the tag.
+  
   <img width="1263" alt="Nameless Analytics client-side logs" src="https://github.com/user-attachments/assets/171b6f19-7805-4063-8472-e8f6a679e515">
-    
+      
 If the ```respect_consent_mode``` option is disabled, the tag fires regardless of the user's consent.
+  - If `tracking_anonimization` is enabled, the client_id, user_id and session_id will be redacted when analytics_storage consent is denied.
+  - If `tracking_anonimization` is disable, no limitation will be applied. 
+
 
 ### Tracking
 #### Cross Domain
