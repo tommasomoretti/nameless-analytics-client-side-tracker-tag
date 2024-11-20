@@ -4,6 +4,25 @@ The Nameless Analytics Client-side Tracker Tag is a highly customizable GTM cust
 
 The common event configuration settings are inherited from the Nameless Analytics Client-side Configuration Variable.
 
+Read more about:
+- Client-side configuration variable
+  - Basic settings
+    - Endpoint domain name
+    - Endpoint path
+  - Parameters
+    - Add shared event parameters
+    - Add user ID
+  - Advanced settings
+    - Respect Google Consent Mode
+  - Tracking
+    - Cross Domain
+    - Customize source and campaign URL parameters
+  - Logs
+    - Enable Logs
+- Client-side tracker tag
+- Payload values
+- Troubleshooting and things to keep in mind
+
 
 
 ## Client-side configuration variable
@@ -132,11 +151,7 @@ Here a list of all the standard event parameters:
 
 
 
-## Troubleshooting
-Lorem ipsum
-
-
-### Things to keep in mind
+## Troubleshooting and things to keep in mind
 Lorem ipsum
 
 ---
