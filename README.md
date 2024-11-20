@@ -6,22 +6,22 @@ The common event configuration settings are inherited from the Nameless Analytic
 
 Read more about:
 - [Client-side configuration variable](#client-side-configuration-variable)
-  - Basic settings
-    - Endpoint domain name
-    - Endpoint path
-  - Parameters
-    - Add shared event parameters
-    - Add user ID
-  - Advanced settings
-    - Respect Google Consent Mode
-  - Tracking
-    - Cross Domain
-    - Customize source and campaign URL parameters
-  - Logs
-    - Enable Logs
-- Client-side tracker tag
-- Payload values
-- Troubleshooting and things to keep in mind
+  - [Basic settings](#basic-settings)
+    - [Endpoint domain name](#endpoint-domain-name)
+    - [Endpoint path](#endpoint-path)
+  - [Parameters](#parameters)
+    - [Add shared event parameters](#add-shared-event-parameters)
+    - [Add user ID](#add-user-id)
+  - [Advanced settings](#advanced-settings)
+    - [Respect Google Consent Mode](#respect-google-consent-mode)
+  - [Tracking](#tracking)
+    - [Cross Domain](#cross-domain)
+    - [Customize source and campaign URL parameters](#customize-source-and-campaign-url-parameters)
+  - [Logs](#logs)
+    - [Enable Logs](#enable-logs)
+- [Client-side tracker tag](#client-side-tracker-tag)
+- [Payload values](#payload-values)
+- [Troubleshooting and things to keep in mind](#troubleshooting-and-things-to-keep-in-mind)
 
 
 
