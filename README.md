@@ -25,19 +25,20 @@ This is the UI of the Client-side Tracker Tag.
 
 
 
-### Basic settings
+## Basic settings
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). This variable will handle settings like endpoint domain name and path, common event parameters, user ID, user consent mode, cross-domain, traffic source parameters and logging in JavaScript console.
 
 
-### Event data
+## Event data
 
-#### Event Type
+### Event Type
 Choose between standard event name or custom event name. Always use standard event names when possible.
 
 <img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/7f082fa2-3fc9-40a0-b22e-7c1063f53c2b">
 
-#### Event parameters
-Add/override event parameters: Add custom parameters or overwrite standard parameters in the context of the event. Page_id and event_id parameters cannot be overwritten. 
+### Event parameters
+#### Add/override event parameters
+Add custom parameters or overwrite standard parameters in the context of the event. Page_id and event_id parameters cannot be overwritten. 
 
 <img width="1265" alt="Screenshot 2024-11-21 alle 17 04 29" src="https://github.com/user-attachments/assets/6749a1e5-dca6-4ff0-a54d-0537ebdddf4a">
 
@@ -90,15 +91,16 @@ Here a list of all the standard event parameters:
 |                 | personalization_storage | false                                            | Consent Mode personalization_storage value                                               |
 |                 | security_storage        | false                                            | Consent Mode security_storage value                                                      |
 
-Add event parameters from dataLayer: Retrieve the dataLayer values from the dataLayer push that triggered the tag. Those values will be added to the payload automatically.
+#### Add event parameters from dataLayer
+Retrieve the dataLayer values from the dataLayer push that triggered the tag. Those values will be added to the payload automatically.
 
 
-### Advanced settings
-#### Console log
+## Advanced settings
+### Console log
 Disable console log for this specific event if logging is enabled in the Nameless Analytics Client-side config variable. 
 
 
-## Troubleshooting and things to keep in mind
+# Troubleshooting and things to keep in mind
 Lorem ipsum
 
 ---
