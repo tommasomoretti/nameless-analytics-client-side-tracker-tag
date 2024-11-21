@@ -5,14 +5,13 @@ The Nameless Analytics Client-side tracker tag is a highly customizable GTM cust
 
 Start from here:
 - [Client-side tracker tag UI](#tag-ui)
-  - [Basic settings](#basic-settings)
-    - [Configuration variable](#event-data)
-  - [Event data](#event-data)
-    - [Event name](#event-type)
-    - [Event parameters](#event-parameters)
-  - [Advanced settings](#advanced-settings)
-    - [Disable logs in JavaScript console for this event](#Disable-logs-in-javascript-console-for-this-event)
-- [Troubleshooting and things to keep in mind](#troubleshooting-and-things-to-keep-in-mind)
+- [Basic settings](#basic-settings)
+  - [Configuration variable](#event-data)
+- [Event data](#event-data)
+  - [Event name](#event-type)
+  - [Event parameters](#event-parameters)
+- [Advanced settings](#advanced-settings)
+  - [Disable logs in JavaScript console for this event](#Disable-logs-in-javascript-console-for-this-event)
 
 
 
