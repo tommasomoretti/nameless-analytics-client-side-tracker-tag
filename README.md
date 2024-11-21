@@ -18,7 +18,7 @@ Start from here:
 
 
 ## Tag UI
-This is the UI of the Client-side Tracker Tag.
+This is the UI of the Client-side tracker tag.
 
 <img width="1265" alt="client-side-tracker-tag" src="https://github.com/user-attachments/assets/9fe75b06-041a-4b29-8313-ead49ca254e0">
 
