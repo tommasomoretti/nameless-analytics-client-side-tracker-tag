@@ -1,43 +1,40 @@
 ![Na logo beta](https://github.com/tommasomoretti/nameless-analytics/assets/29273232/7d4ded5e-4b79-46a2-b089-03997724fd10)
 
-# Nameless Analytics client-side tracker tag
+# Client-side tracker tag
 The Nameless Analytics Client-side tracker tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
 
 The common event configuration settings are inherited from the [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable).
 
 Read more about:
-- [Client-side configuration variable](#client-side-configuration-variable)
+- [Client-side tracker tag UI](#tag-ui)
   - [Basic settings](#basic-settings)
-    - [Endpoint domain name](#endpoint-domain-name)
-    - [Endpoint path](#endpoint-path)
-  - [Parameters](#parameters)
-    - [Add shared event parameters](#add-shared-event-parameters)
-    - [Add user ID](#add-user-id)
-  - [Advanced settings](#advanced-settings)
-    - [Respect Google Consent Mode](#respect-google-consent-mode)
-  - [Tracking](#tracking)
-    - [Cross Domain](#cross-domain)
-    - [Customize source and campaign URL parameters](#customize-source-and-campaign-url-parameters)
-  - [Logs](#logs)
-    - [Enable Logs](#enable-logs)
-- [Client-side tracker tag](#client-side-tracker-tag)
-- [Payload values](#payload-values)
+    - [Configuration variable](#event-data)
+  - [Event data]
+  - []
 - [Troubleshooting and things to keep in mind](#troubleshooting-and-things-to-keep-in-mind)
+
 
 
 ## Tag UI
 This is the UI of the Client-side Tracker Tag.
 
-<img width="1265" alt="Screenshot 2024-11-03 alle 15 32 46" src="https://github.com/user-attachments/assets/598813d3-1956-487d-bfc9-83a27465cc76">
+<img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/09f9cdc2-7c2f-4524-a833-87faa519324d">
+
+
+
+### Basic settings
+The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). This variable will handle settings like endpoint domain name and path, common event parameters, user ID, user consent mode, cross-domain, traffic source parameters and logging in JavaScript console.
+
 
 ### Event data
-Here is how to declare the event_name. You can add custom parameters or overwrite standard parameters (page_id and event_id parameters cannot be overwritten).
-You can retrieve the dataLayer values from the event that triggered the tag. Those values will be added to the payload automatically.
 
+#### Event Type
+Choose between standard event name or custom event name. Always use standard event names when possible.
 
+<img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/7f082fa2-3fc9-40a0-b22e-7c1063f53c2b">
 
-## Payload values
-Here a list of all the standard event parameters:
+#### Event parameters
+Add custom parameters or overwrite standard parameters (page_id and event_id parameters cannot be overwritten). Here a list of all the standard event parameters:
 
 | Event parameter |                         | Example value                                    | Description                                                                              |
 |-----------------|-------------------------|--------------------------------------------------|------------------------------------------------------------------------------------------|
@@ -86,11 +83,11 @@ Here a list of all the standard event parameters:
 |                 | personalization_storage | false                                            | Consent Mode personalization_storage value                                               |
 |                 | security_storage        | false                                            | Consent Mode security_storage value                                                      |
 
+Retrieve the dataLayer values from the dataLayer push that triggered the tag. Those values will be added to the payload automatically.
 
 
-## Temporary cookie value
+### Advanced settings
 Lorem ipsum
-
 
 
 ## Troubleshooting and things to keep in mind
