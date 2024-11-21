@@ -9,8 +9,11 @@ Read more about:
 - [Client-side tracker tag UI](#tag-ui)
   - [Basic settings](#basic-settings)
     - [Configuration variable](#event-data)
-  - [Event data]
-  - []
+  - [Event data](#event-data)
+    - [Event name](#event-type)
+    - [Event parameters](#event-parameters)
+  - [Advanced settings](#advanced-settings)
+    - [Console log](#console-log)
 - [Troubleshooting and things to keep in mind](#troubleshooting-and-things-to-keep-in-mind)
 
 
@@ -87,7 +90,7 @@ Retrieve the dataLayer values from the dataLayer push that triggered the tag. Th
 
 
 ### Advanced settings
-Lorem ipsum
+#### Console log
 
 
 ## Troubleshooting and things to keep in mind
