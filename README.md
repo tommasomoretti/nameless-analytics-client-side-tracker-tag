@@ -11,7 +11,7 @@ Start from here:
     - [Event name](#event-type)
     - [Event parameters](#event-parameters)
   - [Advanced settings](#advanced-settings)
-    - [Console log](#console-log)
+    - [Disable logs in JavaScript console for this event](#Disable-logs-in-javascript-console-for-this-event)
 - [Troubleshooting and things to keep in mind](#troubleshooting-and-things-to-keep-in-mind)
 
 
@@ -94,8 +94,8 @@ Retrieve the dataLayer values from the dataLayer push that triggered the tag. Th
 
 
 ## Advanced settings
-### Console log
-Disable console log for this specific event if logging is enabled in the Nameless Analytics Client-side config variable. 
+### Disable logs in JavaScript console for this event
+Disable console log for this specific event if Enable logs in JavaScript console is enabled in the Nameless Analytics Client-side config variable. 
 
 ---
 
