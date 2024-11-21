@@ -99,10 +99,6 @@ Retrieve the dataLayer values from the dataLayer push that triggered the tag. Th
 ### Console log
 Disable console log for this specific event if logging is enabled in the Nameless Analytics Client-side config variable. 
 
-
-# Troubleshooting and things to keep in mind
-Lorem ipsum
-
 ---
 
 Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [Linkedin](https://www.linkedin.com/in/tommasomoretti/)
