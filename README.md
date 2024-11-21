@@ -19,7 +19,7 @@ Start from here:
 ## Tag UI
 This is the UI of the Client-side Tracker Tag.
 
-<img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/09f9cdc2-7c2f-4524-a833-87faa519324d">
+<img width="1265" alt="Screenshot 2024-11-21 alle 18 54 43" src="https://github.com/user-attachments/assets/69371982-691a-4fc9-a2ff-ee6087516fe6">
 
 
 
