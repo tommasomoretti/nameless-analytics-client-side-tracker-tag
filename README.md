@@ -5,7 +5,7 @@ The Nameless Analytics Client-side tracker tag is a highly customizable GTM cust
 
 The common event configuration settings are inherited from the [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable).
 
-Read more about:
+Start from here:
 - [Client-side tracker tag UI](#tag-ui)
   - [Basic settings](#basic-settings)
     - [Configuration variable](#event-data)
