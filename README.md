@@ -10,8 +10,10 @@ Start from here:
 - [Event data](#event-data)
   - [Event name](#event-type)
   - [Event parameters](#event-parameters)
+    - [Add/override event parameters](#add_override_event_parameters)
+    - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
 - [Advanced settings](#advanced-settings)
-  - [Disable logs in JavaScript console for this event](#Disable-logs-in-javascript-console-for-this-event)
+  - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 
 
 
