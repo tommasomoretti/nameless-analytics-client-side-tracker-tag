@@ -2,7 +2,7 @@
 
 The Nameless Analytics Client-side Tracker Tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
 
-The common event configuration settings are inherited from the [Nameless Analytics Client-side Configuration Variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable).
+The common event configuration settings are inherited from the [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable).
 
 Read more about:
 - [Client-side configuration variable](#client-side-configuration-variable)
