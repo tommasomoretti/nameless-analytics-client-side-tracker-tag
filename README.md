@@ -43,52 +43,71 @@ Add custom parameters or overwrite standard parameters in the context of the eve
 
 Here a list of all the standard event parameters:
 
-| Event parameter |                         | Example value                                    | Description                                                                              |
-|-----------------|-------------------------|--------------------------------------------------|------------------------------------------------------------------------------------------|
-| event_date      |                         | 2024-08-02                                       | Event date                                                                               |
-| event_timestamp |                         | 1722607958646                                    | Event timestamp                                                                          |
-| event_name      |                         | page_view                                        | Event name                                                                               |
-| client_id       |                         | 5345554776                                       | Random number between 1000000000 and 9999999999                                          |
-| session_id      |                         | 5345554776_8827389674                            | Client id + Random number between 1000000000 and 9999999999                              |
-| event_data      | event_id                | 5345554776_8827389674_2783697471_1333783653      | Client id + Session id + Page id value + Random number between 1000000000 and 9999999999 |
-|                 | event_type              | page_view                                        | Event type                                                                               |
-|                 | channel_grouping        | direct                                           | Channel grouping                                                                         |
-|                 | source                  | direct                                           | Source                                                                                   |
-|                 | campaign                | null                                             | Campaign                                                                                 |
-|                 | campaign_id             | null                                             | Campaign id                                                                              |
-|                 | campaign_term           | null                                             | Campaign term                                                                            |
-|                 | campaign_content        | null                                             | Campaign content                                                                         |
-|                 | page_id                 | 5345554776_8827389674_2783697471                 | Client id + Session id + Random number between 1000000000 and 9999999999                 |
-|                 | page_title              | Tommaso Moretti | Freelance digital data analyst | Page title                                                                               |
-|                 | page_hostname_protocol  | https                                            | Page hostname protocol                                                                   |
-|                 | page_hostname           | tommasomoretti.com                               | Page hostname                                                                            |
-|                 | page_location           | /                                                | Page location                                                                            |
-|                 | page_fragment           | null                                             | Page fragment                                                                            |
-|                 | page_query              | null                                             | Page query                                                                               |
-|                 | page_extension          | null                                             | Page extension                                                                           |
-|                 | page_referrer           | null                                             | Page referrer                                                                            |
-|                 | cs_container_id         | GTM-PW7349P                                      | Client-side Google Tag Manager container ID                                              |
-|                 | browser_name            | Chrome                                           | Browser name                                                                             |
-|                 | browser_language        | it-IT                                            | Browser language                                                                         |
-|                 | browser_version         | 127.0.0.0                                        | Browser version                                                                          |
-|                 | device_type             | desktop                                          | Device type                                                                              |
-|                 | device_vendor           | Apple                                            | Device vendor                                                                            |
-|                 | device_model            | Macintosh                                        | Device model                                                                             |
-|                 | os_name                 | Mac OS                                           | OS name                                                                                  |
-|                 | os_version              | 10.15.7                                          | OS version                                                                               |
-|                 | screen_size             | 1512x982                                         | Screen size                                                                              |
-|                 | viewport_size           | 1512x823                                         | Viewport size                                                                            |
-|                 | country                 | IT                                               | Country                                                                                  |
-|                 | city                    | venice                                           | City                                                                                     |
-|                 | ss_hostname             | gtm.tommasomoretti.com                           | Server-side Google Tag Manager hostname                                                  |
-|                 | ss_container_id         | GTM-KQG9ZNG                                      | Server-side Google Tag Manager container ID                                              |
-| consent_data    | ad_user_data            | false                                            | Consent Mode ad_user_data value                                                          |
-|                 | ad_personalization      | false                                            | Consent Mode ad_personalization                                                          |
-|                 | ad_storage              | false                                            | Consent Mode ad_storage                                                                  |
-|                 | analytics_storage       | true                                             | Consent Mode analytics_storage                                                           |
-|                 | functionality_storage   | false                                            | Consent Mode functionality_storage value                                                 |
-|                 | personalization_storage | false                                            | Consent Mode personalization_storage value                                               |
-|                 | security_storage        | false                                            | Consent Mode security_storage value                                                      |
+| Event Parameter            | Value                                              | Description                                              |
+|----------------------------|----------------------------------------------------|----------------------------------------------------------|
+| event_name                 | page_view                                          | Name of the event                                        |
+| user_id                    | abcd                                               | ID of the user                                           |
+| event_timestamp            | 1732279797314                                      | Timestamp of the event                                   |
+| from_measurement_protocol  | No                                                 | Whether the event came from the Measurement Protocol     |
+| event_date                 | 2024-11-22                                         | Date of the event                                        |
+| event_datetime             | 2024-11-22T12:49:57.314000                         | Datetime of the event                                    |
+| client_id                  | Lxt3Tvvy28gGcbp                                    | ID of the client                                         |
+| session_id                 | Lxt3Tvvy28gGcbp_oTTWe4cEKBOlqex                    | ID of the session                                        |
+| received_event_timestamp   | 1732279797603                                      | Timestamp when the event was received                    |
+| content_length             | 1410                                               | Length of the event content                              |
+
+### Event Data
+| Parameter                  | Value                                              | Description                                              |
+|----------------------------|----------------------------------------------------|----------------------------------------------------------|
+| event_id                   | Lxt3Tvvy28gGcbp_oTTWe4cEKBOlqex-8sXAXZWpkuw9osP_1wU9MsrRZR8AKxG | ID of the event                             |
+| event_type                 | page_view                                          | Type of the event                                        |
+| channel_grouping           | direct                                             | Channel grouping                                         |
+| source                     | direct                                             | Traffic source                                           |
+| campaign                   | null                                               | Campaign name                                            |
+| campaign_id                | null                                               | Campaign ID                                              |
+| campaign_term              | null                                               | Campaign term                                            |
+| campaign_content           | null                                               | Campaign content                                         |
+| page_id                    | Lxt3Tvvy28gGcbp_oTTWe4cEKBOlqex-8sXAXZWpkuw9osP     | ID of the page                                          |
+| page_title                 | Tommaso Moretti | Freelance digital data analyst   | Title of the page                                        |
+| page_hostname_protocol     | https                                              | Protocol of the page hostname                            |
+| page_hostname              | tommasomoretti.com                                 | Hostname of the page                                     |
+| page_location              | /                                                  | Location of the page                                     |
+| page_fragment              | null                                               | Fragment of the page URL                                 |
+| page_query                 | null                                               | Query parameters of the page                             |
+| page_extension             | null                                               | File extension of the page                               |
+| page_referrer              | null                                               | Referrer of the page                                     |
+| cs_container_id            | GTM-PW7349P                                        | Client-side Google Tag Manager container ID              |
+| content_group              | Homepage                                           | Content group                                            |
+| user_agent                 | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 | User agent string                     |
+| browser_name               | Chrome                                             | Name of the browser                                      |
+| browser_language           | it-IT                                              | Language of the browser                                  |
+| browser_version            | 131.0.0.0                                          | Version of the browser                                   |
+| device_type                | desktop                                            | Type of the device                                       |
+| device_vendor              | Apple                                              | Vendor of the device                                     |
+| device_model               | Macintosh                                          | Model of the device                                      |
+| os_name                    | Mac OS                                             | Operating system name                                    |
+| os_version                 | 10.15.7                                            | Version of the operating system                          |
+| screen_size                | 1512x982                                           | Screen size of the device                                |
+| viewport_size              | 1512x823                                           | Viewport size of the device                              |
+| country                    | IT                                                 | Country of the user                                      |
+| city                       | treviso                                            | City of the user                                         |
+| ss_hostname                | gtm.tommasomoretti.com                             | Server-side Google Tag Manager hostname                  |
+| ss_container_id            | GTM-KQG9ZNG                                        | Server-side Google Tag Manager container ID              |
+
+### Consent Data
+| Parameter                  | Value                                              | Description                                              |
+|----------------------------|----------------------------------------------------|----------------------------------------------------------|
+| consent_type               | default                                            | Type of consent                                          |
+| tracking_accuracy          | Enhanced                                           | Tracking accuracy                                        |
+| respect_consent_mode       | true                                               | Whether consent mode is respected                        |
+| ad_user_data               | false                                              | Whether ad user data is allowed                          |
+| ad_personalization         | false                                              | Whether ad personalization is allowed                    |
+| ad_storage                 | false                                              | Whether ad storage is allowed                            |
+| analytics_storage          | true                                               | Whether analytics storage is allowed                     |
+| functionality_storage      | false                                              | Whether functionality storage is allowed                 |
+| personalization_storage    | false                                              | Whether personalization storage is allowed               |
+| security_storage           | false                                              | Whether security storage is allowed                      |
+
 
 #### Add event parameters from dataLayer
 Retrieve the dataLayer values from the dataLayer push that triggered the tag. Those values will be added to the payload automatically.
