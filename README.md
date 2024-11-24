@@ -86,7 +86,7 @@ This is a typical payload with no customization at all.
 
 ```
 
-| Event Parameter           | Event Parameter         | Type   | Description                                          |
+| Event Parameter           |                         | Type   | Description                                          |
 |---------------------------|-------------------------|--------|------------------------------------------------------|
 | event_name                |                         | string | Name of the event                                    |
 | event_timestamp           |                         | int64  | Timestamp of the event                               |
