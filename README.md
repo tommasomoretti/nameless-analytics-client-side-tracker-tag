@@ -93,11 +93,11 @@ This is a typical payload with no customization at all.
 | from_measurement_protocol |                         | string | Whether the event came from the Measurement Protocol |
 | event_date                |                         | string | Date of the event                                    |
 | event_datetime            |                         | string | Datetime of the event                                |
-| client_id                 |                         | string | ID of the client                                     |
-| session_id                |                         | string | ID of the session                                    |
+| client_id                 |                         | string | Unique client ID                                     |
+| session_id                |                         | string | Unique session ID                                    |
 | received_event_timestamp  |                         | int64  | Timestamp when the event was received                |
 | content_length            |                         | int64  | Length of the event content                          |
-| event_data                | event_id                | string | ID of the event                                      |
+| event_data                | event_id                | string | Unique event ID                                      |
 |                           | event_type              | string | Type of the event                                    |
 |                           | channel_grouping        | string | Channel grouping                                     |
 |                           | source                  | string | Traffic source                                       |
@@ -106,7 +106,7 @@ This is a typical payload with no customization at all.
 |                           | campaign_term           | string | Campaign term                                        |
 |                           | campaign_content        | string | Campaign content                                     |
 |                           | content_group           | string | Content group                                        |
-|                           | page_id                 | string | ID of the page                                       |
+|                           | page_id                 | string | Unique page ID                                       |
 |                           | page_title              | string | Title of the page                                    |
 |                           | page_hostname_protocol  | string | Protocol of the page hostname                        |
 |                           | page_hostname           | string | Hostname of the page                                 |
