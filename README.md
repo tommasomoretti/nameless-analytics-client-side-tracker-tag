@@ -22,7 +22,7 @@ Start from here:
 
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). This variable will handle settings like endpoint domain name and path, common event parameters, user ID, user consent mode, cross-domain, traffic source parameters and logging in JavaScript console.
 
-Le modalità di tracciamento influenzano il comportamento del tag e il rilascio di un cookie temporaneo via Javascript:
+Tracking modes influence the behavior of the tag and the creation of a temporary cookie via JavaScript:
 - If respect_consent_mode is enabled, events are tracked only if the user gives consent, and tracking_accuracy_mode can be set as:
   - Standard: the tracker will use the current document.referrer values and campaign parameters of the page.  If a user gives consent on the second page viewed (current document.referrer = ""), the source and campaign parameter values will be "".
   - Enhanced: the tracker will save and update a temporary JavaScript cookie, storing the latest, not "" document.referrer values, session and campaign parameters. If a user gives consent on the second page viewed (current document.referrer = ""), the source and campaign parameter values will be taken from the cookie saved on the first page.
@@ -31,7 +31,7 @@ Le modalità di tracciamento influenzano il comportamento del tag e il rilascio 
   - On: the server side client tag anonimize user_id (if present), client_id and sessions_id. In big query they will be stored a string with a value of "Redacted".
   - Off: No anonimization will be applied.
 
-See respect_consent_mode
+For more info see [respect_consent_mode](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#respect-google-consent-mode) option in [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable) documentation. 
 
 This is a typical payload with no customization at all.
 
