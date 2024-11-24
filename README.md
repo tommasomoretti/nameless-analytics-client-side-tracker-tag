@@ -31,7 +31,7 @@ Tracking modes influence the behavior of the tag and the creation of a temporary
   - On: the server side client tag anonimize user_id (if present), client_id and sessions_id. In big query they will be stored a string with a value of "Redacted".
   - Off: No anonimization will be applied.
 
-For more info see [respect_consent_mode](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#respect-google-consent-mode) option in [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable) documentation. 
+For more info see [respect_consent_mode](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#respect-google-consent-mode) option in [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable) documentation. 
 
 This is a typical payload with no customization at all.
 
