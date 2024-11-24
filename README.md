@@ -7,7 +7,7 @@ Start from here:
 - [How it works](#how-it-works)
 - [Client-side tracker tag UI](#tag-ui)
 - [Basic settings](#basic-settings)
-  - [Configuration variable](#event-data)
+  - [Configuration variable](#configuration-variable)
 - [Event data](#event-data)
   - [Event name](#event-type)
   - [Event parameters](#event-parameters)
@@ -152,12 +152,12 @@ This is the UI of the Client-side tracker tag.
 
 
 ## Basic settings
+### Configuration variable
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). This variable will handle settings like endpoint domain name and path, common event parameters, user ID, user consent mode, cross-domain, traffic source parameters and logging in JavaScript console.
 
 
 
 ## Event data
-
 ### Event Type
 Choose between standard event name or custom event name. Always use standard event names when possible.
 
