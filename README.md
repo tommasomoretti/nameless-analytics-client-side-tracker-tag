@@ -20,7 +20,20 @@ Start from here:
 
 ## How it works
 
-This is a typical payload with no customization.
+The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). This variable will handle settings like endpoint domain name and path, common event parameters, user ID, user consent mode, cross-domain, traffic source parameters and logging in JavaScript console.
+
+Le modalità di tracciamento influenzano il comportamento del tag e il rilascio di un cookie temporaneo via Javascript:
+- If respect_consent_mode is enabled, events are tracked only if the user gives consent, and tracking_accuracy_mode can be set as:
+  - Standard: the tracker will use the current document.referrer values and campaign parameters of the page.  If a user gives consent on the second page viewed (current document.referrer = ""), the source and campaign parameter values will be "".
+  - Enhanced: the tracker will save and update a temporary JavaScript cookie, storing the latest, not "" document.referrer values, session and campaign parameters. If a user gives consent on the second page viewed (current document.referrer = ""), the source and campaign parameter values will be taken from the cookie saved on the first page.
+ 
+- If respect_consent_mode is disabled, all events are tracked and anonimization_mode can be set as:
+  - On: the server side client tag anonimize user_id (if present), client_id and sessions_id. In big query they will be stored a string with a value of "Redacted".
+  - Off: No anonimization will be applied.
+
+See respect_consent_mode
+
+This is a typical payload with no customization at all.
 
 ```json
 {
