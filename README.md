@@ -4,7 +4,6 @@
 The Nameless Analytics Client-side tracker tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
 
 Start from here:
-- [How it works](#how-it-works)
 - [Client-side tracker tag UI](#tag-ui)
 - [Basic settings](#basic-settings)
   - [Configuration variable](#configuration-variable)
@@ -15,17 +14,19 @@ Start from here:
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
 - [Advanced settings](#advanced-settings)
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
+
  
 
+## Tag UI
+This is the UI of the Client-side tracker tag.
 
-## How it works
+<img width="1265" alt="client-side-tracker-tag" src="https://github.com/user-attachments/assets/9fe75b06-041a-4b29-8313-ead49ca254e0">
 
 This is a typical payload with no customization at all.
 
 ```json
 {
   "event_name": "page_view",
-  "user_id": "abcd",
   "event_timestamp": 1732279797314,
   "from_measurement_protocol": "No",
   "event_date": "2024-11-22",
@@ -88,7 +89,6 @@ This is a typical payload with no customization at all.
 | Event Parameter           | Event Parameter         | Type   | Description                                          |
 |---------------------------|-------------------------|--------|------------------------------------------------------|
 | event_name                |                         | string | Name of the event                                    |
-| user_id                   |                         | string | ID of the user                                       |
 | event_timestamp           |                         | int64  | Timestamp of the event                               |
 | from_measurement_protocol |                         | string | Whether the event came from the Measurement Protocol |
 | event_date                |                         | string | Date of the event                                    |
@@ -141,13 +141,6 @@ This is a typical payload with no customization at all.
 |                           | functionality_storage   | string | Whether functionality storage is allowed             |
 |                           | personalization_storage | string | Whether personalization storage is allowed           |
 |                           | security_storage        | string | Whether security storage is allowed                  |
-
-
-
-## Tag UI
-This is the UI of the Client-side tracker tag.
-
-<img width="1265" alt="client-side-tracker-tag" src="https://github.com/user-attachments/assets/9fe75b06-041a-4b29-8313-ead49ca254e0">
 
 
 
