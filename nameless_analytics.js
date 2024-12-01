@@ -4,19 +4,20 @@ function send_data(full_endpoint, payload, data) {
   const formatted_datetime = format_datetime(timestamp)
   const ua_info = parse_user_agent()
 
-  payload.event_date = formatted_datetime.split("T")[0],
-  payload.event_datetime = formatted_datetime,
-  payload.event_data.user_agent = ua_info.ua,
-  payload.event_data.browser_name = ua_info.browser.name,
-  payload.event_data.browser_language = ua_info.browser.language,
-  payload.event_data.browser_version = ua_info.browser.version,
-  payload.event_data.device_type = ua_info.device.type || "desktop",
-  payload.event_data.device_vendor = ua_info.device.vendor,
-  payload.event_data.device_model = ua_info.device.model,
-  payload.event_data.os_name = ua_info.os.name,
-  payload.event_data.os_version = ua_info.os.version,
+  payload.event_date = formatted_datetime.split("T")[0]
+  payload.event_datetime = formatted_datetime
+  payload.event_data.user_agent = ua_info.ua
+  payload.event_data.browser_name = ua_info.browser.name
+  payload.event_data.browser_language = ua_info.browser.language
+  payload.event_data.browser_version = ua_info.browser.version
+  payload.event_data.device_type = ua_info.device.type || "desktop"
+  payload.event_data.device_vendor = ua_info.device.vendor
+  payload.event_data.device_model = ua_info.device.model
+  payload.event_data.os_name = ua_info.os.name
+  payload.event_data.os_version = ua_info.os.version
   payload.event_data.screen_size = window.screen.width + "x" + window.screen.height
   payload.event_data.wiewport_size = window.innerWidth + "x" + window.innerHeight
+  payload.event_data.page_language = document.documentElement.lang
 
   if(data.config_variable.enable_logs){console.log('SENDING REQUEST...')} 
   
