@@ -145,7 +145,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
         if (domain_matches && !is_self && (consent_granted_or_not_needed || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-          const user_data = await get_user_data(saved_full_endpoint, {event_name: 'get_user_data', from_measurement_protocol: 'No'});
+          const user_data = await get_user_data(saved_full_endpoint, {event_name: 'get_user_data', event_origin: 'Website'});
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
