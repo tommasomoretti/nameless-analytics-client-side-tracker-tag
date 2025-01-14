@@ -1,7 +1,11 @@
 ![Na logo beta](https://github.com/tommasomoretti/nameless-analytics/assets/29273232/7d4ded5e-4b79-46a2-b089-03997724fd10)
 
+---
+
 # Client-side tracker tag
 The Nameless Analytics Client-side tracker tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
+
+For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics).
 
 Start from here:
 - [Client-side tracker tag UI](#tag-ui-and-default-payload)
@@ -14,6 +18,7 @@ Start from here:
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
 - [Advanced settings](#advanced-settings)
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
+- [Things to keep in mind](things-to-keep-in-mind)
 
  
 
@@ -115,6 +120,17 @@ Retrieve the dataLayer values from the dataLayer push that triggered the tag. Th
 ## Advanced settings
 ### Disable logs in JavaScript console for this event
 Disable console log for this specific event if Enable logs in JavaScript console is enabled in the Nameless Analytics Client-side config variable. 
+
+---
+
+
+## Things to keep in mind
+### Page view and virtual page view events
+
+### Respect user consent settings 
+```Respect Google Consent Mode``` in Nameless Analytics Client-side configuration variable, modify the behaviour of the tag
+
+### Main JavaScript library and external libraries
 
 ---
 
