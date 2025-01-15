@@ -105,6 +105,27 @@ Choose between standard event name or custom event name. Always use standard eve
 
 <img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/7f082fa2-3fc9-40a0-b22e-7c1063f53c2b">
 
+**Standard events**
+- page_view: Send this event when a page is viewed
+- page_load_time: Send this event when a page is loaded with this parameters time_to_dom_interactive, page_render_time, time_to_dom_complete, total_page_load_time
+- page_closed: Send this event when a page is closed to improve the accuracy of time_on_page and session_duration
+- view_promotion: When a user views a promotion
+- select_promotion: When a user interacts with a promotion
+- view_item: When a user views the details of a product
+- view_item_list: When a user views a list of products
+- select_item: When a user selects a product from a list
+- add_to_cart: When a user adds a product to the cart
+- remove_from_cart: When a user removes a product from the cart
+- add_to_wishlist: When a user adds a product to the wishlist
+- begin_checkout: When a user starts the checkout process
+- add_payment_info: When a user provides payment information during checkout
+- add_shipping_info: When a user adds shipping information during checkout
+- purchase: When a purchase is successfully completed
+- refund: When a refund is issued
+
+**Custom events**
+
+
 
 ### Event parameters
 #### Add/override event parameters
