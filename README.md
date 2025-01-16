@@ -106,6 +106,7 @@ Choose between standard event name or custom event name. Always use standard eve
 <img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/7f082fa2-3fc9-40a0-b22e-7c1063f53c2b">
 
 **Standard events**
+
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
 - page_load_time: Send this event when a page is loaded (gtm.load event) with this parameters:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
@@ -130,6 +131,7 @@ Choose between standard event name or custom event name. Always use standard eve
 - refund: Send this event when a refund is issued
 
 **Custom events**
+
 To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
 Examples:
