@@ -156,7 +156,7 @@ Retrieve the dataLayer values from the dataLayer push that triggered the tag. Th
 
 ## Advanced settings
 ### Disable logs in JavaScript console for this event
-Disable console log for this specific event if Enable logs in JavaScript console is enabled in the Nameless Analytics Client-side config variable. 
+Disable console log for this specific event if [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 ---
 
