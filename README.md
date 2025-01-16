@@ -107,7 +107,11 @@ Choose between standard event name or custom event name. Always use standard eve
 
 **Standard events**
 - page_view: Send this event when a page is viewed
-- page_load_time: Send this event when a page is loaded with this parameters time_to_dom_interactive, page_render_time, time_to_dom_complete, total_page_load_time
+- page_load_time: Send this event when a page is loaded (gtm.load event) with this parameters:
+  - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
+  - page_render_time: performance.timing.domComplete - performance.timing.domLoading
+  - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
+  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page and session_duration
 - view_promotion: When a user views a promotion
 - select_promotion: When a user interacts with a promotion
