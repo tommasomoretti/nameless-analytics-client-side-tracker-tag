@@ -105,30 +105,42 @@ Choose between standard event name or custom event name. Always use standard eve
 
 <img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/7f082fa2-3fc9-40a0-b22e-7c1063f53c2b">
 
-**Standard events**
-- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews.
+**Here is a list of standard events**
+- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
 - page_load_time: Send this event when a page is loaded (gtm.load event) with this parameters:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
   - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page and session_duration
-- view_promotion: When a user views a promotion
-- select_promotion: When a user interacts with a promotion
-- view_item: When a user views the details of a product
-- view_item_list: When a user views a list of products
-- select_item: When a user selects a product from a list
-- add_to_cart: When a user adds a product to the cart
-- remove_from_cart: When a user removes a product from the cart
-- add_to_wishlist: When a user adds a product to the wishlist
-- begin_checkout: When a user starts the checkout process
-- add_payment_info: When a user provides payment information during checkout
-- add_shipping_info: When a user adds shipping information during checkout
-- purchase: When a purchase is successfully completed
-- refund: When a refund is issued
+- view_promotion: Send this event when a user views a promotion
+- select_promotion: Send this event when a user interacts with a promotion
+- view_item: Send this event when a user views the details of a product
+- view_item_list: Send this event when a user views a list of products
+- select_item: Send this event when a user selects a product from a list
+- add_to_cart: Send this event when a user adds a product to the cart
+- remove_from_cart: Send this event when a user removes a product from the cart
+- add_to_wishlist: Send this event when a user adds a product to the wishlist
+- remove_from_wishlist: Send this event when a user removes a product to the wishlist
+- view_cart: Send this event when a user views the cart
+- begin_checkout: Send this event when a user starts the checkout process
+- add_payment_info: Send this event when a user provides payment information during checkout
+- add_shipping_info: Send this event when a user adds shipping information during checkout
+- purchase: Send this event when a purchase is successfully completed
+- refund: Send this event when a refund is issued
 
 **Custom events**
+To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
+Examples:
+- button_click
+- form_submission
+- video_played
+
+Avoid:
+- Spaces: button click
+- Hyphens: button-click
+- CamelCase: ButtonClick
 
 
 ### Event parameters
