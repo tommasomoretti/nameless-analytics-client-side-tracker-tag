@@ -169,7 +169,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
           // Client ID is valid and Session ID is valid 
           if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
-            console.log('  👍Valid Client ID:', client_id);
+            console.log('  👍 Valid Client ID:', client_id);
             console.log('  👍 Valid Session ID:', session_id);
             console.log('  🟢 Cross-domain will be applied.');
             link_url.searchParams.set('na_id', session_id);
@@ -195,11 +195,13 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         }
       }
 
-      if (target.getAttribute("target") !== "_blank") {
-        window.location.href = link_url.href;
-      } else {
-        window.open(link_url.href, '_blank')
-      }
+      window.location.href = link_url.href;
+
+      // if (target.getAttribute("target") !== "_blank") {
+      //   window.location.href = link_url.href;
+      // } else {
+      //   window.open(link_url.href, '_blank') // This doesn't work in Safari Mobile  
+      // }
     }
   };
   
