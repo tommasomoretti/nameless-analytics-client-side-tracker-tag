@@ -165,7 +165,6 @@ Disable console log for this specific event if [Enable logs in JavaScript consol
 ### Page view and virtual page view events
 
 ### Respect user consent settings 
-```Respect Google Consent Mode``` in Nameless Analytics Client-side configuration variable, modify the behaviour of the tag
 
 ### Main JavaScript library and external libraries
 
