@@ -1,5 +1,5 @@
 // Send hits
-function send_data(full_endpoint, payload, data) {
+function send_data(full_endpoint, payload, data, enable_logs) {
   const timestamp = payload.event_timestamp
   const formatted_datetime = format_datetime(timestamp)
   const ua_info = parse_user_agent()
@@ -19,7 +19,7 @@ function send_data(full_endpoint, payload, data) {
   payload.event_data.wiewport_size = window.innerWidth + "x" + window.innerHeight
   payload.event_data.page_language = document.documentElement.lang
 
-  if(data.config_variable.enable_logs){console.log('SENDING REQUEST...')} 
+  if(enable_logs){console.log('SENDING REQUEST...')} 
   
   if (full_endpoint.split('/')[2] != 'undefined'){
     try {
@@ -33,21 +33,21 @@ function send_data(full_endpoint, payload, data) {
       .then((response) => response.json())
       .then((response_json) => {
         if (response_json.status_code === 200){
-          if(data.config_variable.enable_logs){console.log('  👉 Event name: ' + response_json.data.event_name)}
-          if(data.config_variable.enable_logs){console.log('  👉 Payload data: ', response_json.data)}
-          if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
+          if(enable_logs){console.log('  👉 Event name: ' + response_json.data.event_name)}
+          if(enable_logs){console.log('  👉 Payload data: ', response_json.data)}
+          if(enable_logs){console.log('  ' + response_json.response)}
           return data.gtmOnSuccess()
         } else {
-          if(data.config_variable.enable_logs){console.log('  ' + response_json.response)}
+          if(enable_logs){console.log('  ' + response_json.response)}
           return data.gtmOnFailure()
         }
       }) 
     } catch(error) {
-      if(data.config_variable.enable_logs){console.log('  🔴 Error while fetch')}
+      if(enable_logs){console.log('  🔴 Error while fetch')}
       return data.gtmOnFailure()
     }
   } else {
-    if(data.config_variable.enable_logs){console.log('  🔴 This website is not authorized to send Nameless Analytics requests.')}
+    if(enable_logs){console.log('  🔴 This website is not authorized to send Nameless Analytics requests.')}
   }
 }
 
@@ -135,7 +135,7 @@ function get_channel_grouping(source, campaign) {
 
 
 // Cross-domain
-function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_consent_mode) {
+function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_consent_mode, enable_logs) {
   const saved_full_endpoint = full_endpoint;
   const saved_cross_domain_domains = cross_domain_domains;
 
@@ -161,37 +161,37 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
         if (domain_matches && !is_self && (consent_granted_or_not_needed || Object.entries(consent_values) == 0)) {
           // Get user data from Server-side GTM 
-          const user_data = await get_user_data(saved_full_endpoint, {event_name: 'get_user_data', event_origin: 'Website'});
+          const user_data = await get_user_data(saved_full_endpoint, {event_name: 'get_user_data', event_origin: 'Website'}, enable_logs);
           const client_id = user_data.client_id;
           const session_id = user_data.session_id;
 
-          console.log('CROSS-DOMAIN');
+          if(data.config_variable.enable_logs){console.log('CROSS-DOMAIN')};
 
           // Client ID is valid and Session ID is valid 
           if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
-            console.log('  👍 Valid Client ID:', client_id);
-            console.log('  👍 Valid Session ID:', session_id);
-            console.log('  🟢 Cross-domain will be applied.');
+            if(enable_logs){console.log('  👍 Valid Client ID:', client_id)};
+            if(enable_logs){console.log('  👍 Valid Session ID:', session_id)};
+            if(enable_logs){console.log('  🟢 Cross-domain will be applied.')};
             link_url.searchParams.set('na_id', session_id);
           // Client ID invalid and Session ID is valid
           } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
-            console.log('  👎 Invalid Client ID:', client_id);
-            console.log('  👍 Valid Session ID:', session_id);
-            console.log('  🟢 Cross-domain will be applied. Client ID will be derived from Session ID');
+            if(enable_logs){console.log('  👎 Invalid Client ID:', client_id)};
+            if(enable_logs){console.log('  👍 Valid Session ID:', session_id)};
+            if(enable_logs){console.log('  🟢 Cross-domain will be applied. Client ID will be derived from Session ID')};
             link_url.searchParams.set('na_id', session_id);
             // Client ID is valid and Session ID is invalid
           } else if (client_id !== 'undefined' && session_id === 'undefined_undefined') {
-            console.log('  👍 Valid Client ID:', client_id);
-            console.log('  👎 Invalid Session ID: ', session_id);
-            console.log('  🔴 No cross-domain will be applied.');
+            if(enable_logs){console.log('  👍 Valid Client ID:', client_id)};
+            if(enable_logs){console.log('  👎 Invalid Session ID: ', session_id)};
+            if(enable_logs){console.log('  🔴 No cross-domain will be applied.')};
           // Client ID is invalid and Session ID is invalid
           } else {
-            console.log('  👎 Invalid Client ID:', client_id);
-            console.log('  👎 Invalid Session ID: ', session_id);
-            console.log('  🔴 No cross-domain will be applied.');
+            if(enable_logs){console.log('  👎 Invalid Client ID:', client_id)};
+            if(enable_logs){console.log('  👎 Invalid Session ID: ', session_id)};
+            if(enable_logs){console.log('  🔴 No cross-domain will be applied.')};
           }
           
-          console.log('  Redirect to: ' + link_url.href);
+          if(enable_logs){console.log('  Redirect to: ' + link_url.href)};
         }
       }
 
@@ -239,7 +239,7 @@ function get_last_consent_values() {
 
 
 // Ask to Server-side GTM the values of the client_id, session_id and page_id
-async function get_user_data(saved_full_endpoint, payload) {
+async function get_user_data(saved_full_endpoint, payload, enable_logs) {
   if (saved_full_endpoint.split('/')[2].split('.')[1] != 'undefined'){
     try {
       const response = await fetch(saved_full_endpoint, {
@@ -254,14 +254,14 @@ async function get_user_data(saved_full_endpoint, payload) {
       if (response_json.status_code === 200) {
         return response_json.data;
       } else {
-        console.log(response_json.response)
+        if(enable_logs){console.log(response_json.response)}
       }
     } catch (error) {
-      console.log("🔴 Error while fetch")
+      if(enable_logs){console.log("🔴 Error while fetch")}
       return {}
     }
   } else {
-    console.log("🔴 Undefined endpoint domain")
+    if(enable_logs){console.log("🔴 Undefined endpoint domain")}
     return {}
   }
 }
