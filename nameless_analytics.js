@@ -85,48 +85,38 @@ const parse_user_agent = function () {
 
 // Channel grouping
 function get_channel_grouping(source, campaign) {
-  const organic_search_source = new RegExp('google|bing|yahoo|baidu|yandex|duckduckgo|ask|aol|ecosia|naver|seznam', 'i');
-  const social_source = new RegExp('facebook|messenger|instagram|tiktok|twitter|t\\.co([/]|$)|linkedin|pinterest|youtube|whatsapp|wechat|snapchat|reddit|discord', 'i');
-  const ai_source = new RegExp('chatgpt|gemini|bard|claude|alexa|siri|assistant|\\.ai([/]|$)', 'i');
-  const email_source = new RegExp('\\b(email|e-mail|e_mail|e mail|newsletter|mailchimp|constantcontact|sendgrid|sparkpost)\\b', 'i');
+  const patterns = {
+    search: new RegExp('360\\.cn|alice|aol|ar\\.search\\.yahoo\\.com|ask|bing|google|yahoo|yandex|baidu|duckduckgo|sogou|naver|seznam', 'i'),
+    social: new RegExp('facebook|twitter|instagram|pinterest|linkedin|reddit|vk\\.com|tiktok|snapchat|tumblr|wechat|whatsapp', 'i'),
+    shopping: new RegExp('amazon|ebay|etsy|shopify|stripe|walmart|mercadolibre|alibaba|naver\\.shopping', 'i'),
+    video: new RegExp('youtube|vimeo|netflix|twitch|dailymotion|hulu|disneyplus|wistia|youku', 'i'),
+    ai: new RegExp('chatgpt|gemini|bard|claude|alexa|siri|assistant|\\.ai([/]|$)', 'i'),
+    email: new RegExp('email|e-mail||newsletter|mailchimp|sendgrid|sparkpost', 'i')
+  };
+
+  if (!source) return 'internal_traffic';
+
+  const lowerSource = source.toLowerCase();
   
-  // Case 1: Internal traffic (no specific source provided)
-  if (!source) {
-    return 'internal_traffic';
+  if (lowerSource === 'direct') return 'direct';
+  
+  if (source === 'tagassistant.google.com') return 'gtm_debugger';
+
+  if (patterns.search.test(source)) {
+    return campaign ? 'paid_search' : 'organic_search';
   }
-  // Case 2: Direct traffic
-  if (source.toLowerCase() === 'direct') {
-    return 'direct';
+  if (patterns.social.test(source)) {
+    return campaign ? 'paid_social' : 'organic_social';
   }
-  // Case 3: Google Tag Manager Debugger
-  if (source === 'tagassistant.google.com') {
-    return 'gtm_debugger';
+  if (patterns.ai.test(source)) return 'organic_ai';
+  if (patterns.email.test(source)) {
+    return campaign ? 'email' : 'undefined';
   }
-  // Case 4: Organic Search
-  if (organic_search_source.test(source)) {
-    return campaign && campaign !== '' ? 'paid_search' : 'organic_search';
-  }
-  // Case 5: Social
-  if (social_source.test(source)) {
-    return campaign && campaign !== '' ? 'paid_social' : 'organic_social';
-  }
-  // Case 6: AI Tools
-  if (ai_source.test(source)) {
-    return 'organic_ai';
-  }
-  // Case 7: Email
-  if (email_source.test(source)) {
-    return campaign && campaign !== '' ? 'email' : 'undefined';
-  }
-  // Case 8: Referral
-  if (campaign === '' || !campaign) {
-    return 'referral';
-  }
-  // Case 9: Affiliate
-  if (campaign && campaign !== '') {
-    return 'affiliate';
-  }
-  // Case 10: Default (Unclassified)
+
+  if (!campaign) return 'referral';
+
+  if (campaign) return 'affiliate';
+
   return 'undefined';
 }
 
