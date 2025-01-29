@@ -104,13 +104,11 @@ The Nameless Analytics Client-side tracker tag inherits configuration settings f
 Choose between standard event names or custom event names. 
 
 Be carefull to:
-- Always trigger a page_view event as the very first event on a page. See the [Things to Keep in Mind – Page View and Virtual Page View Events](#page-view-and-virtual-page-view-events) section for more information
+- Always trigger a page_view event as the very first event on every page load. See [Change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#change-default-javascript-page-view-event-names) in the Nameless Analytics Client-side configuration variable for more information
 - Use standard event names when possible
 - Follow naming convention for event name and event parameters 
 
 **Standard events**
-
-![standard](https://github.com/user-attachments/assets/7e245100-9c35-4292-82d5-a80c6489b972)
 
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
@@ -138,9 +136,6 @@ Choose between:
 
 **Custom events**
 
-![custom](https://github.com/user-attachments/assets/005d664c-3ba6-4b38-b876-72749fea1160)
-
-
 To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
 Examples:
@@ -157,8 +152,6 @@ Avoid:
 ### Event parameters
 #### Add/override event parameters
 Add custom parameters or overwrite standard parameters in the context of the event. Page_id and event_id parameters cannot be overwritten. 
-
-<img width="1265" alt="Screenshot 2024-11-21 alle 17 04 29" src="https://github.com/user-attachments/assets/6749a1e5-dca6-4ff0-a54d-0537ebdddf4a">
 
 #### Add event parameters from dataLayer
 Retrieve the dataLayer values from the dataLayer push that triggered the tag. Those values will be added to the payload automatically.
