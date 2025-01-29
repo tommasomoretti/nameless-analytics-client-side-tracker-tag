@@ -9,6 +9,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Client-side tracker tag UI](#tag-ui-and-default-payload)
+- [Default payload](#default-payload)
 - [Basic settings](#basic-settings)
   - [Configuration variable](#configuration-variable)
 - [Event data](#event-data)
@@ -29,6 +30,9 @@ This is the UI of the Client-side tracker tag.
 
 <img width="1265" alt="client-side-tracker-tag" src="https://github.com/user-attachments/assets/9fe75b06-041a-4b29-8313-ead49ca254e0">
 
+
+
+## Default payload
 This is a standard payload with no customization at all.
 
 ```json
