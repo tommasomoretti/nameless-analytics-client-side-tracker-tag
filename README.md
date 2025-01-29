@@ -116,7 +116,7 @@ Be carefull to:
 - Use standard event names when possible
 - Follow naming convention for event name and event parameters 
 
-**Standard events**
+#### Standard events
 
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
@@ -142,7 +142,7 @@ Choose between:
 - purchase: Send this event when a purchase is successfully completed
 - refund: Send this event when a refund is issued
 
-**Custom events**
+#### Custom events
 
 To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
