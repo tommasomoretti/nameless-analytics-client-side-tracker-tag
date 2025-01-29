@@ -13,6 +13,8 @@ Start from here:
   - [Configuration variable](#configuration-variable)
 - [Event data](#event-data)
   - [Event type and event name](#event-type-and-event-name)
+    - [Standard events](#standard-events)
+    - [Custom events](#custom-events)
   - [Event parameters](#event-parameters)
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
