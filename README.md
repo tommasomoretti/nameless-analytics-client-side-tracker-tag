@@ -42,6 +42,7 @@ This is a standard payload with no customization at all.
   "from_measurement_protocol": "No", // Whether the event came from the Measurement Protocol
   "event_date": "2024-11-22", // Date of the event
   "event_datetime": "2024-11-22T12:49:57.314000", // Datetime of the event
+  "user_id": "hello@domain.com", // User / Customer ID (only if configured) 
   "client_id": "Lxt3Tvvy28gGcbp", // Unique client ID
   "session_id": "Lxt3Tvvy28gGcbp_oTTWe4cEKBOlqex", // Unique session ID
   "received_event_timestamp": 1732279797603, // Timestamp when the event was received
