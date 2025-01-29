@@ -95,7 +95,15 @@ This is a standard payload with no customization at all.
 
 ## Basic settings
 ### Configuration variable
-The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). This variable will handle settings like endpoint domain name and path, common event parameters, user ID, user consent mode, cross-domain, traffic source parameters and logging in JavaScript console.
+The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
+
+This variable will handle settings:
+- requests endpoint domain name and path
+- add common event parameters and user ID
+- set consent behavior
+- enable cross-domain tracking
+- change traffic source URL parameters
+- show logs in JavaScript console
 
 
 
