@@ -21,7 +21,6 @@ Start from here:
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
 - [Advanced settings](#advanced-settings)
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
-- [Things to keep in mind](things-to-keep-in-mind)
 
  
 
@@ -180,16 +179,6 @@ Note: These parameters can be overridden if they have the same name as a paramet
 ## Advanced settings
 ### Disable logs in JavaScript console for this event
 Disable console log for this specific event if [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
-
----
-
-
-## Things to keep in mind
-### Page view and virtual page view events
-
-### Respect user consent settings 
-
-### Main JavaScript library and external libraries
 
 ---
 
