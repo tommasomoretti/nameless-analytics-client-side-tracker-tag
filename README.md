@@ -166,10 +166,14 @@ Avoid:
 
 ### Event parameters
 #### Add/override event parameters
-Add custom parameters or overwrite standard parameters in the context of the event. Page_id and event_id parameters cannot be overwritten. 
+Add custom parameters or overwrite standard or shared parameters in the context of the event. The parameters will be added or overwridden in the `event_data` object in the payload. Values accepted: strings, integers, float and json.Page_id and event_id parameters cannot be overwritten. 
+
+Note: These parameters can override parameters configured in Add/Override Event Parameters or [Add shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) if they have the same name.
 
 #### Add event parameters from dataLayer
-Retrieve the dataLayer values from the dataLayer push that triggered the tag. Those values will be added to the payload automatically.
+Retrieve the dataLayer values from the dataLayer push that triggered the tag. The parameters will be added in the `event_data` object in the payload. 
+
+Note: These parameters can be overridden if they have the same name as a parameter configured in Add/Override Event Parameters or [Add shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters). 
 
 
 
