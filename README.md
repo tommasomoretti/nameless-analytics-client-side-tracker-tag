@@ -12,7 +12,7 @@ Start from here:
 - [Basic settings](#basic-settings)
   - [Configuration variable](#configuration-variable)
 - [Event data](#event-data)
-  - [Event name](#event-type)
+  - [Event type and event name](#event-type-and-event-name)
   - [Event parameters](#event-parameters)
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
@@ -100,15 +100,21 @@ The Nameless Analytics Client-side tracker tag inherits configuration settings f
 
 
 ## Event data
-### Event Type
-Choose between standard event name or custom event name. Always use standard event names when possible.
+### Event type and event name
+Choose between standard event names or custom event names. 
 
-<img width="1265" alt="Screenshot 2024-11-21 alle 16 45 27" src="https://github.com/user-attachments/assets/7f082fa2-3fc9-40a0-b22e-7c1063f53c2b">
+Be carefull to:
+- Always trigger a page_view event as the very first event on a page
+- Use standard event names when possible
+- Follow naming convention for event name and event parameters 
 
 **Standard events**
 
+![standard](https://github.com/user-attachments/assets/7e245100-9c35-4292-82d5-a80c6489b972)
+
+Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
-- page_load_time: Send this event when a page is loaded (gtm.load event) with this parameters:
+- page_load_time: Send this event when a page is loaded (on gtm.load event) with this parameters:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
@@ -131,6 +137,9 @@ Choose between standard event name or custom event name. Always use standard eve
 - refund: Send this event when a refund is issued
 
 **Custom events**
+
+![custom](https://github.com/user-attachments/assets/005d664c-3ba6-4b38-b876-72749fea1160)
+
 
 To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
