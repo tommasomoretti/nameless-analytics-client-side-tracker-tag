@@ -104,7 +104,7 @@ The Nameless Analytics Client-side tracker tag inherits configuration settings f
 Choose between standard event names or custom event names. 
 
 Be carefull to:
-- Always trigger a page_view event as the very first event on a page
+- Always trigger a page_view event as the very first event on a page. See the [Things to Keep in Mind – Page View and Virtual Page View Events](#page-view-and-virtual-page-view-events) section for more information
 - Use standard event names when possible
 - Follow naming convention for event name and event parameters 
 
