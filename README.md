@@ -16,10 +16,10 @@ Start from here:
   - [Event type](#event-type)
     - [Standard events](#standard-events)
     - [Custom events](#custom-events)
-  - Event parameters
+  - [Event parameters](#event-parameters)
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
-- [Advanced settings](#advanced-settings)
+- Advanced settings
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 
  
