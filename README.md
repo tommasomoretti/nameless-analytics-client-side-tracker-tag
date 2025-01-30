@@ -163,7 +163,7 @@ Avoid:
 
 
 ### Event parameters
-Add event parameters for a specific event manually or via dataLayer. The parameters will be added in the `event_data` object in the payload. 
+Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the `event_data` object in the payload. 
 
 See the [default payload](#default-payload) for the parameters that are already sent by default.
 
