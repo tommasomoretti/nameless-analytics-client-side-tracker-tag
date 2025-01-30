@@ -13,7 +13,7 @@ Start from here:
 - [Basic settings](#basic-settings)
   - [Configuration variable](#configuration-variable)
 - [Event data](#event-data)
-  - [Event type and event name](#event-type-and-event-name)
+  - [Event type](#event-type)
     - [Standard events](#standard-events)
     - [Custom events](#custom-events)
   - [Event parameters](#event-parameters)
