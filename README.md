@@ -10,13 +10,13 @@ For an overview of how Nameless Analytics works [start from here](https://github
 Start from here:
 - [Client-side tracker tag UI](#tag-ui-and-default-payload)
 - [Default payload](#default-payload)
-- [Basic settings](#basic-settings)
+- Basic settings
   - [Configuration variable](#configuration-variable)
-- [Event data](#event-data)
+- Event data
   - [Event type](#event-type)
     - [Standard events](#standard-events)
     - [Custom events](#custom-events)
-  - [Event parameters](#event-parameters)
+  - Event parameters
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
 - [Advanced settings](#advanced-settings)
