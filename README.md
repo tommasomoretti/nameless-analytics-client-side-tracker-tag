@@ -27,7 +27,7 @@ Start from here:
 ## Tag UI and default payload
 This is the UI of the Client-side tracker tag.
 
-<img width="1265" alt="client-side-tracker-tag" src="https://github.com/user-attachments/assets/a8470cb7-cf74-4f50-8d24-adabef2d194f" />
+<img width="1265" alt="client-side-tracker-tag" src="https://github.com/user-attachments/assets/a8470cb7-cf74-4f50-8d24-adabef2d194f"/>
 
 
 
@@ -114,7 +114,7 @@ This variable will handle settings:
 
 
 ## Event data
-### Event type and event name
+### Event type
 Choose between standard event names or custom event names. 
 
 Be carefull to:
@@ -123,7 +123,6 @@ Be carefull to:
 - Follow naming convention for event name and event parameters 
 
 #### Standard events
-
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
 - page_load_time: Send this event when a page is loaded (on gtm.load event) with this parameters:
