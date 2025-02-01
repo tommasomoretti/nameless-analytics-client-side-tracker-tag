@@ -165,22 +165,32 @@ Avoid:
 ### Event parameters
 Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the `event_data` object in the payload. 
 
+If a parameter has the same name as another, it can override or be overridden depending on where it was set. This is the hierarchy of event parameter importance:
+Request parameters > Event parameters > Shared parameters > dataLayer parameters > Default parameters
+
 See the [default payload](#default-payload) for the parameters that are already sent by default.
 
 #### Add/override event parameters
-Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. 
+Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. Page_id and event_id parameters cannot be overwritten.
 
-These parameters can override default parameters, [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) and event parameters taken from dataLayer if they have the same name. Page_id and event_id parameters cannot be overwritten.
+These parameters can override:
+- default parameters
+- [parameters taken from dataLayer](#add-event-parameters-from-datalayer) in Nameless Analytics Client-side Tracker tag
+- [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) added in Nameless Analytics Client-side Configuration variable
 
-These parameters can be overridden by [parameter added for a specific event](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/blob/main/README.md#addoverride-event-parameters) if they have the same name.
-
+These parameters can be overridden by:
+- [parameter added for a specific request](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/blob/main/README.md#addoverride-event-parameters) in Nameless Analytics Server-side client tag
 
 #### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
-These parameters can override default parameters, if they have the same name. Page_id and event_id parameters cannot be overwritten.
+These parameters can override:
+- default parameters
 
-These parameters can be overridden if they have the same name as [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) or parameter added for a specific event.
+These parameters can be overridden by:
+- [parameter added for a specific event](addoverride-event-parameters) in Nameless Analytics Client-side Tracker tag
+- [parameter added for a specific request](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) in Nameless Analytics Server-side client tag
+- [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) added in Nameless Analytics Client-side Configuration variable
 
 
 
