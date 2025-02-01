@@ -165,10 +165,11 @@ Avoid:
 ### Event parameters
 Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the `event_data` object in the payload. 
 
-If a parameter has the same name as another, it can override or be overridden depending on where it was set. This is the hierarchy of event parameter importance:
-Request parameters > Event parameters > Shared parameters > dataLayer parameters > Default parameters
+If a parameter has the same name as another, it can override or be overridden depending on where it was set. 
 
-See the [default payload](#default-payload) for the parameters that are already sent by default.
+This is the hierarchy of event parameter importance:
+
+[Request parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/blob/main/README.md#addoverride-event-parameters) > [Specific event parameters](#addoverride-event-parameters) > [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) > [dataLayer parameters](#add-event-parameters-from-datalayer) > [Default parameters](#default-payload)
 
 #### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. Page_id and event_id parameters cannot be overwritten.
