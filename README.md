@@ -176,11 +176,11 @@ Add or overwrite parameters for a specific event. Values accepted: strings, inte
 
 These parameters can override:
 - default parameters
-- [parameters taken from dataLayer](#add-event-parameters-from-datalayer) in Nameless Analytics Client-side Tracker tag
-- [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) added in Nameless Analytics Client-side Configuration variable
+- parameters taken from dataLayer in Nameless Analytics Client-side Tracker tag
+- shared event parameters added in Nameless Analytics Client-side Configuration variable
 
 These parameters can be overridden by:
-- [parameter added for a specific request](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/blob/main/README.md#addoverride-event-parameters) in Nameless Analytics Server-side client tag
+- parameter added for a specific request in Nameless Analytics Server-side client tag
 
 #### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
@@ -189,9 +189,9 @@ These parameters can override:
 - default parameters
 
 These parameters can be overridden by:
-- [parameter added for a specific event](addoverride-event-parameters) in Nameless Analytics Client-side Tracker tag
-- [parameter added for a specific request](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) in Nameless Analytics Server-side client tag
-- [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) added in Nameless Analytics Client-side Configuration variable
+- parameter added for a specific request in Nameless Analytics Server-side client tag
+- parameter added for a specific event in Nameless Analytics Client-side Tracker tag
+- shared event parameters added in Nameless Analytics Client-side Configuration variable
 
 
 
