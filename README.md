@@ -170,10 +170,12 @@ See the [default payload](#default-payload) for the parameters that are already 
 #### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. 
 
-These parameters can override [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) and event parameters taken from dataLayer if they have the same name. Page_id and event_id parameters cannot be overwritten.
+These parameters can override default parameters, [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) and event parameters taken from dataLayer if they have the same name. Page_id and event_id parameters cannot be overwritten.
 
 #### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
+
+These parameters can override default parameters, if they have the same name. Page_id and event_id parameters cannot be overwritten.
 
 These parameters can be overridden if they have the same name as [shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#add-shared-event-parameters) or parameter added for a specific event.
 
