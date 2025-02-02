@@ -32,7 +32,7 @@ This is the UI of the Client-side tracker tag.
 
 
 ## Default payload
-This is a standard payload with no customization at all.
+This is a payload with only standard parameters and no customization at all.
 
 ```json
 {
@@ -103,7 +103,7 @@ This is a standard payload with no customization at all.
 ### Configuration variable
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
 
-This variable will handle settings:
+This variable will handle settings like:
 - [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#basic-settings)
 - [add common event parameters and user ID](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#event-data)
 - [set consent behavior](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#respect-google-consent-mode)
