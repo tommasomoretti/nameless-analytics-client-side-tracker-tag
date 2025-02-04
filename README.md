@@ -36,66 +36,123 @@ This is a payload with only standard parameters and no customization at all.
 
 ```json
 {
-  "event_name": "page_view", // Name of the event
-  "event_timestamp": 1732279797314, // Timestamp of the event
-  "from_measurement_protocol": "No", // Whether the event came from the Measurement Protocol
-  "event_date": "2024-11-22", // Date of the event
-  "event_datetime": "2024-11-22T12:49:57.314000", // Datetime of the event
-  "user_id": "hello@domain.com", // User / Customer ID (only if configured) 
-  "client_id": "Lxt3Tvvy28gGcbp", // Unique client ID
-  "session_id": "Lxt3Tvvy28gGcbp_oTTWe4cEKBOlqex", // Unique session ID
-  "received_event_timestamp": 1732279797603, // Timestamp when the event was received
-  "content_length": 1410, // Length of the event content
+  "event_date": "2025-02-04", // Date of the event (YYYY-MM-DD format)
+  "event_datetime": "2025-02-04T19:17:30.296000", // Full timestamp of the event (ISO 8601 format)
+  "event_timestamp": 1738696650296, // Unix timestamp (milliseconds) of when the event was triggered
+  "received_event_timestamp": 1738696650571, // Unix timestamp (milliseconds) of when the event was received
+  "user_id": "Redacted", // User ID (if available, may be anonymized)
+  "client_id": "Redacted", // Unique identifier for the client (browser or app instance)
+  "session_id": "Redacted_Redacted", // Unique identifier for the session
+  "event_name": "page_view", // Name of the event (e.g., page view, click, purchase)
+  "event_origin": "Website", // Source of the event (e.g., Website, Mobile App)
+  "content_length": 1441, // Length of the event payload (bytes)
   "event_data": {
-    "event_id": "Lxt3Tvvy28gGcbp_oTTWe4cEKBOlqex-8sXAXZWpkuw9osP_1wU9MsrRZR8AKxG", // Unique event ID
-    "event_type": "page_view", // Type of the event
-    "channel_grouping": "direct", // Channel grouping
-    "source": "direct", // Traffic source
-    "campaign": null, // Campaign name
-    "campaign_id": null, // Campaign ID
-    "campaign_term": null, // Campaign term
-    "campaign_content": null, // Campaign content
-    "content_group": "Homepage", // Content group
-    "page_id": "Lxt3Tvvy28gGcbp_oTTWe4cEKBOlqex-8sXAXZWpkuw9osP", // Unique page ID
-    "page_title": "Tommaso Moretti | Freelance digital data analyst", // Title of the page
-    "page_hostname_protocol": "https", // Protocol of the page hostname
+    "event_type": "page_view", // Type of event
+    "event_id": "Redacted_Redacted-xg6k8WD3EjvYCRg_ytQ2z8joW5z6wCn", // Unique identifier for the event
+    "channel_grouping": "direct", // Attribution channel (e.g., organic, paid, direct)
+    "source": "direct", // Source of traffic (e.g., google, facebook, direct)
+    "campaign": null, // Name of the campaign (if applicable)
+    "campaign_id": null, // Campaign ID (if applicable)
+    "campaign_term": null, // Search term used in the campaign (if applicable)
+    "campaign_content": null, // Campaign content (e.g., ad variation, CTA text)
+    "page_id": "Redacted_Redacted-xg6k8WD3EjvYCRg", // Unique identifier for the page
+    "page_title": "Tommaso Moretti | Freelance digital data analyst", // Title of the page visited
+    "page_hostname_protocol": "https", // Protocol used (http or https)
     "page_hostname": "tommasomoretti.com", // Hostname of the page
-    "page_location": "/", // Location of the page
-    "page_fragment": null, // Fragment of the page URL
-    "page_query": null, // Query parameters of the page
-    "page_extension": null, // File extension of the page
-    "page_referrer": null, // Referrer of the page
-    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36", // User agent string
-    "browser_name": "Chrome", // Name of the browser
-    "browser_language": "it-IT", // Language of the browser
-    "browser_version": "131.0.0.0", // Version of the browser
-    "device_type": "desktop", // Type of the device
-    "device_vendor": "Apple", // Vendor of the device
+    "page_location": "/", // Path of the page within the website
+    "page_fragment": null, // URL fragment (hash part, e.g., #section1)
+    "page_query": null, // Query string parameters in the URL
+    "page_extension": null, // File extension of the page (e.g., .html, .php)
+    "page_referrer": null, // Referrer URL (previous page)
+    "cs_container_id": "GTM-PW7349P", // Client-side Google Tag Manager container ID
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36", // User agent string
+    "browser_name": "Chrome", // Name of the browser used
+    "browser_language": "it-IT", // Language setting of the browser
+    "browser_version": "132.0.0.0", // Version of the browser
+    "device_type": "desktop", // Type of device (e.g., desktop, mobile, tablet)
+    "device_vendor": "Apple", // Manufacturer of the device
     "device_model": "Macintosh", // Model of the device
     "os_name": "Mac OS", // Operating system name
     "os_version": "10.15.7", // Version of the operating system
-    "screen_size": "1512x982", // Screen size of the device
-    "wiewport_size": "1512x823", // Viewport size of the device
-    "country": "IT", // Country of the user
-    "city": "treviso", // City of the user
-    "cs_container_id": "GTM-PW7349P", // Client-side Google Tag Manager container ID
-    "ss_container_id": "GTM-KQG9ZNG", // Server-side Google Tag Manager container ID
-    "ss_hostname": "gtm.tommasomoretti.com" // Server-side Google Tag Manager hostname
+    "screen_size": "1512x982", // Full screen resolution of the device
+    "wiewport_size": "1512x823", // Viewport size (usable area in browser)
+    "page_language": "it", // Language of the page content
+    "country": "IT", // Country of the user (based on IP or other signals)
+    "city": "trieste", // City of the user (based on IP or other signals)
+    "ss_hostname": "gtm.tommasomoretti.com", // Server-side GTM hostname
+    "ss_container_id": "GTM-KQG9ZNG" // Server-side Google Tag Manager container ID
   },
   "consent_data": {
-    "consent_type": "default", // Type of consent
-    "tracking_accuracy": "Enhanced", // Tracking accuracy
-    "respect_consent_mode": true, // Whether consent mode is respected
-    "ad_user_data": false, // Whether ad user data is allowed
-    "ad_personalization": false, // Whether ad personalization is allowed
-    "ad_storage": false, // Whether ad storage is allowed
-    "analytics_storage": true, // Whether analytics storage is allowed
-    "functionality_storage": false, // Whether functionality storage is allowed
-    "personalization_storage": false, // Whether personalization storage is allowed
-    "security_storage": false // Whether security storage is allowed
+    "respect_consent_mode": "No", // Whether consent mode is respected
+    "tracking_anonimization": "Yes", // Whether tracking is anonymized (if respect_consent_mode is "No")
+    "consent_type": "Default", // Type of consent applied
+    "ad_user_data": "Denied", // Whether advertising user data is allowed
+    "ad_personalization": "Denied", // Whether ad personalization is allowed
+    "ad_storage": "Denied", // Whether ad-related storage (cookies, local storage) is allowed
+    "analytics_storage": "Denied", // Whether analytics storage (cookies, local storage) is allowed
+    "functionality_storage": "Denied", // Whether functional cookies (e.g., preferences) are allowed
+    "personalization_storage": "Denied", // Whether personalization storage is allowed
+    "security_storage": "Denied" // Whether security-related storage (e.g., authentication tokens) is allowed
   }
 }
 ```
+
+| **Event overview**       | **Event details**       | **Type** | **Field description**                                                     |
+|--------------------------|-------------------------|----------|---------------------------------------------------------------------------|
+| event_date               |                         | String   | Date of the event (YYYY-MM-DD format)                                     |
+| event_datetime           |                         | String   | Full timestamp of the event (ISO 8601 format)                             |
+| event_timestamp          |                         | String   | Unix timestamp (milliseconds) of when the event was triggered             |
+| received_event_timestamp |                         | String   | Unix timestamp (milliseconds) of when the event was received              |
+| user_id                  |                         | String   | User ID (if available, may be anonymized)                                 |
+| client_id                |                         | String   | Unique identifier for the client (browser or app instance)                |
+| session_id               |                         | String   | Unique identifier for the session                                         |
+| event_name               |                         | String   | Name of the event (e.g., page view, click, purchase)                      |
+| event_origin             |                         | String   | Source of the event (e.g., Website, Mobile App)                           |
+| content_length           |                         | String   | Length of the event payload (bytes)                                       |
+| event_data               | event_type              | String   | Type of event                                                             |
+|                          | event_id                | String   | Unique identifier for the event                                           |
+|                          | channel_grouping        | String   | Attribution channel (e.g., organic, paid, direct)                         |
+|                          | source                  | String   | Source of traffic (e.g., google, facebook, direct)                        |
+|                          | campaign                | String   | Name of the campaign (if applicable)                                      |
+|                          | campaign_id             | String   | Campaign ID (if applicable)                                               |
+|                          | campaign_term           | String   | Search term used in the campaign (if applicable)                          |
+|                          | campaign_content        | String   | Campaign content (e.g., ad variation, CTA text)                           |
+|                          | page_id                 | String   | Unique identifier for the page                                            |
+|                          | page_title              | String   | Title of the page visited                                                 |
+|                          | page_hostname_protocol  | String   | Protocol used (http or https)                                             |
+|                          | page_hostname           | String   | Hostname of the page                                                      |
+|                          | page_location           | String   | Path of the page within the website                                       |
+|                          | page_fragment           | String   | URL fragment (hash part, e.g., #section1)                                 |
+|                          | page_query              | String   | Query string parameters in the URL                                        |
+|                          | page_extension          | String   | File extension of the page (e.g., .html, .php)                            |
+|                          | page_referrer           | String   | Referrer URL (previous page)                                              |
+|                          | cs_container_id         | String   | Client-side Google Tag Manager container ID                               |
+|                          | user_agent              | String   | User agent string                                                         |
+|                          | browser_name            | String   | Name of the browser used                                                  |
+|                          | browser_language        | String   | Language setting of the browser                                           |
+|                          | browser_version         | String   | Version of the browser                                                    |
+|                          | device_type             | String   | Type of device (e.g., desktop, mobile, tablet)                            |
+|                          | device_vendor           | String   | Manufacturer of the device                                                |
+|                          | device_model            | String   | Model of the device                                                       |
+|                          | os_name                 | String   | Operating system name                                                     |
+|                          | os_version              | String   | Version of the operating system                                           |
+|                          | screen_size             | String   | Full screen resolution of the device                                      |
+|                          | wiewport_size           | String   | Viewport size (usable area in browser)                                    |
+|                          | page_language           | String   | Language of the page content                                              |
+|                          | country                 | String   | Country of the user (based on IP or other signals)                        |
+|                          | city                    | String   | City of the user (based on IP or other signals)                           |
+|                          | ss_hostname             | String   | Server-side GTM hostname                                                  |
+|                          | ss_container_id         | String   | Server-side Google Tag Manager container ID                               |
+| Consent details          | respect_consent_mode    | String   | Whether consent mode is respected                                         |
+|                          | tracking_anonimization  | String   | Whether tracking is anonymized (if respect_consent_mode is "No")          |
+|                          | consent_type            | String   | Type of consent applied                                                   |
+|                          | ad_user_data            | String   | Whether advertising user data is allowed                                  |
+|                          | ad_personalization      | String   | Whether ad personalization is allowed                                     |
+|                          | ad_storage              | String   | Whether ad-related storage (cookies, local storage) is allowed            |
+|                          | analytics_storage       | String   | Whether analytics storage (cookies, local storage) is allowed             |
+|                          | functionality_storage   | String   | Whether functional cookies (e.g., preferences) are allowed                |
+|                          | personalization_storage | String   | Whether personalization storage is allowed                                |
+|                          | security_storage        | String   | Whether security-related storage (e.g., authentication tokens) is allowed |
 
 
 
