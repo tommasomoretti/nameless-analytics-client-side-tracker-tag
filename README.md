@@ -36,63 +36,63 @@ This is a payload with only standard parameters and no customization at all.
 
 ```json
 {
-  "event_date": "2025-02-04", // Date of the event (YYYY-MM-DD format)
-  "event_datetime": "2025-02-04T19:17:30.296000", // Full timestamp of the event (ISO 8601 format)
-  "event_timestamp": 1738696650296, // Unix timestamp (milliseconds) of when the event was triggered
-  "received_event_timestamp": 1738696650571, // Unix timestamp (milliseconds) of when the event was received
-  "user_id": "Redacted", // User ID (if available, may be anonymized)
-  "client_id": "Redacted", // Unique identifier for the client (browser or app instance)
-  "session_id": "Redacted_Redacted", // Unique identifier for the session
-  "event_name": "page_view", // Name of the event (e.g., page view, click, purchase)
-  "event_origin": "Website", // Source of the event (e.g., Website, Mobile App)
-  "content_length": 1441, // Length of the event payload (bytes)
+  "event_date": "2025-02-04",
+  "event_datetime": "2025-02-04T19:17:30.296000",
+  "event_timestamp": 1738696650296,
+  "received_event_timestamp": 1738696650571,
+  "user_id": "Redacted",
+  "client_id": "Redacted",
+  "session_id": "Redacted_Redacted",
+  "event_name": "page_view",
+  "event_origin": "Website",
+  "content_length": 1441,
   "event_data": {
-    "event_type": "page_view", // Type of event
-    "event_id": "Redacted_Redacted-xg6k8WD3EjvYCRg_ytQ2z8joW5z6wCn", // Unique identifier for the event
-    "channel_grouping": "direct", // Attribution channel (e.g., organic, paid, direct)
-    "source": "direct", // Source of traffic (e.g., google, facebook, direct)
-    "campaign": null, // Name of the campaign (if applicable)
-    "campaign_id": null, // Campaign ID (if applicable)
-    "campaign_term": null, // Search term used in the campaign (if applicable)
-    "campaign_content": null, // Campaign content (e.g., ad variation, CTA text)
-    "page_id": "Redacted_Redacted-xg6k8WD3EjvYCRg", // Unique identifier for the page
-    "page_title": "Tommaso Moretti | Freelance digital data analyst", // Title of the page visited
-    "page_hostname_protocol": "https", // Protocol used (http or https)
-    "page_hostname": "tommasomoretti.com", // Hostname of the page
-    "page_location": "/", // Path of the page within the website
-    "page_fragment": null, // URL fragment (hash part, e.g., #section1)
-    "page_query": null, // Query string parameters in the URL
-    "page_extension": null, // File extension of the page (e.g., .html, .php)
-    "page_referrer": null, // Referrer URL (previous page)
-    "cs_container_id": "GTM-PW7349P", // Client-side Google Tag Manager container ID
-    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36", // User agent string
-    "browser_name": "Chrome", // Name of the browser used
-    "browser_language": "it-IT", // Language setting of the browser
-    "browser_version": "132.0.0.0", // Version of the browser
-    "device_type": "desktop", // Type of device (e.g., desktop, mobile, tablet)
-    "device_vendor": "Apple", // Manufacturer of the device
-    "device_model": "Macintosh", // Model of the device
-    "os_name": "Mac OS", // Operating system name
-    "os_version": "10.15.7", // Version of the operating system
-    "screen_size": "1512x982", // Full screen resolution of the device
-    "wiewport_size": "1512x823", // Viewport size (usable area in browser)
-    "page_language": "it", // Language of the page content
-    "country": "IT", // Country of the user (based on IP or other signals)
-    "city": "trieste", // City of the user (based on IP or other signals)
-    "ss_hostname": "gtm.tommasomoretti.com", // Server-side GTM hostname
-    "ss_container_id": "GTM-KQG9ZNG" // Server-side Google Tag Manager container ID
+    "event_type": "page_view",
+    "event_id": "Redacted_Redacted-xg6k8WD3EjvYCRg_ytQ2z8joW5z6wCn",
+    "channel_grouping": "direct",
+    "source": "direct",
+    "campaign": null,
+    "campaign_id": null,
+    "campaign_term": null,
+    "campaign_content": null,
+    "page_id": "Redacted_Redacted-xg6k8WD3EjvYCRg",
+    "page_title": "Tommaso Moretti | Freelance digital data analyst",
+    "page_hostname_protocol": "https",
+    "page_hostname": "tommasomoretti.com",
+    "page_location": "/",
+    "page_fragment": null,
+    "page_query": null,
+    "page_extension": null,
+    "page_referrer": null,
+    "cs_container_id": "GTM-PW7349P",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+    "browser_name": "Chrome",
+    "browser_language": "it-IT",
+    "browser_version": "132.0.0.0",
+    "device_type": "desktop",
+    "device_vendor": "Apple",
+    "device_model": "Macintosh",
+    "os_name": "Mac OS",
+    "os_version": "10.15.7",
+    "screen_size": "1512x982",
+    "wiewport_size": "1512x823",
+    "page_language": "it",
+    "country": "IT",
+    "city": "trieste",
+    "ss_hostname": "gtm.tommasomoretti.com",
+    "ss_container_id": "GTM-KQG9ZNG"
   },
   "consent_data": {
-    "respect_consent_mode": "No", // Whether consent mode is respected
-    "tracking_anonimization": "Yes", // Whether tracking is anonymized (if respect_consent_mode is "No")
-    "consent_type": "Default", // Type of consent applied
-    "ad_user_data": "Denied", // Whether advertising user data is allowed
-    "ad_personalization": "Denied", // Whether ad personalization is allowed
-    "ad_storage": "Denied", // Whether ad-related storage (cookies, local storage) is allowed
-    "analytics_storage": "Denied", // Whether analytics storage (cookies, local storage) is allowed
-    "functionality_storage": "Denied", // Whether functional cookies (e.g., preferences) are allowed
-    "personalization_storage": "Denied", // Whether personalization storage is allowed
-    "security_storage": "Denied" // Whether security-related storage (e.g., authentication tokens) is allowed
+    "respect_consent_mode": "No",
+    "tracking_anonimization": "Yes",
+    "consent_type": "Default",
+    "ad_user_data": "Denied",
+    "ad_personalization": "Denied",
+    "ad_storage": "Denied",
+    "analytics_storage": "Denied",
+    "functionality_storage": "Denied",
+    "personalization_storage": "Denied",
+    "security_storage": "Denied"
   }
 }
 ```
