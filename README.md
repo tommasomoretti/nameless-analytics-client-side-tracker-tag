@@ -97,62 +97,62 @@ This is a payload with only standard parameters and no customization at all.
 }
 ```
 
-| **Event overview**       | **Event details**       | **Type** | **Field description**                                                     |
-|--------------------------|-------------------------|----------|---------------------------------------------------------------------------|
-| event_date               |                         | String   | Date of the event (YYYY-MM-DD format)                                     |
-| event_datetime           |                         | String   | Full timestamp of the event (ISO 8601 format)                             |
-| event_timestamp          |                         | String   | Unix timestamp (milliseconds) of when the event was triggered             |
-| received_event_timestamp |                         | String   | Unix timestamp (milliseconds) of when the event was received              |
-| user_id                  |                         | String   | User ID (if available, may be anonymized)                                 |
-| client_id                |                         | String   | Unique identifier for the client (browser or app instance)                |
-| session_id               |                         | String   | Unique identifier for the session                                         |
-| event_name               |                         | String   | Name of the event (e.g., page view, click, purchase)                      |
-| event_origin             |                         | String   | Source of the event (e.g., Website, Mobile App)                           |
-| content_length           |                         | String   | Length of the event payload (bytes)                                       |
-| event_data               | event_type              | String   | Type of event                                                             |
-|                          | event_id                | String   | Unique identifier for the event                                           |
-|                          | channel_grouping        | String   | Attribution channel (e.g., organic, paid, direct)                         |
-|                          | source                  | String   | Source of traffic (e.g., google, facebook, direct)                        |
-|                          | campaign                | String   | Name of the campaign (if applicable)                                      |
-|                          | campaign_id             | String   | Campaign ID (if applicable)                                               |
-|                          | campaign_term           | String   | Search term used in the campaign (if applicable)                          |
-|                          | campaign_content        | String   | Campaign content (e.g., ad variation, CTA text)                           |
-|                          | page_id                 | String   | Unique identifier for the page                                            |
-|                          | page_title              | String   | Title of the page visited                                                 |
-|                          | page_hostname_protocol  | String   | Protocol used (http or https)                                             |
-|                          | page_hostname           | String   | Hostname of the page                                                      |
-|                          | page_location           | String   | Path of the page within the website                                       |
-|                          | page_fragment           | String   | URL fragment (hash part, e.g., #section1)                                 |
-|                          | page_query              | String   | Query string parameters in the URL                                        |
-|                          | page_extension          | String   | File extension of the page (e.g., .html, .php)                            |
-|                          | page_referrer           | String   | Referrer URL (previous page)                                              |
-|                          | cs_container_id         | String   | Client-side Google Tag Manager container ID                               |
-|                          | user_agent              | String   | User agent string                                                         |
-|                          | browser_name            | String   | Name of the browser used                                                  |
-|                          | browser_language        | String   | Language setting of the browser                                           |
-|                          | browser_version         | String   | Version of the browser                                                    |
-|                          | device_type             | String   | Type of device (e.g., desktop, mobile, tablet)                            |
-|                          | device_vendor           | String   | Manufacturer of the device                                                |
-|                          | device_model            | String   | Model of the device                                                       |
-|                          | os_name                 | String   | Operating system name                                                     |
-|                          | os_version              | String   | Version of the operating system                                           |
-|                          | screen_size             | String   | Full screen resolution of the device                                      |
-|                          | wiewport_size           | String   | Viewport size (usable area in browser)                                    |
-|                          | page_language           | String   | Language of the page content                                              |
-|                          | country                 | String   | Country of the user (based on IP or other signals)                        |
-|                          | city                    | String   | City of the user (based on IP or other signals)                           |
-|                          | ss_hostname             | String   | Server-side GTM hostname                                                  |
-|                          | ss_container_id         | String   | Server-side Google Tag Manager container ID                               |
-| Consent details          | respect_consent_mode    | String   | Whether consent mode is respected                                         |
-|                          | tracking_anonimization  | String   | Whether tracking is anonymized (if respect_consent_mode is "No")          |
-|                          | consent_type            | String   | Type of consent applied                                                   |
-|                          | ad_user_data            | String   | Whether advertising user data is allowed                                  |
-|                          | ad_personalization      | String   | Whether ad personalization is allowed                                     |
-|                          | ad_storage              | String   | Whether ad-related storage (cookies, local storage) is allowed            |
-|                          | analytics_storage       | String   | Whether analytics storage (cookies, local storage) is allowed             |
-|                          | functionality_storage   | String   | Whether functional cookies (e.g., preferences) are allowed                |
-|                          | personalization_storage | String   | Whether personalization storage is allowed                                |
-|                          | security_storage        | String   | Whether security-related storage (e.g., authentication tokens) is allowed |
+| **Event overview**       | **Event details**       | **Type** | **Added**   | **Field description**                                                     |
+|--------------------------|-------------------------|----------|-------------|---------------------------------------------------------------------------|
+| event_date               |                         | String   | Client side | Date of the event (YYYY-MM-DD format)                                     |
+| event_datetime           |                         | String   | Client side | Full timestamp of the event (ISO 8601 format)                             |
+| event_timestamp          |                         | Integer  | Client side | Unix timestamp (milliseconds) of when the event was triggered             |
+| received_event_timestamp |                         | Integer  | Server side | Unix timestamp (milliseconds) of when the event was received              |
+| user_id                  |                         | String   | Client side | User ID (if available, may be anonymized)                                 |
+| client_id                |                         | String   | Server side | Unique identifier for the client (browser or app instance)                |
+| session_id               |                         | String   | Server side | Unique identifier for the session                                         |
+| event_name               |                         | String   | Client side | Name of the event (e.g., page view, click, purchase)                      |
+| event_origin             |                         | String   | Client side | Source of the event (e.g., Website, Mobile App)                           |
+| content_length           |                         | Integer  | Server side | Length of the event payload (bytes)                                       |
+| event_data               | event_type              | String   | Client side | Type of event                                                             |
+|                          | event_id                | String   | Client side | Unique identifier for the event                                           |
+|                          | channel_grouping        | String   | Client side | Attribution channel (e.g., organic, paid, direct)                         |
+|                          | source                  | String   | Client side | Source of traffic (e.g., google, facebook, direct)                        |
+|                          | campaign                | String   | Client side | Name of the campaign (if applicable)                                      |
+|                          | campaign_id             | String   | Client side | Campaign ID (if applicable)                                               |
+|                          | campaign_term           | String   | Client side | Search term used in the campaign (if applicable)                          |
+|                          | campaign_content        | String   | Client side | Campaign content (e.g., ad variation, CTA text)                           |
+|                          | page_id                 | String   | Client side | Unique identifier for the page                                            |
+|                          | page_title              | String   | Client side | Title of the page visited                                                 |
+|                          | page_hostname_protocol  | String   | Client side | Protocol used (http or https)                                             |
+|                          | page_hostname           | String   | Client side | Hostname of the page                                                      |
+|                          | page_location           | String   | Client side | Path of the page within the website                                       |
+|                          | page_fragment           | String   | Client side | URL fragment (hash part, e.g., #section1)                                 |
+|                          | page_query              | String   | Client side | Query string parameters in the URL                                        |
+|                          | page_extension          | String   | Client side | File extension of the page (e.g., .html, .php)                            |
+|                          | page_referrer           | String   | Client side | Referrer URL (previous page)                                              |
+|                          | page_language           | String   | Client side | Language of the page content                                              |
+|                          | cs_container_id         | String   | Client side | Client-side Google Tag Manager container ID                               |
+|                          | user_agent              | String   | Client side | User agent string                                                         |
+|                          | browser_name            | String   | Client side | Name of the browser used                                                  |
+|                          | browser_language        | String   | Client side | Language setting of the browser                                           |
+|                          | browser_version         | String   | Client side | Version of the browser                                                    |
+|                          | device_type             | String   | Client side | Type of device (e.g., desktop, mobile, tablet)                            |
+|                          | device_vendor           | String   | Client side | Manufacturer of the device                                                |
+|                          | device_model            | String   | Client side | Model of the device                                                       |
+|                          | os_name                 | String   | Client side | Operating system name                                                     |
+|                          | os_version              | String   | Client side | Version of the operating system                                           |
+|                          | screen_size             | String   | Client side | Full screen resolution of the device                                      |
+|                          | wiewport_size           | String   | Client side | Viewport size (usable area in browser)                                    |
+|                          | country                 | String   | Server side | Country of the user (based on IP or other signals)                        |
+|                          | city                    | String   | Server side | City of the user (based on IP or other signals)                           |
+|                          | ss_hostname             | String   | Server side | Server-side GTM hostname                                                  |
+|                          | ss_container_id         | String   | Server side | Server-side Google Tag Manager container ID                               |
+| Consent details          | respect_consent_mode    | String   | Client side | Whether consent mode is respected                                         |
+|                          | tracking_anonimization  | String   | Client side | Whether tracking is anonymized (if respect_consent_mode is "No")          |
+|                          | consent_type            | String   | Client side | Type of consent applied                                                   |
+|                          | ad_user_data            | String   | Client side | Whether advertising user data is allowed                                  |
+|                          | ad_personalization      | String   | Client side | Whether ad personalization is allowed                                     |
+|                          | ad_storage              | String   | Client side | Whether ad-related storage (cookies, local storage) is allowed            |
+|                          | analytics_storage       | String   | Client side | Whether analytics storage (cookies, local storage) is allowed             |
+|                          | functionality_storage   | String   | Client side | Whether functional cookies (e.g., preferences) are allowed                |
+|                          | personalization_storage | String   | Client side | Whether personalization storage is allowed                                |
+|                          | security_storage        | String   | Client side | Whether security-related storage (e.g., authentication tokens) is allowed |
 
 
 
