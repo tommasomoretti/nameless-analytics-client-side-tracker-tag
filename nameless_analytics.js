@@ -4,8 +4,8 @@ function send_data(full_endpoint, payload, data, enable_logs) {
   const formatted_datetime = format_datetime(timestamp)
   const ua_info = parse_user_agent()
 
-  payload.event_date = formatted_datetime.split("T")[0]
-  payload.event_datetime = formatted_datetime
+  payload.event_date = formatted_datetime.date
+  payload.event_datetime = formatted_datetime.date_time_micros
   payload.event_data.user_agent = ua_info.ua
   payload.event_data.browser_name = ua_info.browser.name
   payload.event_data.browser_language = ua_info.browser.language
@@ -64,9 +64,22 @@ function format_datetime(timestamp) {
   const seconds = String(date.getUTCSeconds()).padStart(2, '0')
   const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0')
 
-  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}000`
+  const formatted_date = {
+    date: `${year}-${month}-${day}`,
+    date_time: `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`,
+    date_time_millis: `${year}-${month}-${day}T${hours}:${minutes}:${seconds}` + `.${milliseconds}`,
+    date_time_micros: `${year}-${month}-${day}T${hours}:${minutes}:${seconds}` + `.${milliseconds}000`,
+    year: year,
+    month: month,
+    day: day,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+    milliseconds: `.${milliseconds}`,
+    microseconds: `.${milliseconds}000`
+  }
 
-  return formattedDate
+  return formatted_date
 }
 
 
