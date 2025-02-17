@@ -217,12 +217,12 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 }
 
 
-// Retreive last value of analytics_storage 
+// Retreive last consent value
 function get_last_consent_values() {
   if (typeof google_tag_data !== 'undefined' && google_tag_data) {
-    const used_default = google_tag_data.ics.usedDefault; // Is default consent set?
-    const used_update = google_tag_data.ics.usedUpdate; // Is consent update?
-    const raw_consent_data = google_tag_data.ics.entries; // Consent values
+    const used_default = google_tag_data.ics.usedDefault;
+    const used_update = google_tag_data.ics.usedUpdate;
+    const raw_consent_data = google_tag_data.ics.entries;
 
     const consents = {
       consent_type: (!used_default && !used_update) ? "Consent mode not present" : ((used_default && !used_update) ? "default" : "update"),
@@ -267,4 +267,15 @@ async function get_user_data(saved_full_endpoint, payload, enable_logs) {
     if(enable_logs){console.log("🔴 Undefined endpoint domain")}
     return {}
   }
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+// Get whole datalayer
+function get_all_data_from_dataLayer () {
+  window.dataLayer = window.dataLayer || [];
+  
+  return window.dataLayer
 }
