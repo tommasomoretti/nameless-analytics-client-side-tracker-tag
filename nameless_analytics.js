@@ -98,36 +98,26 @@ const parse_user_agent = function () {
 
 // Channel grouping
 function get_channel_grouping(source, campaign) {
+  const lowerSource = source.toLowerCase();
   const patterns = {
     search: new RegExp('360\\.cn|alice|aol|ar\\.search\\.yahoo\\.com|ask|bing|google|yahoo|yandex|baidu|duckduckgo|sogou|naver|seznam', 'i'),
     social: new RegExp('facebook|twitter|instagram|pinterest|linkedin|reddit|vk\\.com|tiktok|snapchat|tumblr|wechat|whatsapp', 'i'),
     shopping: new RegExp('amazon|ebay|etsy|shopify|stripe|walmart|mercadolibre|alibaba|naver\\.shopping', 'i'),
     video: new RegExp('youtube|vimeo|netflix|twitch|dailymotion|hulu|disneyplus|wistia|youku', 'i'),
     ai: new RegExp('chatgpt|gemini|bard|claude|alexa|siri|assistant|\\.ai([/]|$)', 'i'),
-    email: new RegExp('email|e-mail||newsletter|mailchimp|sendgrid|sparkpost', 'i')
+    email: new RegExp('email|e-mail|newsletter|mailchimp|sendgrid|sparkpost', 'i')
   };
 
   if (!source) return 'internal_traffic';
-
-  const lowerSource = source.toLowerCase();
-  
   if (lowerSource === 'direct') return 'direct';
-  
   if (source === 'tagassistant.google.com') return 'gtm_debugger';
-
-  if (patterns.search.test(source)) {
-    return campaign ? 'paid_search' : 'organic_search';
-  }
-  if (patterns.social.test(source)) {
-    return campaign ? 'paid_social' : 'organic_social';
-  }
+  if (patterns.search.test(source)) {return campaign ? 'paid_search' : 'organic_search';}
+  if (patterns.social.test(source)) {return campaign ? 'paid_social' : 'organic_social';}
+  if (patterns.shopping.test(source)) {return campaign ? 'paid_shopping' : 'organic_shopping';}
+  if (patterns.video.test(source)) { return campaign ? 'paid_video' : 'organic_video';}
   if (patterns.ai.test(source)) return 'organic_ai';
-  if (patterns.email.test(source)) {
-    return campaign ? 'email' : 'undefined';
-  }
-
+  if (patterns.email.test(source)) { return campaign ? 'email' : 'undefined';}
   if (!campaign) return 'referral';
-
   if (campaign) return 'affiliate';
 
   return 'undefined';
