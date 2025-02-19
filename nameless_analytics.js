@@ -98,7 +98,6 @@ const parse_user_agent = function () {
 
 // Channel grouping
 function get_channel_grouping(source, campaign) {
-  const lowerSource = source.toLowerCase();
   const patterns = {
     search_engine: new RegExp('360\\.cn|alice|aol|ar\\.search\\.yahoo\\.com|ask|bing|google|yahoo|yandex|baidu|duckduckgo|sogou|naver|seznam', 'i'),
     social: new RegExp('facebook|twitter|instagram|pinterest|linkedin|reddit|vk\\.com|tiktok|snapchat|tumblr|wechat|whatsapp', 'i'),
@@ -109,7 +108,7 @@ function get_channel_grouping(source, campaign) {
   };
 
   if (!source) return 'internal_traffic';
-  if (lowerSource === 'direct') return 'direct';
+  if (source === 'direct') return 'direct';
   if (source === 'tagassistant.google.com') return 'gtm_debugger';
   if (patterns.search_engine.test(source)) {return campaign ? 'paid_search_engine' : 'organic_search_engine';}
   if (patterns.social.test(source)) {return campaign ? 'paid_social' : 'organic_social';}
