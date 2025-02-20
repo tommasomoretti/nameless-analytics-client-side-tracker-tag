@@ -1,5 +1,5 @@
 // Send hits
-function send_data(full_endpoint, payload, data, enable_logs) {
+function send_data(full_endpoint, payload, data, enable_logs, push_user_data_into_dataLayer) {
   const timestamp = payload.event_timestamp
   const formatted_datetime = format_datetime(timestamp)
   const ua_info = parse_user_agent()
@@ -36,6 +36,17 @@ function send_data(full_endpoint, payload, data, enable_logs) {
           if(enable_logs){console.log('  👉 Event name: ' + response_json.data.event_name)}
           if(enable_logs){console.log('  👉 Payload data: ', response_json.data)}
           if(enable_logs){console.log('  ' + response_json.response)}
+
+          if(push_user_data_into_dataLayer) {
+            window.dataLayer = window.dataLayer || []
+            window.dataLayer.push({
+              event: 'na_user_data',
+              client_id: response_json.data.client_id,
+              session_id: response_json.data.session_id,
+              page_id: response_json.data.event_data.page_id
+            })
+          }
+          
           return data.gtmOnSuccess()
         } else {
           if(enable_logs){console.log('  ' + response_json.response)}
