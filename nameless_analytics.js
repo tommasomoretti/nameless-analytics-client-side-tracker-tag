@@ -1,27 +1,29 @@
 // Send hits
 function send_data(full_endpoint, payload, data, enable_logs, push_user_data_into_dataLayer) {
-  const timestamp = payload.event_timestamp
-  const formatted_datetime = format_datetime(timestamp)
-  const ua_info = parse_user_agent()
+  const timestamp = payload.event_timestamp;
+  const formatted_datetime = format_datetime(timestamp);
+  const ua_info = parse_user_agent();
 
-  payload.event_date = formatted_datetime.date
-  payload.event_datetime = formatted_datetime.date_time_micros
-  payload.event_data.user_agent = ua_info.ua
-  payload.event_data.browser_name = ua_info.browser.name
-  payload.event_data.browser_language = ua_info.browser.language
-  payload.event_data.browser_version = ua_info.browser.version
-  payload.event_data.device_type = ua_info.device.type || "desktop"
-  payload.event_data.device_vendor = ua_info.device.vendor
-  payload.event_data.device_model = ua_info.device.model
-  payload.event_data.os_name = ua_info.os.name
-  payload.event_data.os_version = ua_info.os.version
-  payload.event_data.screen_size = window.screen.width + "x" + window.screen.height
-  payload.event_data.wiewport_size = window.innerWidth + "x" + window.innerHeight
-  payload.event_data.page_language = document.documentElement.lang
+  payload.event_date = formatted_datetime.date;
+  payload.event_datetime = formatted_datetime.date_time_micros;
+  payload.event_data.user_agent = ua_info.ua;
+  payload.event_data.browser_name = ua_info.browser.name;
+  payload.event_data.browser_language = ua_info.browser.language;
+  payload.event_data.browser_version = ua_info.browser.version;
+  payload.event_data.device_type = ua_info.device.type || "desktop";
+  payload.event_data.device_vendor = ua_info.device.vendor;
+  payload.event_data.device_model = ua_info.device.model;
+  payload.event_data.os_name = ua_info.os.name;
+  payload.event_data.os_version = ua_info.os.version;
+  payload.event_data.screen_size = window.screen.width + "x" + window.screen.height;
+  payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
+  payload.event_data.page_language = document.documentElement.lang;
 
-  if(enable_logs){console.log('SENDING REQUEST...')} 
-  
-  if (full_endpoint.split('/')[2] != 'undefined'){
+  if (enable_logs) {
+    console.log('SENDING REQUEST...');
+  }
+
+  if (full_endpoint.split('/')[2] !== 'undefined') {
     try {
       fetch(full_endpoint, {
         method: 'POST',
@@ -32,33 +34,68 @@ function send_data(full_endpoint, payload, data, enable_logs, push_user_data_int
       })
       .then((response) => response.json())
       .then((response_json) => {
-        if (response_json.status_code === 200){
-          if(enable_logs){console.log('  👉 Event name: ' + response_json.data.event_name)}
-          if(enable_logs){console.log('  👉 Payload data: ', response_json.data)}
-          if(enable_logs){console.log('  ' + response_json.response)}
+        if (response_json.status_code === 200) {
+          if (enable_logs) {
+            console.log('  👉 Event name: ' + response_json.data.event_name);
+            console.log('  👉 Payload data: ', response_json.data);
+            console.log('  ' + response_json.response);
+          }
 
-          if(push_user_data_into_dataLayer) {
-            window.dataLayer = window.dataLayer || []
+          let was_pushed = window.was_pushed || false;
+          let last_client_id = window.last_client_id || null;
+          let last_session_id = window.last_session_id || null;
+          let last_page_id = window.last_page_id || null;
+
+          const current_client_id = response_json.data.client_id;
+          const current_session_id = response_json.data.session_id;
+          const current_page_id = response_json.data.event_data.page_id.split('-')[1];
+
+          if (push_user_data_into_dataLayer && !was_pushed){           
+             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: 'na_user_data',
-              client_id: response_json.data.client_id,
-              session_id: response_json.data.session_id,
-              page_id: response_json.data.event_data.page_id
-            })
-          }
-          
-          return data.gtmOnSuccess()
+              client_id: current_client_id,
+              session_id: current_session_id,
+              page_id: current_page_id
+            });
+            
+            window.was_pushed = true;
+            window.last_client_id = current_client_id;
+            window.last_session_id = current_session_id;
+            window.last_page_id = current_page_id;
+          } else if (push_user_data_into_dataLayer && (current_client_id !== last_client_id || current_session_id !== last_session_id)) { // Only when a cookie expire within a session
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              event: 'na_user_data',
+              client_id: current_client_id,
+              session_id: current_session_id,
+              page_id: current_page_id
+            });
+            
+            window.was_pushed = true;
+            window.last_client_id = current_client_id;
+            window.last_session_id = current_session_id;
+            window.last_page_id = current_page_id;  
+          } 
+
+          return data.gtmOnSuccess();
         } else {
-          if(enable_logs){console.log('  ' + response_json.response)}
-          return data.gtmOnFailure()
+          if (enable_logs) {
+            console.log('  ' + response_json.response);
+          }
+          return data.gtmOnFailure();
         }
-      }) 
-    } catch(error) {
-      if(enable_logs){console.log('  🔴 Error while fetch')}
-      return data.gtmOnFailure()
+      });
+    } catch (error) {
+      if (enable_logs) {
+        console.log('  🔴 Error while fetch');
+      }
+      return data.gtmOnFailure();
     }
   } else {
-    if(enable_logs){console.log('  🔴 This website is not authorized to send Nameless Analytics requests.')}
+    if (enable_logs) {
+      console.log('  🔴 This website is not authorized to send Nameless Analytics requests.');
+    }
   }
 }
 
@@ -267,15 +304,4 @@ async function get_user_data(saved_full_endpoint, payload, enable_logs) {
     if(enable_logs){console.log("🔴 Undefined endpoint domain")}
     return {}
   }
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-// Get whole datalayer
-function get_all_data_from_dataLayer () {
-  window.dataLayer = window.dataLayer || [];
-  
-  return window.dataLayer
 }
