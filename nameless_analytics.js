@@ -180,7 +180,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
   const saved_cross_domain_domains = cross_domain_domains;
 
   let listener = function(event) {
-    var target = (event.target.getAttribute("href")) ? event.target : event.target.closest('a');
+    var target = event.target.closest('a');
     if (target && target.getAttribute("href")) {
       var original_href = target.getAttribute("href");
       var link_url = new URL(original_href);
@@ -198,72 +198,67 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
 
         let popupWindow = null;
-        if (link_target === "_blank") {
-          popupWindow = window.open(original_href, "_blank");
-        } else {
-          event.preventDefault();
+
+        // If the link is not cross-domain
+        if (!domain_matches || is_self) {
+          return;
         }
 
-        if (domain_matches && !is_self && (consent_granted_or_not_needed || Object.entries(consent_values).length === 0)) {
-          get_user_data(saved_full_endpoint, { event_name: 'get_user_data', event_origin: 'Website' }, enable_logs)
-            .then(user_data => {
-              const client_id = user_data.client_id;
-              const session_id = user_data.session_id;
+        // If the link is cross-domain but consent is denied
+        if (domain_matches && !consent_granted_or_not_needed) {
+          return;
+        }
 
-              if (enable_logs) {
-                console.log('CROSS-DOMAIN');
-              }
+        // If the link is cross-domain and consent is granted
+        event.preventDefault();
 
-              if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
-                link_url.searchParams.set('na_id', session_id);
-              } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
-                link_url.searchParams.set('na_id', session_id);
-              }
+        // Create new window if link has target: _blank 
+        if (domain_matches && link_target === "_blank") {
+          popupWindow = window.open("about:blank", "_blank");
+        }
 
-              if (enable_logs) {
-                console.log('  Redirect to: ' + link_url.href);
-              }
+        get_user_data(saved_full_endpoint, { event_name: 'get_user_data', event_origin: 'Website' }, enable_logs)
+          .then(user_data => {
+            const client_id = user_data.client_id;
+            const session_id = user_data.session_id;
 
-              if (popupWindow) {
-                // Se il popup è stato aperto, aggiorniamo la sua location
-                popupWindow.location.href = link_url.href;
-                return
-              } else {
-                // Se il popup è stato bloccato, apriamo il link con il parametro aggiornato
-                if (link_target === "_blank") {
-                  window.open(link_url.href, "_blank");
-                  return
-                } else {
-                  window.location.href = link_url.href;
-                  return
-                }
-              }
-            })
-            .catch(error => {
-              console.error('Errore nel recupero dei dati utente:', error);
-              if (!popupWindow) {
-                if (link_target === "_blank") {
-                  window.open(original_href, "_blank");
-                } else {
-                  window.location.href = original_href;
-                }
-              }
+            if (enable_logs) {
+              console.log('CROSS-DOMAIN');
             }
-          );
-        }
+
+            if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
+              link_url.searchParams.set('na_id', session_id);
+            } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
+              link_url.searchParams.set('na_id', session_id);
+            }
+
+            if (enable_logs) {console.log('  Redirect to: ' + link_url.href)}
+            
+            if (popupWindow) {
+              popupWindow.location.href = link_url.href;
+            } else {
+              window.location.href = link_url.href;
+            }
+          })
+          .catch(error => {
+            console.error('Errore nel recupero dei dati utente:', error);
+            if (popupWindow) {
+              popupWindow.location.href = original_href;
+            } else {
+              window.location.href = original_href;
+            }
+          });
       }
     }
   };
 
   document.querySelectorAll('a').forEach(function(element) {
     element.addEventListener('click', listener);
-    element.childNodes.forEach(function(child) {
-      child.addEventListener('click', listener);
-    });
   });
 }
 
-// Recupera l'ultimo valore di consenso
+
+// Get last consent values
 function get_last_consent_values() {
   if (typeof google_tag_data !== 'undefined' && google_tag_data) {
     const used_default = google_tag_data.ics.usedDefault;
@@ -285,7 +280,7 @@ function get_last_consent_values() {
   }
 }
 
-// Recupera i dati utente dal GTM Server-side
+// Ask user data to GTM Server-side
 function get_user_data(saved_full_endpoint, payload, enable_logs) {
   if (saved_full_endpoint.split('/')[2].split('.')[1] !== 'undefined') {
     return fetch(saved_full_endpoint, {
