@@ -227,12 +227,15 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
               if (popupWindow) {
                 // Se il popup è stato aperto, aggiorniamo la sua location
                 popupWindow.location.href = link_url.href;
+                return
               } else {
                 // Se il popup è stato bloccato, apriamo il link con il parametro aggiornato
                 if (link_target === "_blank") {
                   window.open(link_url.href, "_blank");
+                  return
                 } else {
                   window.location.href = link_url.href;
+                  return
                 }
               }
             })
