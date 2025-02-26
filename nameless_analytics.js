@@ -51,7 +51,7 @@ function send_data(full_endpoint, payload, data, enable_logs, push_user_data_int
           const current_page_id = response_json.data.event_data.page_id.split('-')[1];
 
           if (push_user_data_into_dataLayer && !was_pushed){           
-             window.dataLayer = window.dataLayer || [];
+            window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: 'na_user_data',
               client_id: current_client_id,
