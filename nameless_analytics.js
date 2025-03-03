@@ -41,42 +41,26 @@ function send_data(full_endpoint, payload, data, enable_logs, push_user_data_int
             console.log('  ' + response_json.response);
           }
 
-          let was_pushed = window.was_pushed || false;
-          let last_client_id = window.last_client_id || null;
-          let last_session_id = window.last_session_id || null;
-          let last_page_id = window.last_page_id || null;
+          const new_user_data = {
+            client_id: response_json.data.client_id,
+            session_id: response_json.data.session_id,
+            page_id: response_json.data.event_data.page_id.split('-')[1]
+          };
 
-          const current_client_id = response_json.data.client_id;
-          const current_session_id = response_json.data.session_id;
-          const current_page_id = response_json.data.event_data.page_id.split('-')[1];
+          const previous_session_id = window.na_user_data?.session_id;
+          const previous_page_id = window.na_user_data?.page_id;
 
-          if (push_user_data_into_dataLayer && !was_pushed){           
+          if (!window.na_user_data || previous_session_id !== new_user_data.session_id || previous_page_id !== new_user_data.page_id) {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
-              event: 'na_user_data',
-              client_id: current_client_id,
-              session_id: current_session_id,
-              page_id: current_page_id
+              event: 'na_data',
+              ...new_user_data,
+              user_log: response_json.data.user_log,
+              page_log: response_json.data.event_data.page_log,
             });
-            
-            window.was_pushed = true;
-            window.last_client_id = current_client_id;
-            window.last_session_id = current_session_id;
-            window.last_page_id = current_page_id;
-          } else if (push_user_data_into_dataLayer && (current_client_id !== last_client_id || current_session_id !== last_session_id)) { // Only when a cookie expire within a session
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-              event: 'na_user_data',
-              client_id: current_client_id,
-              session_id: current_session_id,
-              page_id: current_page_id
-            });
-            
-            window.was_pushed = true;
-            window.last_client_id = current_client_id;
-            window.last_session_id = current_session_id;
-            window.last_page_id = current_page_id;  
-          } 
+          }
+
+          window.na_user_data = new_user_data;
 
           return data.gtmOnSuccess();
         } else {
