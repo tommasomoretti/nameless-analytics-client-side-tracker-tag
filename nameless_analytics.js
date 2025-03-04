@@ -1,5 +1,5 @@
 // Send hits
-function send_data(full_endpoint, payload, data, enable_logs, push_user_data_into_dataLayer) {
+function send_data(full_endpoint, payload, data, enable_logs) {
   const timestamp = payload.event_timestamp;
   const formatted_datetime = format_datetime(timestamp);
   const ua_info = parse_user_agent();
@@ -40,27 +40,6 @@ function send_data(full_endpoint, payload, data, enable_logs, push_user_data_int
             console.log('  👉 Payload data: ', response_json.data);
             console.log('  ' + response_json.response);
           }
-
-          const new_user_data = {
-            client_id: response_json.data.client_id,
-            session_id: response_json.data.session_id,
-            page_id: response_json.data.event_data.page_id.split('-')[1]
-          };
-
-          const previous_session_id = window.na_user_data?.session_id;
-          const previous_page_id = window.na_user_data?.page_id;
-
-          if (!window.na_user_data || previous_session_id !== new_user_data.session_id || previous_page_id !== new_user_data.page_id) {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-              event: 'na_data',
-              ...new_user_data,
-              user_log: response_json.data.user_log,
-              page_log: response_json.data.event_data.page_log,
-            });
-          }
-
-          window.na_user_data = new_user_data;
 
           return data.gtmOnSuccess();
         } else {
