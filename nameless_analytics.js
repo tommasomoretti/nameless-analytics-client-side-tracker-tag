@@ -215,9 +215,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
     }
   };
 
-  document.querySelectorAll('a').forEach(function(element) {
-    element.addEventListener('click', listener);
-  });
+  document.body.addEventListener('click', listener)
 }
 
 
