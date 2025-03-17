@@ -27,7 +27,7 @@ Start from here:
 ## Tag UI and default payload
 This is the UI of the Client-side tracker tag.
 
-<img width="1265" alt="client-side-tracker-tag" src="https://github.com/user-attachments/assets/a8470cb7-cf74-4f50-8d24-adabef2d194f"/>
+<img width="1265" alt="Screenshot 2025-03-17 alle 10 54 41" src="https://github.com/user-attachments/assets/b2ccb393-f631-43fd-b57a-0f4e4833d3d8" />
 
 
 
