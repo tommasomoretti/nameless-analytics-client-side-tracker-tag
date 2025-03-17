@@ -98,7 +98,7 @@ This is a payload with only standard parameters and no customization at all.
 ```
 
 
-| **Event overview**       | **Event details**       | **Type** | **Added**   | **Field description**                                                     | **Calculated ** |
+| **Event overview**       | **Event details**       | **Type** | **Added**   | **Field description**                                                     | **Calculated** |
 |--------------------------|-------------------------|----------|-------------|---------------------------------------------------------------------------|--------------------|
 | event_date               |                         | String   | Client side | Date of the event (YYYY-MM-DD format)                                     | Via Javascript with [format-timestamp utility function]([url](https://github.com/tommasomoretti/nameless-analytics-measurement-protocol-and-utility-functions?tab=readme-ov-file#format-timestamp)) | 
 | event_datetime           |                         | String   | Client side | Full timestamp of the event (ISO 8601 format)                             |
@@ -184,10 +184,10 @@ Be carefull to:
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
 - page_load_time: Send this event when a page is loaded (on gtm.load event) with this parameters:
-  - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
-  - page_render_time: performance.timing.domComplete - performance.timing.domLoading
-  - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
-  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
+  - time_to_dom_interactive: ```performance.timing.domInteractive``` - ```performance.timing.responseStart```
+  - page_render_time: ```performance.timing.domComplete``` - ```performance.timing.domLoading```
+  - time_to_dom_complete: ```performance.timing.domComplete``` - ```performance.timing.responseStart```
+  - total_page_load_time: ```performance.timing.loadEventEnd``` - ```performance.timing.navigationStart```
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page and session_duration
 - view_promotion: Send this event when a user views a promotion
 - select_promotion: Send this event when a user interacts with a promotion
