@@ -188,7 +188,7 @@ Choose between:
   - page_render_time: ```performance.timing.domComplete``` - ```performance.timing.domLoading```
   - time_to_dom_complete: ```performance.timing.domComplete``` - ```performance.timing.responseStart```
   - total_page_load_time: ```performance.timing.loadEventEnd``` - ```performance.timing.navigationStart```
-- page_closed: Send this event when a page is closed to improve the accuracy of time_on_page and session_duration
+- page_closed: Send this event when a page is closed to improve the accuracy of time_on_page and session_duration. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
 - view_promotion: Send this event when a user views a promotion
 - select_promotion: Send this event when a user interacts with a promotion
 - view_item: Send this event when a user views the details of a product
