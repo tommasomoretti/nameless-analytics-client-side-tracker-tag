@@ -23,42 +23,52 @@ function send_data(full_endpoint, payload, data, enable_logs) {
     console.log('SENDING REQUEST...');
   }
 
-  if (full_endpoint.split('/')[2] !== 'undefined') {
-    try {
-      fetch(full_endpoint, {
-        method: 'POST',
-        credentials: 'include',
-        mode: 'cors',
-        keepalive: true,
-        body: JSON.stringify(payload)
-      })
-      .then((response) => response.json())
-      .then((response_json) => {
-        if (response_json.status_code === 200) {
-          if (enable_logs) {
-            console.log('  👉 Event name: ' + response_json.data.event_name);
-            console.log('  👉 Payload data: ', response_json.data);
-            console.log('  ' + response_json.response);
+  function send_payload () {
+    if (full_endpoint.split('/')[2] !== 'undefined') {
+      try {
+        fetch(full_endpoint, {
+          method: 'POST',
+          credentials: 'include',
+          mode: 'cors',
+          keepalive: true,
+          body: JSON.stringify(payload)
+        })
+        .then((response) => response.json())
+        .then((response_json) => {
+          if (response_json.status_code === 200) {
+            if (enable_logs) {
+              console.log('  👉 Event name: ' + response_json.data.event_name);
+              console.log('  👉 Payload data: ', response_json.data);
+              console.log('  ' + response_json.response);
+            }
+  
+            return data.gtmOnSuccess();
+          } else {
+            if (enable_logs) {
+              console.log('  ' + response_json.response);
+            }
+            return data.gtmOnFailure();
           }
-
-          return data.gtmOnSuccess();
-        } else {
-          if (enable_logs) {
-            console.log('  ' + response_json.response);
-          }
-          return data.gtmOnFailure();
+        });
+      } catch (error) {
+        if (enable_logs) {
+          console.log('  🔴 Error while fetch');
         }
-      });
-    } catch (error) {
-      if (enable_logs) {
-        console.log('  🔴 Error while fetch');
+        return data.gtmOnFailure();
       }
-      return data.gtmOnFailure();
+    } else {
+      if (enable_logs) {
+        console.log('  🔴 This website is not authorized to send Nameless Analytics requests.');
+      }
     }
+  }
+
+  // DA OTTIMIZZARE, BISOGNEREBBE APPLICARE IL DELAY SOLO QUANDO LE HIT NON CONTENGONO I COOKIES
+  // Delay all events by 500 ms to ensure that the page_view event has enough time to set cookies when they are not present (only when Respect Consent Mode = No)
+  if (payload.consent_data.respect_consent_mode == "No" && payload.event_name != 'page_view') {
+    setTimeout(() => send_payload (), "500"); // Default 500 ms
   } else {
-    if (enable_logs) {
-      console.log('  🔴 This website is not authorized to send Nameless Analytics requests.');
-    }
+    send_payload ()
   }
 }
 
