@@ -1,75 +1,73 @@
+// Send queued hits
+let queue = Promise.resolve();
+
+function send_queued_data(full_endpoint, payload, data, enable_logs) {
+  // Ensure that, even in case of an error, the queue continues processing subsequent requests.
+  queue = queue
+    .catch(() => {}) // Swallow previous error
+    .then(() => send_data(full_endpoint, payload, data, enable_logs));
+  return queue;
+}
+
+
 // Send hits
 function send_data(full_endpoint, payload, data, enable_logs) {
-  const timestamp = payload.event_timestamp;
-  const formatted_datetime = format_datetime(timestamp);
-  const ua_info = parse_user_agent();
-
-  payload.event_date = formatted_datetime.date;
-  payload.event_datetime = formatted_datetime.date_time_micros;
-  payload.event_data.user_agent = ua_info.ua;
-  payload.event_data.browser_name = ua_info.browser.name;
-  payload.event_data.browser_language = ua_info.browser.language;
-  payload.event_data.browser_version = ua_info.browser.version;
-  payload.event_data.device_type = ua_info.device.type || "desktop";
-  payload.event_data.device_vendor = ua_info.device.vendor;
-  payload.event_data.device_model = ua_info.device.model;
-  payload.event_data.os_name = ua_info.os.name;
-  payload.event_data.os_version = ua_info.os.version;
-  payload.event_data.screen_size = window.screen.width + "x" + window.screen.height;
-  payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
-  payload.event_data.page_language = document.documentElement.lang;
-
-  if (enable_logs) {
-    console.log('SENDING REQUEST...');
-  }
-
-  function send_payload () {
-    if (full_endpoint.split('/')[2] !== 'undefined') {
-      try {
-        fetch(full_endpoint, {
-          method: 'POST',
-          credentials: 'include',
-          mode: 'cors',
-          keepalive: true,
-          body: JSON.stringify(payload)
-        })
-        .then((response) => response.json())
-        .then((response_json) => {
-          if (response_json.status_code === 200) {
-            if (enable_logs) {
-              console.log('  👉 Event name: ' + response_json.data.event_name);
-              console.log('  👉 Payload data: ', response_json.data);
-              console.log('  ' + response_json.response);
-            }
+  return new Promise((resolve, reject) => {
+    const timestamp = payload.event_timestamp;
+    const formatted_datetime = format_datetime(timestamp);
+    const ua_info = parse_user_agent();
   
-            return data.gtmOnSuccess();
-          } else {
-            if (enable_logs) {
-              console.log('  ' + response_json.response);
-            }
-            return data.gtmOnFailure();
-          }
-        });
-      } catch (error) {
-        if (enable_logs) {
-          console.log('  🔴 Error while fetch');
-        }
-        return data.gtmOnFailure();
-      }
-    } else {
-      if (enable_logs) {
-        console.log('  🔴 This website is not authorized to send Nameless Analytics requests.');
-      }
+    payload.event_date = formatted_datetime.date;
+    payload.event_datetime = formatted_datetime.date_time_micros;
+    payload.event_data.user_agent = ua_info.ua;
+    payload.event_data.browser_name = ua_info.browser.name;
+    payload.event_data.browser_language = ua_info.browser.language;
+    payload.event_data.browser_version = ua_info.browser.version;
+    payload.event_data.device_type = ua_info.device.type || "desktop";
+    payload.event_data.device_vendor = ua_info.device.vendor;
+    payload.event_data.device_model = ua_info.device.model;
+    payload.event_data.os_name = ua_info.os.name;
+    payload.event_data.os_version = ua_info.os.version;
+    payload.event_data.screen_size = window.screen.width + "x" + window.screen.height;
+    payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
+    payload.event_data.page_language = document.documentElement.lang;
+    
+    if (enable_logs) console.log('SENDING REQUEST...');
+    
+    if (full_endpoint.split('/')[2] === 'undefined') {
+      if (enable_logs) console.log('🔴 This website is not authorized to send Nameless Analytics requests.');
+      return reject(new Error('Unauthorized'));
     }
-  }
-
-  // DA OTTIMIZZARE, BISOGNEREBBE APPLICARE IL DELAY SOLO QUANDO LE HIT NON CONTENGONO I COOKIES
-  // Delay all events by 500 ms to ensure that the page_view event has enough time to set cookies when they are not present (only when Respect Consent Mode = No)
-  if (payload.consent_data.respect_consent_mode == "No" && payload.event_name != 'page_view') {
-    setTimeout(() => send_payload (), "500"); // Default 500 ms
-  } else {
-    send_payload ()
-  }
+    
+    fetch(full_endpoint, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      keepalive: true,
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(response_json => {
+      if (response_json.status_code === 200) {
+        if (enable_logs) {
+          console.log('  👉 Event name: ' + response_json.data.event_name);
+          console.log('  👉 Payload data: ', response_json.data);
+          console.log('  ' + response_json.response);
+        }
+        data.gtmOnSuccess();
+        resolve(response_json.data);
+      } else {
+        if (enable_logs) console.log('  ' + response_json.response);
+        data.gtmOnFailure();
+        reject(new Error('Server error: ' + response_json.response));
+      }
+    })
+    .catch(error => {
+      if (enable_logs) console.log('  🔴 Error while fetch', error);
+      data.gtmOnFailure();
+      reject(error);
+    });
+  });
 }
 
 
@@ -250,6 +248,7 @@ function get_last_consent_values() {
     return 'No GTM found';
   }
 }
+
 
 // Ask user data to GTM Server-side
 function get_user_data(saved_full_endpoint, payload, enable_logs) {
