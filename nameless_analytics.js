@@ -1,4 +1,4 @@
-// Send queued hits
+// Create queue
 let queue = Promise.resolve();
 
 function send_queued_data(full_endpoint, payload, data, enable_logs) {
@@ -10,7 +10,7 @@ function send_queued_data(full_endpoint, payload, data, enable_logs) {
 }
 
 
-// Send hits
+// Send hits in FIFO queue
 function send_data(full_endpoint, payload, data, enable_logs) {
   return new Promise((resolve, reject) => {
     const timestamp = payload.event_timestamp;
@@ -248,7 +248,6 @@ function get_last_consent_values() {
     return 'No GTM found';
   }
 }
-
 
 // Ask user data to GTM Server-side
 function get_user_data(saved_full_endpoint, payload, enable_logs) {
