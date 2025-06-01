@@ -1,17 +1,30 @@
-// Create queue
+/* NAMELESS ANALYTICS 
+
+   MAIN LIBRARY V.1.0
+
+   Tommaso Moretti - 2020-2025
+*/
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+// STANDARD REQUESTS
+
+// Create requests queue
 let queue = Promise.resolve();
 
-function send_queued_data(full_endpoint, payload, data, enable_logs) {
+function send_queued_requests(full_endpoint, payload, data, enable_logs, ) {
   // Ensure that, even in case of an error, the queue continues processing subsequent requests.
   queue = queue
-    .catch(() => {}) // Swallow previous error
-    .then(() => send_data(full_endpoint, payload, data, enable_logs));
+  .catch(() => {}) // Swallow previous error
+  .then(() => build_payload(full_endpoint, payload, data, enable_logs));
   return queue;
 }
 
 
-// Send hits in FIFO queue
-function send_data(full_endpoint, payload, data, enable_logs) {
+// Build payload
+function build_payload(full_endpoint, payload, data, enable_logs) {
   return new Promise((resolve, reject) => {
     const timestamp = payload.event_timestamp;
     const formatted_datetime = format_datetime(timestamp);
@@ -31,42 +44,60 @@ function send_data(full_endpoint, payload, data, enable_logs) {
     payload.event_data.screen_size = window.screen.width + "x" + window.screen.height;
     payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
     payload.event_data.page_language = document.documentElement.lang;
-    
-    if (enable_logs) console.log('SENDING REQUEST...');
-    
-    if (full_endpoint.split('/')[2] === 'undefined') {
-      if (enable_logs) console.log('🔴 This website is not authorized to send Nameless Analytics requests.');
-      return reject(new Error('Unauthorized'));
+
+    // Fetch page status code. Only for real page_view events
+    if (data.config_variable.add_page_status_code && payload.event_data.event_type == 'page_view'){
+      fetch(window.location.href, {method: 'HEAD'})
+      .then(response => {
+        payload.event_data.page_status_code = response.status
+        send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
+      })
+    } else {
+      send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
     }
-    
-    fetch(full_endpoint, {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      keepalive: true,
-      body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(response_json => {
-      if (response_json.status_code === 200) {
-        if (enable_logs) {
-          console.log('  👉 Event name: ' + response_json.data.event_name);
-          console.log('  👉 Payload data: ', response_json.data);
-          console.log('  ' + response_json.response);
-        }
-        data.gtmOnSuccess();
-        resolve(response_json.data);
-      } else {
-        if (enable_logs) console.log('  ' + response_json.response);
-        data.gtmOnFailure();
-        reject(new Error('Server error: ' + response_json.response));
+  });
+}
+
+
+// Send requests
+function send_requests (full_endpoint, payload, data, enable_logs, resolve, reject){
+  if (enable_logs) console.log('SENDING REQUEST...');
+      
+  if (full_endpoint.split('/')[2] === 'undefined') {
+    if (enable_logs) console.log('🔴 This website is not authorized to send Nameless Analytics requests.');
+    return reject(new Error('Unauthorized'));
+  }
+      
+  fetch(full_endpoint, {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    keepalive: true,
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(response_json => {
+    if (response_json.status_code === 200) {
+      if (enable_logs) {
+        console.log('  👉 Event name: ' + response_json.data.event_name);
+        console.log('  👉 Payload data: ', response_json.data);
+        console.log('  ' + response_json.response);
+      }
+      
+      data.gtmOnSuccess();
+      resolve(response_json.data);
+    } else {
+      if (enable_logs) console.log('  ' + response_json.response);
+      
+      data.gtmOnFailure();
+      reject(new Error('Server error: ' + response_json.response));
       }
     })
-    .catch(error => {
-      if (enable_logs) console.log('  🔴 Error while fetch', error);
-      data.gtmOnFailure();
-      reject(error);
-    });
+  .catch(error => {
+    if (enable_logs) console.log('  🔴 Error while fetch', error);
+      
+    data.gtmOnFailure();
+    reject(error);
   });
 }
 
@@ -115,7 +146,7 @@ const parse_user_agent = function () {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-// Channel grouping
+// CHANNEL GROUPING
 function get_channel_grouping(source, campaign) {
   const patterns = {
     search_engine: new RegExp('360\\.cn|alice|aol|ar\\.search\\.yahoo\\.com|ask|bing|google|yahoo|yandex|baidu|duckduckgo|sogou|naver|seznam', 'i'),
@@ -145,7 +176,9 @@ function get_channel_grouping(source, campaign) {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-// Cross-domain
+// CROSS-DOMAIN 
+
+// Cross-domain listener and link decorator
 function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_consent_mode, enable_logs) {
   const saved_full_endpoint = full_endpoint;
   const saved_cross_domain_domains = cross_domain_domains;
@@ -251,6 +284,7 @@ function get_last_consent_values() {
     return 'No GTM found';
   }
 }
+
 
 // Ask user data to GTM Server-side
 function get_user_data(saved_full_endpoint, payload, enable_logs) {
