@@ -197,13 +197,16 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
               console.log('CROSS-DOMAIN');
             }
 
-            if (client_id !== 'undefined' && session_id !== 'undefined_undefined') {
+            if (enable_logs) {console.log('  👉 User data: ', user_data)}
+            
+            if (session_id !== 'undefined') {
+              if (enable_logs) {console.log('  🟢 Valid user data. Cross-domain URL link decoration will be applied.')}
               link_url.searchParams.set('na_id', session_id);
-            } else if (client_id === 'undefined' && session_id !== 'undefined_undefined') {
-              link_url.searchParams.set('na_id', session_id);
+            } else {
+              if (enable_logs) {console.log('  🔴 Invalid user data. No cross-domain URL link decoration will be applied.')}
             }
 
-            if (enable_logs) {console.log('  Redirect to: ' + link_url.href)}
+            if (enable_logs) {console.log('  👉 Redirect to: ' + link_url.href)}
             
             if (popupWindow) {
               popupWindow.location.href = link_url.href;
