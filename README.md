@@ -9,7 +9,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Client-side tracker tag UI](#tag-ui-and-default-payload)
-- [Standard payload](#default-payload)
+- [Standard payload](#standard-payload)
 - Basic settings
   - [Configuration variable](#configuration-variable)
 - Event data
