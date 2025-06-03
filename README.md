@@ -9,13 +9,13 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Client-side tracker tag UI](#tag-ui-and-default-payload)
-- [Default payload](#default-payload)
+- [Standard payload](#default-payload)
 - Basic settings
   - [Configuration variable](#configuration-variable)
 - Event data
   - [Event type](#event-type)
-    - [Standard events](#standard-events)
-    - [Custom events](#custom-events)
+    - [Standard event](#standard-events)
+    - [Custom event](#custom-events)
   - [Event parameters](#event-parameters)
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
@@ -31,7 +31,7 @@ This is the UI of the Client-side tracker tag.
 
 
 
-## Default payload
+## Standard payload
 This is a payload with only standard parameters and no customization at all.
 
 ```json
@@ -162,6 +162,11 @@ This is a payload with only standard parameters and no customization at all.
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
 
 This variable will handle settings like:
+- [set user level parameters]()
+- [set session level parameters]()
+- [set common event parameters]()
+- [add last dataLayer status to the request]()
+- [add page status code to the requests]()
 - [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#basic-settings)
 - [add common event parameters and user ID](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#event-data)
 - [set consent behavior](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#respect-google-consent-mode)
@@ -180,7 +185,7 @@ Be carefull to:
 - Use standard event names when possible
 - Follow naming convention for event name and event parameters 
 
-#### Standard events
+#### Standard event
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
 - page_load_time: Send this event when a page is loaded (on gtm.load event) with this parameters:
@@ -205,7 +210,7 @@ Choose between:
 - purchase: Send this event when a purchase is successfully completed
 - refund: Send this event when a refund is issued
 
-#### Custom events
+#### Custom event
 
 To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
@@ -227,7 +232,7 @@ If a parameter has the same name as another, it can override or be overridden de
 
 This is the hierarchy of event parameter importance:
 
-[Server-side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) > [Specific event parameters](#addoverride-event-parameters) > [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) > [dataLayer parameters](#add-event-parameters-from-datalayer) > [Default parameters](#default-payload)
+[Server-side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) > [Specific event parameters](#addoverride-event-parameters) > [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) > [dataLayer parameters](#add-event-parameters-from-datalayer) > [Standard parameters](#standard-payload)
 
 #### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. Page_id and event_id parameters cannot be overwritten.
