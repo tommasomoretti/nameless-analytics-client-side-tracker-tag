@@ -129,11 +129,11 @@ This is a payload with only standard parameters and no customization at all.
 ```
 
 
-| **Event overview**       | **Event details**       | **Type** | **Added**   | **Field description**                                                     | **Calculated** |
-|--------------------------|-------------------------|----------|-------------|---------------------------------------------------------------------------|--------------------|
-| event_date               |                         | String   | Client side | Date of the event (YYYY-MM-DD format)                                     | Via Javascript with [format-timestamp utility function]([url](https://github.com/tommasomoretti/nameless-analytics-measurement-protocol-and-utility-functions?tab=readme-ov-file#format-timestamp)) | 
-| event_datetime           |                         | String   | Client side | Full timestamp of the event (ISO 8601 format)                             |
-| event_timestamp          |                         | Integer  | Client side | Unix timestamp (milliseconds) of when the event was triggered             |
+| **Event overview**       | **Event details**       | **Type** | **Added**   | **Field description**                                                     |
+|--------------------------|-------------------------|----------|-------------|---------------------------------------------------------------------------|
+| event_date               |                         | String   | Client side | Date of the event (YYYY-MM-DD format)                                     |  
+| event_datetime           |                         | String   | Client side | Full timestamp of the event (ISO 8601 format)                             | 
+| event_timestamp          |                         | Integer  | Client side | Unix timestamp (milliseconds) of when the event was triggered             | 
 | received_event_timestamp |                         | Integer  | Server side | Unix timestamp (milliseconds) of when the event was received              |
 | user_id                  |                         | String   | Client side | User ID (if available, may be anonymized)                                 |
 | client_id                |                         | String   | Server side | Unique identifier for the client (browser or app instance)                |
