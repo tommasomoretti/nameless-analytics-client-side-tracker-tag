@@ -128,13 +128,15 @@ This is a payload with only standard parameters and no customization at all.
 }
 
 ```
-| **Event overview**       | **Type** | **Added**   | **Field description**                 |
-|--------------------------|----------|-------------|---------------------------------------|
-| event_date               | string   | Client-side | Date of the event                     |
-| event_datetime           | string   | Client-side | Datetime of the event                 |
-| event_timestamp          | integer  | Client-side | Timestamp of the event                |
-| client_id                | string   | Server-side | Identificativo univoco dell'utente    |
-| session_id               | string   | Server-Side | Identificativo univoco della sessione |
+| **Event overview**       | **Type** | **Added**   | **Field description**                   |
+|--------------------------|----------|-------------|-----------------------------------------|
+| event_date               | string   | Client-side | Date of the event                       |
+| event_datetime           | string   | Client-side | Datetime of the event                   |
+| event_timestamp          | integer  | Client-side | Timestamp of the event                  |
+
+| client_id                | string   | Server-side | Identificativo univoco dell'dispositivo |
+| user_id                  | string   | Client-Side | Identificativo univoco dell'utente      |
+| session_id               | string   | Server-Side | Identificativo univoco della sessione   |
 
 
 
