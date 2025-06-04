@@ -136,11 +136,11 @@ This is a payload with only standard parameters and no customization at all.
 | event_origin               | integer  | Client-side | Origine dell'evento                     |
 | processing_event_timestamp | integer  | Server-side | Processing timestamp of the event       |
 | content_length             | integer  | Client-side | Timestamp of the event                  |
-| event_name                 | integer  | Client-side | Nome dell'evento                        |
-| event_id                   | integer  | Client-side | Identificativo univoco dell'evento      |
-| client_id                  | string   | Server-side | Identificativo univoco dell'dispositivo |
 | user_id                    | string   | Client-Side | Identificativo univoco dell'utente      |
+| client_id                  | string   | Server-side | Identificativo univoco dell'dispositivo |
 | session_id                 | string   | Server-Side | Identificativo univoco della sessione   |
+| event_id                   | integer  | Client-side | Identificativo univoco dell'evento      |
+| event_name                 | integer  | Client-side | Nome dell'evento                        |
 
 
 
