@@ -44,9 +44,9 @@ function build_payload(full_endpoint, payload, data, enable_logs) {
     payload.event_data.screen_size = window.screen.width + "x" + window.screen.height;
     payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
     payload.event_data.page_language = document.documentElement.lang;
-
+    
     // Fetch page status code. Only for real page_view events
-    if (data.config_variable.add_page_status_code && payload.event_data.event_type == 'page_view'){
+    if (data.add_page_status_code && payload.event_data.event_type == 'page_view'){
       fetch(window.location.href, {method: 'HEAD'})
       .then(response => {
         payload.event_data.page_status_code = response.status
