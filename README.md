@@ -128,19 +128,53 @@ This is a payload with only standard parameters and no customization at all.
 }
 
 ```
-| **Event overview**         | **Type** | **Added**   | **Field description**                   |
-|----------------------------|----------|-------------|-----------------------------------------|
-| event_date                 | string   | Client-side | Date of the event                       |
-| event_datetime             | string   | Client-side | Datetime of the event                   |
-| event_timestamp            | integer  | Client-side | Timestamp of the event                  |
-| event_origin               | integer  | Client-side | Origine dell'evento                     |
-| processing_event_timestamp | integer  | Server-side | Processing timestamp of the event       |
-| content_length             | integer  | Client-side | Timestamp of the event                  |
-| user_id                    | string   | Client-Side | Identificativo univoco dell'utente      |
-| client_id                  | string   | Server-side | Identificativo univoco dell'dispositivo |
-| session_id                 | string   | Server-Side | Identificativo univoco della sessione   |
-| event_id                   | integer  | Client-side | Identificativo univoco dell'evento      |
-| event_name                 | integer  | Client-side | Nome dell'evento                        |
+| **Parameter name**         | ****                       | **Type** | **Added**   | **Field description**                   |
+|----------------------------|----------------------------|----------|-------------|-----------------------------------------|
+| event_date                 |                            | string   | Client-side | Date of the event                       |
+| event_datetime             |                            | string   | Client-side | Datetime of the event                   |
+| event_timestamp            |                            | integer  | Client-side | Timestamp of the event                  |
+| event_origin               |                            | integer  | Client-side | Origine dell'evento                     |
+| processing_event_timestamp |                            | integer  | Server-side | Processing timestamp of the event       |
+| content_length             |                            | integer  | Client-side | Timestamp of the event                  |
+| user_id                    |                            | string   | Client-Side | Identificativo univoco dell'utente      |
+| client_id                  |                            | string   | Server-side | Identificativo univoco dell'dispositivo |
+| session_id                 |                            | string   | Server-Side | Identificativo univoco della sessione   |
+| event_id                   |                            | integer  | Client-side | Identificativo univoco dell'evento      |
+| event_name                 |                            | integer  | Client-side | Nome dell'evento                        |
+| event_data                 | browser_language           | string   | Client-side | |
+|                            | browser_name               | string   | Client-side | |
+|                            | browser_version            | string   | Client-side | |
+|                            | campaign                   | string   | Client-side | |
+|                            | campaign_content           | string   | Client-side | |
+|                            | campaign_id                | string   | Client-side | |
+|                            | campaign_term              | string   | Client-side | |
+|                            | channel_grouping           | string   | Client-side | |
+|                            | city                       | string   | Client-side | |
+|                            | country                    | string   | Client-side | |
+|                            | cs_container_id            | string   | Client-side | |
+|                            | device_model               | string   | Client-side | |
+|                            | device_type                | string   | Client-side | |
+|                            | device_vendor              | string   | Client-side | |
+|                            | event_type                 | string   | Client-side | |
+|                            | os_name                    | string   | Client-side | |
+|                            | os_version                 | string   | Client-side | |
+|                            | page_extension             | string   | Client-side | |
+|                            | page_fragment              | string   | Client-side | |
+|                            | page_hostname              | string   | Client-side | |
+|                            | page_hostname_protocol     | string   | Client-side | |
+|                            | page_id                    | string   | Client-side | |
+|                            | page_language              | string   | Client-side | |
+|                            | page_location              | string   | Client-side | |
+|                            | page_query                 | string   | Client-side | |
+|                            | page_referrer              | string   | Client-side | |
+|                            | page_status_code           | string   | Client-side | |
+|                            | page_title                 | string   | Client-side | |
+|                            | screen_size                | string   | Client-side | |
+|                            | source                     | string   | Client-side | |
+|                            | ss_container_id            | string   | Server-side | |
+|                            | ss_hostname                | string   | Server-side | |
+|                            | user_agent                 | string   | Client-side | |
+|                            | viewport_size              | string   | Client-side | |
 
 
 
