@@ -141,7 +141,6 @@ This is a payload with only standard parameters and no customization at all.
 | session_id                 |                               | string   | Server-Side | Identificativo univoco della sessione   |
 | event_id                   |                               | integer  | Client-side | Identificativo univoco dell'evento      |
 | event_name                 |                               | integer  | Client-side | Nome dell'evento                        |
-
 | event_data                 | browser_language              | string   | Client-side | |
 |                            | browser_name                  | string   | Client-side | |
 |                            | browser_version               | string   | Client-side | |
@@ -176,7 +175,6 @@ This is a payload with only standard parameters and no customization at all.
 |                            | ss_hostname                   | string   | Server-side | |
 |                            | user_agent                    | string   | Client-side | |
 |                            | viewport_size                 | string   | Client-side | |
-
 | user_data                  | user_campaign                 | string   | Server-side | |
 |                            | user_campaign_id              | string   | Server-side | |
 |                            | user_channel_grouping         | string   | Server-side | |
@@ -187,7 +185,6 @@ This is a payload with only standard parameters and no customization at all.
 |                            | user_language                 | string   | Server-side | |
 |                            | user_last_session_timestamp   | string   | Server-side | |
 |                            | user_source                   | string   | Server-side | |
-
 | session_data               | cross_domain_session          | string   | Server-side | |
 |                            | session_browser_name          | string   | Server-side | |
 |                            | session_campaign              | string   | Server-side | |
@@ -206,7 +203,6 @@ This is a payload with only standard parameters and no customization at all.
 |                            | session_number                | string   | Server-side | |
 |                            | session_source                | string   | Server-side | |
 |                            | session_start_timestamp       | string   | Server-side | |
-
 | consent_data               | ad_personalization            | string   | Client-side | |
 |                            | ad_storage                    | string   | Client-side | |
 |                            | ad_user_data                  | string   | Client-side | |
