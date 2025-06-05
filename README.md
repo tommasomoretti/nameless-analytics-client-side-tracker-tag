@@ -128,7 +128,7 @@ This is a payload with only standard parameters and no customization at all.
 }
 
 ```
-| **Parameter name**         | ****                       | **Type** | **Added**   | **Field description**                   |
+| **Parameter name**         |                            | **Type** | **Added**   | **Field description**                   |
 |----------------------------|----------------------------|----------|-------------|-----------------------------------------|
 | event_date                 |                            | string   | Client-side | Date of the event                       |
 | event_datetime             |                            | string   | Client-side | Datetime of the event                   |
