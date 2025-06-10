@@ -37,11 +37,11 @@ This is a request payload with only standard parameters and no customization at 
 ```json
 {
     "event_name": "page_view",
-    "event_id": "TTCHKDG2NtVUA9_jL2YVSW6l3YsEkk",
+    "event_date": "2025-06-10",
+    "event_datetime": "2025-06-10T12:57:37.940000",
     "event_timestamp": 1749560257940,
+    "event_id": "TTCHKDG2NtVUA9_jL2YVSW6l3YsEkk",
     "event_origin": "Website",
-    "user_data": {},
-    "session_data": {},
     "event_data": {
         "event_type": "page_view",
         "channel_grouping": "direct",
@@ -74,6 +74,8 @@ This is a request payload with only standard parameters and no customization at 
         "page_language": "it",
         "page_status_code": 200
     },
+    "user_data": {},
+    "session_data": {},
     "consent_data": {
         "respect_consent_mode": "Yes",
         "consent_type": "Update",
@@ -84,9 +86,7 @@ This is a request payload with only standard parameters and no customization at 
         "functionality_storage": "Denied",
         "personalization_storage": "Denied",
         "security_storage": "Denied"
-    },
-    "event_date": "2025-06-10",
-    "event_datetime": "2025-06-10T12:57:37.940000"
+    }
 }
 ```
 | **Parameter name**         |                               | **Type** | **Added**   | **Field description**                   |
