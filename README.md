@@ -193,7 +193,9 @@ Choose between:
 - refund: Send this event when a refund is issued
 
 #### Custom event
-Choose a custom name for the event. To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
+Choose a custom name for the event. 
+
+N.B.: To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
 Examples:
 - button_clicked
