@@ -34,7 +34,7 @@ This is the UI of the Client-side tracker tag.
 ## Standard payload
 This is a request payload with only standard parameters and no customization at all. [See full request response payload](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag) made by [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag).
 
-json
+```json
 {
     "event_name": "page_view",
     "event_date": "2025-06-10",
@@ -87,6 +87,7 @@ json
         "security_storage": "Denied"
     }
 }
+```
 
 | **Parameter name**         |                               | **Type** | **Added**   | **Field description**                   |
 |----------------------------|-------------------------------|----------|-------------|-----------------------------------------|
