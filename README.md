@@ -34,7 +34,7 @@ This is the UI of the Client-side tracker tag.
 ## Standard payload
 This is a request payload with only standard parameters and no customization at all. [See full request response payload](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag) made by [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag).
 
-```json
+json
 {
     "event_name": "page_view",
     "event_date": "2025-06-10",
@@ -87,7 +87,7 @@ This is a request payload with only standard parameters and no customization at 
         "security_storage": "Denied"
     }
 }
-```
+
 | **Parameter name**         |                               | **Type** | **Added**   | **Field description**                   |
 |----------------------------|-------------------------------|----------|-------------|-----------------------------------------|
 | event_date                 |                               | string   | Client-side | Date of the event                       |
@@ -169,12 +169,12 @@ Be carefull to:
 #### Standard event
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
-- page_load_time: Send this event when a page is loaded (on ```gtm.load``` javascript event) with this parameters:
-  - time_to_dom_interactive: ```performance.timing.domInteractive``` - ```performance.timing.responseStart```
-  - page_render_time: ```performance.timing.domComplete``` - ```performance.timing.domLoading```
-  - time_to_dom_complete: ```performance.timing.domComplete``` - ```performance.timing.responseStart```
-  - total_page_load_time: ```performance.timing.loadEventEnd``` - ```performance.timing.navigationStart```
-- page_closed: Send this event when a page is closed to improve the accuracy of ```time_on_page```, ```session_duration``` and other metrics. This event can be triggered on ```gtm.scrollDepth``` since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with ```History.pushState()``` or ```History.replaceState()``` used in Single Page Applications.
+- page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
+  - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
+  - page_render_time: performance.timing.domComplete - performance.timing.domLoading
+  - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
+  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
+- page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
 - view_promotion: Send this event when a user views a promotion
 - select_promotion: Send this event when a user interacts with a promotion
 - view_item: Send this event when a user views the details of a product
