@@ -88,56 +88,56 @@ This is a request payload with only standard parameters and no customization at 
     }
 }
 ```
-| **Parameter name**         |                               | **Type** | **Added**   | **Field description**                   |
-|----------------------------|-------------------------------|----------|-------------|-----------------------------------------|
-| event_date                 |                               | string   | Client-side | Date of the event                       |
-| event_datetime             |                               | string   | Client-side | Datetime of the event                   |
-| event_timestamp            |                               | integer  | Client-side | Timestamp of the event                  |
-| event_origin               |                               | integer  | Client-side | Origine dell'evento                     |
-| content_length             |                               | integer  | Client-side | Timestamp of the event                  |
-| user_id                    |                               | string   | Client-Side | Identificativo univoco dell'utente      |
-| event_id                   |                               | integer  | Client-side | Identificativo univoco dell'evento      |
-| event_name                 |                               | integer  | Client-side | Nome dell'evento                        |
-| event_data                 | event_type                    | string   | Client-side | |
-|                            | channel_grouping              | string   | Client-side | |
-|                            | source                        | string   | Client-side | |
-|                            | campaign                      | string   | Client-side | |
-|                            | campaign_id                   | string   | Client-side | |
-|                            | campaign_term                 | string   | Client-side | |
-|                            | campaign_content              | string   | Client-side | |
-|                            | page_id                       | string   | Client-side | |
-|                            | page_title                    | string   | Client-side | |
-|                            | page_hostname_protocol        | string   | Client-side | |
-|                            | page_hostname                 | string   | Client-side | |
-|                            | page_location                 | string   | Client-side | |
-|                            | page_fragment                 | string   | Client-side | |
-|                            | page_query                    | string   | Client-side | |
-|                            | page_extension                | string   | Client-side | |
-|                            | page_referrer                 | string   | Client-side | |
-|                            | page_language                 | string   | Client-side | |
-|                            | cs_container_id               | string   | Client-side | |
-|                            | user_agent                    | string   | Client-side | |
-|                            | browser_name                  | string   | Client-side | |
-|                            | browser_language              | string   | Client-side | |
-|                            | browser_version               | string   | Client-side | |
-|                            | device_type                   | string   | Client-side | |
-|                            | device_vendor                 | string   | Client-side | |
-|                            | device_model                  | string   | Client-side | |
-|                            | os_name                       | string   | Client-side | |
-|                            | os_version                    | string   | Client-side | |
-|                            | screen_size                   | string   | Client-side | |
-|                            | viewport_size                 | string   | Client-side | |
-| user_data                  |                               |          |             | |
-| session_data               |                               |          |             | |
-| consent_data               | respect_consent_mode          | string   | Client-side | |
-|                            | consent_type                  | string   | Client-side | |
-|                            | ad_user_data                  | string   | Client-side | |
-|                            | ad_personalization            | string   | Client-side | |
-|                            | ad_storage                    | string   | Client-side | |
-|                            | analytics_storage             | string   | Client-side | |
-|                            | functionality_storage         | string   | Client-side | |
-|                            | personalization_storage       | string   | Client-side | |
-|                            | security_storage              | string   | Client-side | | 
+| **Parameter name**         |                               | **Type** |
+|----------------------------|-------------------------------|----------|
+| event_date                 |                               | string   |
+| event_datetime             |                               | string   |
+| event_timestamp            |                               | integer  |
+| event_origin               |                               | integer  |
+| content_length             |                               | integer  |
+| user_id                    |                               | string   |
+| event_id                   |                               | integer  |
+| event_name                 |                               | integer  |
+| event_data                 | event_type                    | string   |
+|                            | channel_grouping              | string   |
+|                            | source                        | string   |
+|                            | campaign                      | string   |
+|                            | campaign_id                   | string   |
+|                            | campaign_term                 | string   |
+|                            | campaign_content              | string   |
+|                            | page_id                       | string   |
+|                            | page_title                    | string   |
+|                            | page_hostname_protocol        | string   |
+|                            | page_hostname                 | string   |
+|                            | page_location                 | string   |
+|                            | page_fragment                 | string   |
+|                            | page_query                    | string   |
+|                            | page_extension                | string   |
+|                            | page_referrer                 | string   |
+|                            | page_language                 | string   |
+|                            | cs_container_id               | string   |
+|                            | user_agent                    | string   |
+|                            | browser_name                  | string   |
+|                            | browser_language              | string   |
+|                            | browser_version               | string   |
+|                            | device_type                   | string   |
+|                            | device_vendor                 | string   |
+|                            | device_model                  | string   |
+|                            | os_name                       | string   |
+|                            | os_version                    | string   |
+|                            | screen_size                   | string   |
+|                            | viewport_size                 | string   |
+| user_data                  |                               |          |
+| session_data               |                               |          |
+| consent_data               | respect_consent_mode          | string   |
+|                            | consent_type                  | string   |
+|                            | ad_user_data                  | string   |
+|                            | ad_personalization            | string   |
+|                            | ad_storage                    | string   |
+|                            | analytics_storage             | string   |
+|                            | functionality_storage         | string   |
+|                            | personalization_storage       | string   |
+|                            | security_storage              | string   |
 
 
 ## Basic settings
