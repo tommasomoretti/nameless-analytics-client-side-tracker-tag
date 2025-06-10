@@ -169,12 +169,12 @@ Be carefull to:
 #### Standard event
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
-- page_load_time: Send this event when a page is loaded (on gtm.load event) with this parameters:
+- page_load_time: Send this event when a page is loaded (on ```gtm.load``` javascript event) with this parameters:
   - time_to_dom_interactive: ```performance.timing.domInteractive``` - ```performance.timing.responseStart```
   - page_render_time: ```performance.timing.domComplete``` - ```performance.timing.domLoading```
   - time_to_dom_complete: ```performance.timing.domComplete``` - ```performance.timing.responseStart```
   - total_page_load_time: ```performance.timing.loadEventEnd``` - ```performance.timing.navigationStart```
-- page_closed: Send this event when a page is closed to improve the accuracy of ```time_on_page``` and ```session_duration```. This event can be triggered on ```gtm.scrollDepth``` since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with ```History.pushState()``` or ```History.replaceState()``` used in Single Page Applications.
+- page_closed: Send this event when a page is closed to improve the accuracy of ```time_on_page```, ```session_duration``` and other metrics. This event can be triggered on ```gtm.scrollDepth``` since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with ```History.pushState()``` or ```History.replaceState()``` used in Single Page Applications.
 - view_promotion: Send this event when a user views a promotion
 - select_promotion: Send this event when a user interacts with a promotion
 - view_item: Send this event when a user views the details of a product
@@ -192,18 +192,17 @@ Choose between:
 - refund: Send this event when a refund is issued
 
 #### Custom event
-
-To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
+Choose a custom name for the event. To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
 Examples:
-- button_click
-- form_submission
+- button_clicked
+- form_submitted
 - video_played
 
 Avoid:
-- Spaces: button click
-- Hyphens: button-click
-- CamelCase: ButtonClick
+- Spaces: button clicked
+- Hyphens: button-clicked
+- CamelCase: ButtonClicked
 
 
 ### Event parameters
