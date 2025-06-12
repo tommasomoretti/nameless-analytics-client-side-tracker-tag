@@ -333,6 +333,16 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 
 <img width="685" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
 
+Alternatively create a tag with this settings:
+
+<img width="610" alt="Screenshot 2025-06-12 alle 17 46 46" src="https://github.com/user-attachments/assets/c453663e-1a9a-45a8-8bd2-6ce5c84fc407" />
+
+and this variable
+
+<img width="732" alt="Screenshot 2025-06-12 alle 17 47 18" src="https://github.com/user-attachments/assets/4948aa46-bfb3-4e0b-90b0-94b6340279dc" />
+
+with the same trigger as the previous example.
+
 If the ecommerce dataLayer pushes respect the GA4 structure, the data will be stored as a json object inside event_data. 
 
 ```js
@@ -453,18 +463,7 @@ dataLayer.push({
 }
 ```
 
-Alternatively create a tag with this settings:
-
-<img width="610" alt="Screenshot 2025-06-12 alle 17 46 46" src="https://github.com/user-attachments/assets/c453663e-1a9a-45a8-8bd2-6ce5c84fc407" />
-
-and this variable
-
-<img width="732" alt="Screenshot 2025-06-12 alle 17 47 18" src="https://github.com/user-attachments/assets/4948aa46-bfb3-4e0b-90b0-94b6340279dc" />
-
-with the same trigger as the previous example.
-
 Please note: This configuration works seemesly with the pre build Google BigQuery datamodel, but they can be customize for non GA4 standard ecommerce objects.
-
 
 ---
 
