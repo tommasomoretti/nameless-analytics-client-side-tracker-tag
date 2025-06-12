@@ -129,56 +129,85 @@ This is the request payload with only standard parameters and no customization a
 }
 ```
 
-| **Parameter name**         |                               | **Type** | **Added**   | **Field description**                   |
-|----------------------------|-------------------------------|----------|-------------|-----------------------------------------|
-| event_date                 |                               | string   | Client-side | Date of the event                       |
-| event_datetime             |                               | string   | Client-side | Datetime of the event                   |
-| event_timestamp            |                               | integer  | Client-side | Timestamp of the event                  |
-| event_origin               |                               | integer  | Client-side | Origine dell'evento                     |
-| content_length             |                               | integer  | Client-side | Timestamp of the event                  |
-| user_id                    |                               | string   | Client-Side | Identificativo univoco dell'utente      |
-| event_id                   |                               | integer  | Client-side | Identificativo univoco dell'evento      |
-| event_name                 |                               | integer  | Client-side | Nome dell'evento                        |
-| event_data                 | event_type                    | string   | Client-side | |
-|                            | channel_grouping              | string   | Client-side | |
-|                            | source                        | string   | Client-side | |
-|                            | campaign                      | string   | Client-side | |
-|                            | campaign_id                   | string   | Client-side | |
-|                            | campaign_term                 | string   | Client-side | |
-|                            | campaign_content              | string   | Client-side | |
-|                            | page_id                       | string   | Client-side | |
-|                            | page_title                    | string   | Client-side | |
-|                            | page_hostname_protocol        | string   | Client-side | |
-|                            | page_hostname                 | string   | Client-side | |
-|                            | page_location                 | string   | Client-side | |
-|                            | page_fragment                 | string   | Client-side | |
-|                            | page_query                    | string   | Client-side | |
-|                            | page_extension                | string   | Client-side | |
-|                            | page_referrer                 | string   | Client-side | |
-|                            | page_language                 | string   | Client-side | |
-|                            | cs_container_id               | string   | Client-side | |
-|                            | user_agent                    | string   | Client-side | |
-|                            | browser_name                  | string   | Client-side | |
-|                            | browser_language              | string   | Client-side | |
-|                            | browser_version               | string   | Client-side | |
-|                            | device_type                   | string   | Client-side | |
-|                            | device_vendor                 | string   | Client-side | |
-|                            | device_model                  | string   | Client-side | |
-|                            | os_name                       | string   | Client-side | |
-|                            | os_version                    | string   | Client-side | |
-|                            | screen_size                   | string   | Client-side | |
-|                            | viewport_size                 | string   | Client-side | |
-| user_data                  |                               |          |             | |
-| session_data               |                               |          |             | |
-| consent_data               | respect_consent_mode          | string   | Client-side | |
-|                            | consent_type                  | string   | Client-side | |
-|                            | ad_user_data                  | string   | Client-side | |
-|                            | ad_personalization            | string   | Client-side | |
-|                            | ad_storage                    | string   | Client-side | |
-|                            | analytics_storage             | string   | Client-side | |
-|                            | functionality_storage         | string   | Client-side | |
-|                            | personalization_storage       | string   | Client-side | |
-|                            | security_storage              | string   | Client-side | | 
+| **Parameter name**           | **Sub-parameter**                  | **Type**   | **Added**     | **Field description**                                      |
+|------------------------------|------------------------------------|------------|---------------|------------------------------------------------------------|
+| event_date                   |                                    | string     | Client-side   | Data dell'evento                                           |
+| event_datetime               |                                    | string     | Client-side   | Data e ora dell'evento                                     |
+| event_timestamp              |                                    | integer    | Client-side   | Timestamp dell'evento                                      |
+| event_origin                 |                                    | string     | Client-side   | Origine dell'evento                                        |
+| content_length               |                                    | integer    | Client-side   | Lunghezza del contenuto                                    |
+| user_id                      |                                    | string     | Client-side   | Identificativo univoco dell’utente                         |
+| event_id                     |                                    | string     | Client-side   | Identificativo univoco dell’evento                        |
+| event_name                   |                                    | string     | Client-side   | Nome dell’evento                                           |
+| event_data                   | event_type                         | string     | Client-side   | Tipo di evento                                             |
+|                              | channel_grouping                   | string     | Client-side   | Raggruppamento canale                                      |
+|                              | source                             | string     | Client-side   | Fonte di traffico                                          |
+|                              | campaign                           | string     | Client-side   | Campagna                                                   |
+|                              | campaign_id                        | string     | Client-side   | ID campagna                                                |
+|                              | campaign_term                      | string     | Client-side   | Termine campagna                                           |
+|                              | campaign_content                   | string     | Client-side   | Contenuto campagna                                         |
+|                              | page_id                            | string     | Client-side   | Identificativo univoco della pagina                       |
+|                              | page_title                         | string     | Client-side   | Titolo della pagina                                        |
+|                              | page_hostname_protocol             | string     | Client-side   | Protocollo dell’hostname pagina                            |
+|                              | page_hostname                      | string     | Client-side   | Hostname della pagina                                      |
+|                              | page_location                      | string     | Client-side   | Percorso della pagina                                      |
+|                              | page_fragment                      | string     | Client-side   | Frammento URL                                              |
+|                              | page_query                         | string     | Client-side   | Query URL                                                  |
+|                              | page_extension                     | string     | Client-side   | Estensione della risorsa                                   |
+|                              | page_referrer                      | string     | Client-side   | Referrer della pagina                                      |
+|                              | page_language                      | string     | Client-side   | Lingua della pagina                                        |
+|                              | page_status_code                   | integer    | Client-side   | Codice di stato HTTP                                       |
+|                              | cs_container_id                    | string     | Client-side   | ID contenitore CS                                          |
+|                              | user_agent                         | string     | Client-side   | User agent                                                 |
+|                              | browser_name                       | string     | Client-side   | Nome del browser                                           |
+|                              | browser_language                   | string     | Client-side   | Lingua del browser                                         |
+|                              | browser_version                    | string     | Client-side   | Versione del browser                                       |
+|                              | device_type                        | string     | Client-side   | Tipo di dispositivo                                        |
+|                              | device_vendor                      | string     | Client-side   | Produttore del dispositivo                                 |
+|                              | device_model                       | string     | Client-side   | Modello del dispositivo                                    |
+|                              | os_name                            | string     | Client-side   | Sistema operativo                                          |
+|                              | os_version                         | string     | Client-side   | Versione del sistema operativo                             |
+|                              | screen_size                        | string     | Client-side   | Risoluzione dello schermo                                  |
+|                              | viewport_size                      | string     | Client-side   | Dimensione del viewport                                    |
+| user_data                    | user_campaign_id                   | string     | Client-side   | ID campagna utente                                         |
+|                              | user_country                       | string     | Client-side   | Paese dell’utente                                          |
+|                              | user_device_type                   | string     | Client-side   | Tipo di dispositivo utente                                 |
+|                              | user_channel_grouping              | string     | Client-side   | Raggruppamento canale utente                               |
+|                              | user_source                        | string     | Client-side   | Fonte di traffico utente                                   |
+|                              | user_first_session_timestamp       | integer    | Client-side   | Timestamp della prima sessione dell’utente                 |
+|                              | user_date                          | string     | Client-side   | Data della prima sessione dell’utente                      |
+|                              | user_campaign                      | string     | Client-side   | Campagna dell’utente                                       |
+|                              | user_language                      | string     | Client-side   | Lingua dell’utente                                         |
+|                              | user_last_session_timestamp        | integer    | Client-side   | Timestamp dell’ultima sessione dell’utente                 |
+| session_data                 | session_date                       | string     | Client-side   | Data della sessione                                        |
+|                              | session_number                     | integer    | Client-side   | Numero progressivo della sessione                          |
+|                              | cross_domain_session               | string     | Client-side   | Indicatore di sessione cross-domain                        |
+|                              | session_channel_grouping           | string     | Client-side   | Raggruppamento canale della sessione                       |
+|                              | session_source                     | string     | Client-side   | Fonte della sessione                                       |
+|                              | session_campaign                   | string     | Client-side   | Campagna della sessione                                    |
+|                              | session_campaign_id                | string     | Client-side   | ID campagna della sessione                                 |
+|                              | session_device_type                | string     | Client-side   | Tipo di dispositivo della sessione                         |
+|                              | session_country                    | string     | Client-side   | Paese della sessione                                       |
+|                              | session_language                   | string     | Client-side   | Lingua della sessione                                      |
+|                              | session_hostname                   | string     | Client-side   | Hostname della sessione                                    |
+|                              | session_landing_page_category      | string     | Client-side   | Categoria della pagina di atterraggio                      |
+|                              | session_landing_page_location      | string     | Client-side   | Percorso della pagina di atterraggio                       |
+|                              | session_landing_page_title         | string     | Client-side   | Titolo della pagina di atterraggio                         |
+|                              | session_exit_page_location         | string     | Client-side   | Percorso della pagina di uscita                            |
+|                              | session_exit_page_title            | string     | Client-side   | Titolo della pagina di uscita                              |
+|                              | session_end_timestamp              | integer    | Client-side   | Timestamp di fine sessione                                 |
+|                              | session_start_timestamp            | integer    | Client-side   | Timestamp di inizio sessione                               |
+| consent_data                 | respect_consent_mode               | string     | Client-side   | Rispetto della modalità di consenso                        |
+|                              | consent_type                       | string     | Client-side   | Tipo di consenso                                           |
+|                              | ad_user_data                       | string     | Client-side   | Consenso dati utente per annunci                           |
+|                              | ad_personalization                 | string     | Client-side   | Consenso personalizzazione annunci                         |
+|                              | ad_storage                         | string     | Client-side   | Consenso archiviazione annunci                             |
+|                              | analytics_storage                  | string     | Client-side   | Consenso archiviazione analitica                           |
+|                              | functionality_storage              | string     | Client-side   | Consenso archiviazione funzionalità                        |
+|                              | personalization_storage            | string     | Client-side   | Consenso archiviazione personalizzazione                   |
+|                              | security_storage                   | string     | Client-side   | Consenso archiviazione sicurezza                           |
+
+
 
 ## Basic settings
 ### Configuration variable
