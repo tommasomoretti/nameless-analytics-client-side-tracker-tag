@@ -9,7 +9,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Client-side tracker tag UI](#tag-ui-and-default-payload)
-- [Standard payload](#standard-payload)
+- [Request payload](#request-payload)
 - Basic settings
   - [Configuration variable](#configuration-variable)
 - Event data
@@ -31,7 +31,7 @@ This is the UI of the Client-side tracker tag.
 
 
 
-## Standard payload
+## Request payload
 This is a request payload made by Nameless Analytics Client-side tracker tag with only standard parameters and no customization at all. [See full request response payload](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag) made by [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag).
 
 ```json
