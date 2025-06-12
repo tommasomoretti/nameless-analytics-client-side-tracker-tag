@@ -21,8 +21,10 @@ Start from here:
 - Advanced settings
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 - [Standard request payload](#standard-request-payload)
-
+  - [Add ecommerce data](#add-ecommerce-data)
+  - [Add dataLayer data](#add-dataLayer-data)
  
+
 
 ## Tag UI and default payload
 This is the UI of the Client-side tracker tag.
@@ -319,6 +321,150 @@ This is the request payload with only standard parameters and no customization a
 |                            | personalization_storage       | String   | Client-side | Consenso archiviazione personalizzazione |
 |                            | security_storage              | String   | Client-side | Consenso archiviazione sicurezza         |
 
+### Add ecommerce data
+To send ecommerce data, create a tag with this settings:
+
+<img width="685" alt="Screenshot 2025-06-12 alle 17 33 34" src="https://github.com/user-attachments/assets/c3a5d21d-ccfd-4a26-add5-2b8957f60310" />
+
+and a trigger with this regex:
+
+view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
+
+<img width="685" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
+
+If the ecommerce dataLayer pushes respect the GA4 structure, the data will be stored as a json object inside event_data. 
+
+```
+dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+dataLayer.push({
+  event: "purchase",
+  ecommerce: {
+    transaction_id: "D_12345",
+    value: 72.05,
+    tax: 3.60,
+    shipping: 5.99,
+    currency: "USD",
+    coupon: "SUMMER_SALE",
+    items: [
+    {
+      item_id: "SKU_12345",
+      item_name: "Stan and Friends Tee",
+      affiliation: "Google Merchandise Store",
+      coupon: "SUMMER_FUN",
+      discount: 2.22,
+      index: 0,
+      item_brand: "Google",
+      item_category: "Apparel",
+      item_category2: "Adult",
+      item_category3: "Shirts",
+      item_category4: "Crew",
+      item_category5: "Short sleeve",
+      item_list_id: "related_products",
+      item_list_name: "Related Products",
+      item_variant: "green",
+      location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+      price: 10.01,
+      quantity: 3
+    },
+    {
+      item_id: "SKU_12346",
+      item_name: "Google Grey Women's Tee",
+      affiliation: "Google Merchandise Store",
+      coupon: "SUMMER_FUN",
+      discount: 3.33,
+      index: 1,
+      item_brand: "Google",
+      item_category: "Apparel",
+      item_category2: "Adult",
+      item_category3: "Shirts",
+      item_category4: "Crew",
+      item_category5: "Short sleeve",
+      item_list_id: "related_products",
+      item_list_name: "Related Products",
+      item_variant: "gray",
+      location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+      price: 21.01,
+      promotion_id: "P_12345",
+      promotion_name: "Summer Sale",
+      quantity: 2
+    }]
+  }
+});
+```
+
+
+
+```json
+event_data: {
+  ... 
+  ecommerce: {
+    "transaction_id": "D_12345",
+    "value": 72.05,
+    "tax": 3.6,
+    "shipping": 5.99,
+    "currency": "USD",
+    "coupon": "SUMMER_SALE",
+    "items": [
+      {
+          "item_id": "SKU_12345",
+          "item_name": "Stan and Friends Tee",
+          "affiliation": "Google Merchandise Store",
+          "coupon": "SUMMER_FUN",
+          "discount": 2.22,
+          "index": 0,
+          "item_brand": "Google",
+          "item_category": "Apparel",
+          "item_category2": "Adult",
+          "item_category3": "Shirts",
+          "item_category4": "Crew",
+          "item_category5": "Short sleeve",
+          "item_list_id": "related_products",
+          "item_list_name": "Related Products",
+          "item_variant": "green",
+          "location_id": "ChIJIQBpAG2ahYAR_6128GcTUEo",
+          "price": 10.01,
+          "quantity": 3
+      },
+      {
+          "item_id": "SKU_12346",
+          "item_name": "Google Grey Women's Tee",
+          "affiliation": "Google Merchandise Store",
+          "coupon": "SUMMER_FUN",
+          "discount": 3.33,
+          "index": 1,
+          "item_brand": "Google",
+          "item_category": "Apparel",
+          "item_category2": "Adult",
+          "item_category3": "Shirts",
+          "item_category4": "Crew",
+          "item_category5": "Short sleeve",
+          "item_list_id": "related_products",
+          "item_list_name": "Related Products",
+          "item_variant": "gray",
+          "location_id": "ChIJIQBpAG2ahYAR_6128GcTUEo",
+          "price": 21.01,
+          "promotion_id": "P_12345",
+          "promotion_name": "Summer Sale",
+          "quantity": 2
+      }
+    ]
+  }
+}
+```
+
+Alternatively create a tag with this settings:
+
+<img width="610" alt="Screenshot 2025-06-12 alle 17 46 46" src="https://github.com/user-attachments/assets/c453663e-1a9a-45a8-8bd2-6ce5c84fc407" />
+
+and this variable
+
+<img width="732" alt="Screenshot 2025-06-12 alle 17 47 18" src="https://github.com/user-attachments/assets/4948aa46-bfb3-4e0b-90b0-94b6340279dc" />
+
+with the same trigger as the previous example.
+
+
+
+### Add dataLayer data
 
 ---
 
