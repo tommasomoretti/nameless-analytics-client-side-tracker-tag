@@ -109,7 +109,7 @@ This is the hierarchy of event parameter importance:
 [Server-side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) > [Specific event parameters](#addoverride-event-parameters) > [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) > [dataLayer parameters](#add-event-parameters-from-datalayer) > [Standard parameters](#standard-payload)
 
 #### Add/override event parameters
-Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. Page_id and event_id parameters cannot be overwritten.
+Add or overwrite parameters for a specific event. Values accepted: strings, int64s, float and json. Page_id and event_id parameters cannot be overwritten.
 
 These parameters can override:
 - default parameters
@@ -240,12 +240,12 @@ This is the request payload with only standard parameters and no customization a
 |----------------------------|-------------------------------|----------|-------------|------------------------------------------|
 | event_date                 |                               | String   | Client-side | Data dell'evento                         |
 | event_datetime             |                               | String   | Client-side | Data e ora dell'evento                   |
-| event_timestamp            |                               | Integer  | Client-side | Timestamp dell'evento                    |
+| event_timestamp            |                               | int64  | Client-side | Timestamp dell'evento                    |
 | event_origin               |                               | String   | Client-side | Origine dell'evento                      |
-| content_length             |                               | Integer  | Client-side | Lunghezza del contenuto                  |
+| content_length             |                               | int64  | Client-side | Lunghezza del contenuto                  |
 | event_id                   |                               | String   | Client-side | Identificativo univoco dell’evento       |
 | event_name                 |                               | String   | Client-side | Nome dell’evento                         |
-| processing_event_timestamp |                               | Integer  | Server-side | Timestamp di elaborazione dell’evento    |
+| processing_event_timestamp |                               | int64  | Server-side | Timestamp di elaborazione dell’evento    |
 | client_id                  |                               | String   | Server-side | Identificativo client                    |
 | session_id                 |                               | String   | Server-side | Identificativo sessione                  |
 | event_data                 | event_type                    | String   | Client-side | Tipo di evento                           |
@@ -290,7 +290,7 @@ This is the request payload with only standard parameters and no customization a
 |                            | user_date                     | String   | Server-side | Data della prima sessione                |
 |                            | user_campaign                 | String   | Server-side | Campagna dell’utente                     |
 |                            | user_language                 | String   | Server-side | Lingua dell’utente                       |
-|                            | user_last_session_timestamp   | Integer  | Server-side | Timestamp dell’ultima sessione           |
+|                            | user_last_session_timestamp   | int64  | Server-side | Timestamp dell’ultima sessione           |
 | session_data               | session_date                  | String   | Server-side | Data della sessione                      |
 |                            | session_number                | String   | Server-side | Numero progressivo della sessione        |
 |                            | cross_domain_session          | String   | Server-side | Indicatore di sessione cross-domain      |
@@ -307,8 +307,8 @@ This is the request payload with only standard parameters and no customization a
 |                            | session_landing_page_title    | String   | Server-side | Titolo della pagina di atterraggio       |
 |                            | session_exit_page_location    | String   | Server-side | Percorso della pagina di uscita          |
 |                            | session_exit_page_title       | String   | Server-side | Titolo della pagina di uscita            |
-|                            | session_end_timestamp         | Integer  | Server-side | Timestamp di fine sessione               |
-|                            | session_start_timestamp       | Integer  | Server-side | Timestamp di inizio sessione             |
+|                            | session_end_timestamp         | int64  | Server-side | Timestamp di fine sessione               |
+|                            | session_start_timestamp       | int64  | Server-side | Timestamp di inizio sessione             |
 | consent_data               | respect_consent_mode          | String   | Client-side | Rispetto della modalità di consenso      |
 |                            | consent_type                  | String   | Client-side | Tipo di consenso                         |
 |                            | ad_user_data                  | String   | Client-side | Consenso dati utente per annunci         |
