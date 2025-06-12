@@ -334,7 +334,7 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 
 If the ecommerce dataLayer pushes respect the GA4 structure, the data will be stored as a json object inside event_data. 
 
-```
+```js
 dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
 dataLayer.push({
   event: "purchase",
@@ -396,7 +396,6 @@ dataLayer.push({
 
 ```json
 event_data: {
-  ... 
   ecommerce: {
     "transaction_id": "D_12345",
     "value": 72.05,
