@@ -9,7 +9,6 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Client-side tracker tag UI](#tag-ui-and-default-payload)
-- [Request payload](#request-payload)
 - Basic settings
   - [Configuration variable](#configuration-variable)
 - Event data
@@ -21,6 +20,7 @@ Start from here:
     - [Add event parameters from dataLayer](#add-event-parameters-from-datalayer)
 - Advanced settings
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
+- [Request payload](#request-payload)
 
  
 
@@ -28,6 +28,113 @@ Start from here:
 This is the UI of the Client-side tracker tag.
 
 <img width="1265" alt="Screenshot 2025-06-03 alle 15 43 37" src="https://github.com/user-attachments/assets/cebde006-94d2-4e80-97a1-1b8a62a2426e" />
+
+
+
+## Basic settings
+### Configuration variable
+The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
+
+This variable will handle settings like:
+- [set tag behavior with consent mode](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#respect-google-consent-mode)
+- [set user level parameters]()
+- [set session level parameters]()
+- [set common event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#event-data)
+- [add last dataLayer status to the request]()
+- [add page status code to the requests]()
+- [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#basic-settings)
+- [enable cross-domain tracking](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#enable-cross-domain-tracking-alfa-feature)
+- [change traffic source URL parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#customize-source-and-campaigns-url-parameters)
+- [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#enable-logs-in-javascript-console)
+
+
+
+## Event data
+### Event type
+Choose between standard event names or custom event names. 
+
+Be carefull to:
+- Always trigger a page_view event as the very first event on every page load. See [Change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#change-default-javascript-page-view-event-names) in the Nameless Analytics Client-side configuration variable for more information
+- Use standard event names when possible
+- Follow naming convention for event name and event parameters 
+
+#### Standard event
+Choose between:
+- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
+- page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
+  - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
+  - page_render_time: performance.timing.domComplete - performance.timing.domLoading
+  - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
+  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
+- page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
+- view_promotion: Send this event when a user views a promotion
+- select_promotion: Send this event when a user interacts with a promotion
+- view_item: Send this event when a user views the details of a product
+- view_item_list: Send this event when a user views a list of products
+- select_item: Send this event when a user selects a product from a list
+- add_to_cart: Send this event when a user adds a product to the cart
+- remove_from_cart: Send this event when a user removes a product from the cart
+- add_to_wishlist: Send this event when a user adds a product to the wishlist
+- remove_from_wishlist: Send this event when a user removes a product to the wishlist
+- view_cart: Send this event when a user views the cart
+- begin_checkout: Send this event when a user starts the checkout process
+- add_payment_info: Send this event when a user provides payment information during checkout
+- add_shipping_info: Send this event when a user adds shipping information during checkout
+- purchase: Send this event when a purchase is successfully completed
+- refund: Send this event when a refund is issued
+
+#### Custom event
+Choose a custom name for the event. 
+
+Please note: To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
+
+Examples:
+- button_clicked
+- form_submitted
+- video_played
+
+Avoid:
+- Spaces: button clicked
+- Hyphens: button-clicked
+- CamelCase: ButtonClicked
+
+
+### Event parameters
+Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the `event_data` object in the payload. 
+
+If a parameter has the same name as another, it can override or be overridden depending on where it was set. 
+
+This is the hierarchy of event parameter importance:
+
+[Server-side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) > [Specific event parameters](#addoverride-event-parameters) > [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) > [dataLayer parameters](#add-event-parameters-from-datalayer) > [Standard parameters](#standard-payload)
+
+#### Add/override event parameters
+Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. Page_id and event_id parameters cannot be overwritten.
+
+These parameters can override:
+- default parameters
+- parameters taken from dataLayer in Nameless Analytics Client-side Tracker tag
+- shared event parameters added in Nameless Analytics Client-side Configuration variable
+
+These parameters can be overridden by:
+- parameter added for a specific request in Nameless Analytics Server-side client tag
+
+#### Add event parameters from dataLayer
+Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
+
+These parameters can override:
+- default parameters
+
+These parameters can be overridden by:
+- parameter added for a specific request in Nameless Analytics Server-side client tag
+- parameter added for a specific event in Nameless Analytics Client-side Tracker tag
+- shared event parameters added in Nameless Analytics Client-side Configuration variable
+
+
+
+## Advanced settings
+### Disable logs in JavaScript console for this event
+Disable console log for this specific event if [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 
 
@@ -211,114 +318,6 @@ This is the request payload with only standard parameters and no customization a
 |                              | functionality_storage              | Client-side    | Client-side   | Consenso archiviazione funzionalità                        |
 |                              | personalization_storage            | Client-side    | Client-side   | Consenso archiviazione personalizzazione                   |
 |                              | security_storage                   | Client-side    | Client-side   | Consenso archiviazione sicurezza                           |
-
-
-
-
-## Basic settings
-### Configuration variable
-The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
-
-This variable will handle settings like:
-- [set tag behavior with consent mode](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#respect-google-consent-mode)
-- [set user level parameters]()
-- [set session level parameters]()
-- [set common event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#event-data)
-- [add last dataLayer status to the request]()
-- [add page status code to the requests]()
-- [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#basic-settings)
-- [enable cross-domain tracking](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#enable-cross-domain-tracking-alfa-feature)
-- [change traffic source URL parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#customize-source-and-campaigns-url-parameters)
-- [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#enable-logs-in-javascript-console)
-
-
-
-## Event data
-### Event type
-Choose between standard event names or custom event names. 
-
-Be carefull to:
-- Always trigger a page_view event as the very first event on every page load. See [Change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#change-default-javascript-page-view-event-names) in the Nameless Analytics Client-side configuration variable for more information
-- Use standard event names when possible
-- Follow naming convention for event name and event parameters 
-
-#### Standard event
-Choose between:
-- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
-- page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
-  - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
-  - page_render_time: performance.timing.domComplete - performance.timing.domLoading
-  - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
-  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
-- page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
-- view_promotion: Send this event when a user views a promotion
-- select_promotion: Send this event when a user interacts with a promotion
-- view_item: Send this event when a user views the details of a product
-- view_item_list: Send this event when a user views a list of products
-- select_item: Send this event when a user selects a product from a list
-- add_to_cart: Send this event when a user adds a product to the cart
-- remove_from_cart: Send this event when a user removes a product from the cart
-- add_to_wishlist: Send this event when a user adds a product to the wishlist
-- remove_from_wishlist: Send this event when a user removes a product to the wishlist
-- view_cart: Send this event when a user views the cart
-- begin_checkout: Send this event when a user starts the checkout process
-- add_payment_info: Send this event when a user provides payment information during checkout
-- add_shipping_info: Send this event when a user adds shipping information during checkout
-- purchase: Send this event when a purchase is successfully completed
-- refund: Send this event when a refund is issued
-
-#### Custom event
-Choose a custom name for the event. 
-
-Please note: To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
-
-Examples:
-- button_clicked
-- form_submitted
-- video_played
-
-Avoid:
-- Spaces: button clicked
-- Hyphens: button-clicked
-- CamelCase: ButtonClicked
-
-
-### Event parameters
-Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the `event_data` object in the payload. 
-
-If a parameter has the same name as another, it can override or be overridden depending on where it was set. 
-
-This is the hierarchy of event parameter importance:
-
-[Server-side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) > [Specific event parameters](#addoverride-event-parameters) > [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) > [dataLayer parameters](#add-event-parameters-from-datalayer) > [Standard parameters](#standard-payload)
-
-#### Add/override event parameters
-Add or overwrite parameters for a specific event. Values accepted: strings, integers, float and json. Page_id and event_id parameters cannot be overwritten.
-
-These parameters can override:
-- default parameters
-- parameters taken from dataLayer in Nameless Analytics Client-side Tracker tag
-- shared event parameters added in Nameless Analytics Client-side Configuration variable
-
-These parameters can be overridden by:
-- parameter added for a specific request in Nameless Analytics Server-side client tag
-
-#### Add event parameters from dataLayer
-Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
-
-These parameters can override:
-- default parameters
-
-These parameters can be overridden by:
-- parameter added for a specific request in Nameless Analytics Server-side client tag
-- parameter added for a specific event in Nameless Analytics Client-side Tracker tag
-- shared event parameters added in Nameless Analytics Client-side Configuration variable
-
-
-
-## Advanced settings
-### Disable logs in JavaScript console for this event
-Disable console log for this specific event if [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 ---
 
