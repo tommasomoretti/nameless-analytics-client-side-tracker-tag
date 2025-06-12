@@ -325,21 +325,21 @@ This is the request payload with only standard parameters and no customization a
 ## Send ecommerce data
 To add ecommerce data, create a tag with this settings:
 
-<img width="685" alt="Screenshot 2025-06-12 alle 17 33 34" src="https://github.com/user-attachments/assets/c3a5d21d-ccfd-4a26-add5-2b8957f60310" />
+<img width="1265" alt="Screenshot 2025-06-12 alle 17 33 34" src="https://github.com/user-attachments/assets/c3a5d21d-ccfd-4a26-add5-2b8957f60310" />
 
 and a trigger with this regex:
 
 view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
 
-<img width="685" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
+<img width="1265" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
 
 Alternatively create a tag with this settings:
 
-<img width="610" alt="Screenshot 2025-06-12 alle 17 46 46" src="https://github.com/user-attachments/assets/c453663e-1a9a-45a8-8bd2-6ce5c84fc407" />
+<img width="1265" alt="Screenshot 2025-06-12 alle 17 46 46" src="https://github.com/user-attachments/assets/c453663e-1a9a-45a8-8bd2-6ce5c84fc407" />
 
 and this variable
 
-<img width="732" alt="Screenshot 2025-06-12 alle 17 47 18" src="https://github.com/user-attachments/assets/4948aa46-bfb3-4e0b-90b0-94b6340279dc" />
+<img width="1265" alt="Screenshot 2025-06-12 alle 17 47 18" src="https://github.com/user-attachments/assets/4948aa46-bfb3-4e0b-90b0-94b6340279dc" />
 
 with the same trigger as the previous example.
 
