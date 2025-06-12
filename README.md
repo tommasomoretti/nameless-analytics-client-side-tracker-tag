@@ -396,8 +396,9 @@ dataLayer.push({
 
 ```json
 {
-  event_data: {
-    ecommerce: {
+  "event_data": {
+    // Other event parameters
+    "ecommerce": {
       "transaction_id": "D_12345",
       "value": 72.05,
       "tax": 3.6,
