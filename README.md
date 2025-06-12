@@ -21,9 +21,8 @@ Start from here:
 - Advanced settings
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 - [Standard request payload](#standard-request-payload)
-  - [Add ecommerce data](#add-ecommerce-data)
-  - [Add dataLayer data](#add-dataLayer-data)
- 
+- [Send ecommerce data](#send-ecommerce-data) 
+
 
 
 ## Tag UI and default payload
@@ -321,8 +320,10 @@ This is the request payload with only standard parameters and no customization a
 |                            | personalization_storage       | String   | Client-side | Consenso archiviazione personalizzazione |
 |                            | security_storage              | String   | Client-side | Consenso archiviazione sicurezza         |
 
-### Add ecommerce data
-To send ecommerce data, create a tag with this settings:
+
+
+## Send ecommerce data
+To add ecommerce data, create a tag with this settings:
 
 <img width="685" alt="Screenshot 2025-06-12 alle 17 33 34" src="https://github.com/user-attachments/assets/c3a5d21d-ccfd-4a26-add5-2b8957f60310" />
 
@@ -391,8 +392,6 @@ dataLayer.push({
   }
 });
 ```
-
-
 
 ```json
 {
@@ -464,9 +463,8 @@ and this variable
 
 with the same trigger as the previous example.
 
+Please note: This configuration works seemesly with the pre build Google BigQuery datamodel, but they can be customize for non GA4 standard ecommerce objects.
 
-
-### Add dataLayer data
 
 ---
 
