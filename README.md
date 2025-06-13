@@ -109,7 +109,7 @@ If a parameter has the same name as another, it can override or be overridden de
 
 This is the hierarchy of event parameter importance:
 
-[Server-side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) > [Specific event parameters](#addoverride-event-parameters) > [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) > [dataLayer parameters](#add-event-parameters-from-datalayer) > [Standard parameters](#standard-payload)
+[Server-side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#addoverride-event-parameters) override [Specific event parameters](#addoverride-event-parameters) override [Shared parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/edit/main/README.md#add-shared-event-parameters) override [dataLayer parameters](#add-event-parameters-from-datalayer) override [Standard parameters](#standard-payload)
 
 #### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
