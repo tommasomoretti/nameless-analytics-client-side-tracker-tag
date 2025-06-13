@@ -327,7 +327,7 @@ This is the request payload with only standard parameters and no customization a
 ## Send ecommerce data
 If ecommerce data are pushed into dataLayer in an ecommerce javascript object, the data will be stored as a json object inside event_data. 
 
-```
+```javascript
 dataLayer.push({ ecommerce: null });
 dataLayer.push({
   event: "purchase",
