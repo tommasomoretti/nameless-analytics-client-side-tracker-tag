@@ -24,7 +24,6 @@ Start from here:
     - [From custom variable](#from-custom-variable)
   - [Add page status code](#add-page-status-code)
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
-- [Standard request payload](#standard-request-payload)
 
 
 
