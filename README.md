@@ -140,9 +140,23 @@ These parameters can be overridden by:
 Disable console log for this specific event if [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 
+### Send ecommerce data
+Add ecommerce data from as a json object inside ecommerce field. 
 
-## Send ecommerce data
-If ecommerce data are pushed into dataLayer in an ecommerce javascript object, the data will be stored as a json object inside event_data. 
+Please note: The pre-built Google BigQuery ecommerce data model extracts data from the standard GA4 ecommerce structure, but it can be customized to support any ecommerce structure.
+
+#### From dataLayer
+To add ecommerce data from dataLayer, create a tag with this settings:
+
+<img width="1265" alt="Screenshot 2025-06-13 alle 13 12 43" src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" />
+
+and a trigger with this regex:
+
+view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
+
+<img width="1265" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
+
+Push ecommerce data into dataLayer as follow:
 
 ```javascript
 dataLayer.push({ ecommerce: null });
@@ -154,21 +168,7 @@ dataLayer.push({
 });
 ```
 
-Please note: The pre-built Google BigQuery ecommerce data model extracts data from the standard GA4 ecommerce structure, but it can be customized to support any ecommerce structure.
-
-### From dataLayer
-To add ecommerce data from dataLayer, create a tag with this settings:
-
-<img width="1265" alt="Screenshot 2025-06-13 alle 13 12 43" src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" />
-
-and a trigger with this regex:
-
-view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
-
-<img width="1265" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
-
-
-### From custom variable
+#### From custom variable
 To add ecommerce data from custom variable, create a tag with this settings:
 
 <img width="1265" alt="Screenshot 2025-06-13 alle 13 13 10" src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" />
