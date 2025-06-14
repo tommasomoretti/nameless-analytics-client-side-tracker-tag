@@ -184,6 +184,10 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 <img width="1265" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
 
 
+### Add page status code
+Lorem ipsum
+
+
 ---
 
 Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [Linkedin](https://www.linkedin.com/in/tommasomoretti/)
