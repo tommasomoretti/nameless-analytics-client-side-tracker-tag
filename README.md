@@ -8,7 +8,7 @@ The Nameless Analytics Client-side tracker tag is a highly customizable GTM cust
 For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics#how-it-works).
 
 Start from here:
-- [Client-side tracker tag UI](#tag-ui-and-default-payload)
+- [Client-side tracker tag UI](#tag-ui)
 - Basic settings
   - [Configuration variable](#configuration-variable)
 - Event data
@@ -27,7 +27,7 @@ Start from here:
 
 
 
-## Tag UI and default payload
+## Tag UI
 This is the UI of the Client-side tracker tag.
 
 ![CS](https://github.com/user-attachments/assets/7182fc97-c2dd-4c49-9df4-a474de804a3b)
