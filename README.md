@@ -136,10 +136,6 @@ These parameters can be overridden by:
 
 
 ## Advanced settings
-### Disable logs in JavaScript console for this event
-Disable console log for this specific event if [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
-
-
 ### Send ecommerce data
 Add ecommerce data from as a json object inside ecommerce field. 
 
@@ -187,6 +183,9 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 ### Add page status code
 Lorem ipsum
 
+
+### Disable logs in JavaScript console for this event
+Disable console log for this specific event if [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable?tab=readme-ov-file#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 ---
 
