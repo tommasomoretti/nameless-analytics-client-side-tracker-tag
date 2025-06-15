@@ -107,7 +107,7 @@ Avoid:
 ### Event parameters
 Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the `event_data` object in the payload. 
 
-If a parameter has the same name as another, it can override or be overridden depending on where it was set. 
+Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
 
 This is the hierarchy of event parameter importance:
 
