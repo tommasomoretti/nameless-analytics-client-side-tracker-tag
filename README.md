@@ -183,7 +183,7 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 
 
 ### Add page status code
-Lorem ipsum
+Add page status code to the request, only real page_views.
 
 
 ### Disable logs in JavaScript console for this event
