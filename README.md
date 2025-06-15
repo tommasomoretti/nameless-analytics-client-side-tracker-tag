@@ -128,12 +128,12 @@ These parameters can be overridden by:
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
 These parameters can override:
-- default parameters
+- default event parameters
 
 These parameters can be overridden by:
-- parameter added for a specific request in Nameless Analytics Server-side client tag
-- parameter added for a specific event in Nameless Analytics Client-side Tracker tag
-- shared event parameters added in Nameless Analytics Client-side Configuration variable
+- shared event parameters added in Nameless Analytics Client-side configuration variable
+- event parameters added in Nameless Analytics Client-side tracker tag
+- event parameters added in Nameless Analytics Server-side client tag
 
 
 
@@ -183,7 +183,7 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 
 
 ### Add page status code
-Add page status code to the request, only real page_views.
+Add page status code to the request in event_data .
 
 
 ### Disable logs in JavaScript console for this event
