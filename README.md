@@ -61,14 +61,16 @@ This variable will handle settings like:
 ### Event type
 Choose between standard event names or custom event names. 
 
+Please note: page_view is the only mandatory event, any events triggered prior to a page_view will be rejected. 
+
 Be carefull to:
-- Always trigger a page_view event as the very first event on every page load. See [Change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#change-default-javascript-page-view-event-names) in the Nameless Analytics Client-side configuration variable for more information
+- Always trigger a page_view event as the very first event on every page load, any event triggered before to a page_view will be rejected.
 - Use standard event names when possible
 - Follow naming convention for event name and event parameters 
 
 #### Standard event
 Choose between:
-- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
+- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event. 
 - page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
