@@ -65,7 +65,7 @@ Please note: page_view is the only mandatory event, any events triggered prior t
 
 Be carefull to:
 - Always trigger a page_view event as the very first event on every page load, any event triggered before to a page_view will be rejected.
-- Use standard event names when possible
+- Prefer using standard event names when possible
 - Follow naming convention for event name and event parameters 
 
 #### Standard event
