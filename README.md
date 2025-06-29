@@ -188,7 +188,7 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 
 
 ### Add page status code
-Add page status code to the request in event_data when a page_view happens. 
+Add page status code to the request in the event_data when a page_view happens. 
 
 Please note: this will not work for virtual_page_view.
 
