@@ -19,16 +19,22 @@ const copyFromWindow = require('copyFromWindow');
 const Object = require('Object');
 const generateRandom = require('generateRandom');
 const addEventCallback = require('addEventCallback');
+const getCookieValues = require('getCookieValues');
+const setCookie = require('setCookie');
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const config = data.config_variable;
+// log(config.add_page_status_code);
 
-// External script
-const script_url = (config.load_main_library_from_custom_location) ? config.custom_library_location : 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-side-tracker-tag@main/nameless_analytics.js';
-// const script_url = (config.load_main_library_from_custom_location) ? config.custom_library_location : 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-side-tracker-tag@main/nameless_analytics.min.js';
-const ua_parser_url = 'https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js';
+const hostname = getUrl('host');
+const referrer_hostname = getReferrerUrl('host');
+
+// External scripts
+const library_path = 'https://' + hostname + config.custom_library_location;
+const script_url = (config.load_main_library_from_custom_location) ? library_path + '/nameless_analytics.min.js' : 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-side-tracker-tag@main/nameless_analytics.js';
+const ua_parser_url = (config.load_main_library_from_custom_location) ? library_path + '/ua-parser.min.js' : 'https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js';
 
 const timestamp = getTimestampMillis();
 const datalayer = copyFromWindow('dataLayer');
@@ -37,14 +43,10 @@ const datalayer_unique_event_id = copyFromDataLayer('gtm.uniqueEventId', 2);
 
 const enable_logs = (data.disable_this_log) ? false : config.enable_logs;
 const respect_consent_mode = config.respect_consent_mode;
-const tracking_anonymization = config.tracking_anonymization;
 
 const event_name = (data.event_type == 'standard') ? data.standard_event_name : data.custom_event_name;
 const pv_event_name = (config.change_default_page_view_event_names) ? config.page_view_event_name : 'gtm.js';
 const vpv_event_name = (config.change_default_page_view_event_names) ? config.virtual_page_view_event_name : 'gtm.historyChange';
-
-const hostname = getUrl('host');
-const referrer_hostname = getReferrerUrl('host');
 
 const utm_source = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_source_name) : getQueryParameters('utm_source');
 const utm_campaign = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_campaign_name) : getQueryParameters('utm_campaign');
@@ -123,7 +125,7 @@ if (queryPermission('inject_script', ua_parser_url)) {
 // Send request
 function send_request(full_endpoint){
   // Enable cross-domain
-  if(enable_logs){log('  👉 Enable cross-domain tracking:', (config.enable_cross_domain_tracking) ? 'Yes' : 'No');}
+  if(enable_logs){log('  👉 Enable cross-domain tracking?', (config.enable_cross_domain_tracking) ? 'Yes' : 'No');}
   if (config.enable_cross_domain_tracking) {
     set_cross_domain_listener(full_endpoint);
   }
@@ -131,33 +133,15 @@ function send_request(full_endpoint){
   // Check if respect consent mode
   if(enable_logs){log('  👉 Respect consent choises? ' + ((respect_consent_mode) ? 'Yes' : 'No'));}
   
-  if(respect_consent_mode){ // Respect consent mode
+  // Respect consent mode
+  if(respect_consent_mode){
     if(enable_logs){log('    👉 Checking consent mode...');}
     
     // Consent denied
     if (!isConsentGranted("analytics_storage")){            
       if(enable_logs){log('      🔴 analytics_storage denied');}
-      let consent_listener_called = false;
-              
-      // Create temporary client_id and session_id
-      var temp_client_id = '';
-      var temp_session_id = '';
-      const temp_client_id_status = templateStorage.getItem('temp_client_id') || false;
-      const temp_session_id_status = templateStorage.getItem('temp_session_id') || false;
       
-      if(!temp_client_id_status) {
-        temp_client_id = generate_alphanumeric();
-        templateStorage.setItem('temp_client_id', temp_client_id);
-      } else {
-        temp_client_id = temp_client_id_status;
-      }
-
-      if(!temp_session_id_status) {
-        temp_session_id = temp_client_id + '_' + generate_alphanumeric();
-        templateStorage.setItem('temp_session_id', temp_session_id);
-      } else {
-        temp_session_id = temp_session_id_status;
-      }
+      var consent_listener_called = false;
       
       // Add consent listener
       addConsentListener("analytics_storage", (consent_type, consent_status) => {        
@@ -170,30 +154,28 @@ function send_request(full_endpoint){
         consent_listener_called = true;
                 
         if(enable_logs){log('      🟢 analytics_storage granted');}
-
+        
         // Send pending requests when consent is granted
-        if(queryPermission('access_globals', 'execute', 'send_data')) {
-          callInWindow('send_data', full_endpoint, build_payload(temp_client_id, temp_session_id), data, enable_logs);
+        if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
+          callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs);
         }
       });
       
     // Consent granted  
     } else if(isConsentGranted("analytics_storage")) {
       if(enable_logs){log('      🟢 analytics_storage granted');}
-      
+            
       // Send requests
-      if(queryPermission('access_globals', 'execute', 'send_data')) {
-        callInWindow('send_data', full_endpoint, build_payload(), data, enable_logs);
+      if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
+        callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs);
       }
     }
-  } else { // Do not respect consent mode
-
-    // Server side user_id, client_id, session_id and user_id anonimization. Only if respect_consent_mode = No
-      if(enable_logs){log('    👉 Tracking anonimization:', (tracking_anonymization) ? 'Enabled' : 'Disabled');}
-    
+  
+  // Do not respect consent mode
+  } else {   
     // Send requests
-    if(queryPermission('access_globals', 'execute', 'send_data')) {
-      callInWindow('send_data', full_endpoint, build_payload(), data, enable_logs);
+    if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
+      callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs);
     }
   }
 }
@@ -209,7 +191,7 @@ function set_cross_domain_listener(full_endpoint) {
   
   if (!cross_domain_listener_status) {
     if(queryPermission('access_globals', 'execute', 'set_cross_domain_listener')) {
-      callInWindow('set_cross_domain_listener', full_endpoint, domains, respect_consent_mode, config.enable_logs);
+      callInWindow('set_cross_domain_listener', full_endpoint, domains, respect_consent_mode, enable_logs);
       templateStorage.setItem('cross_domain_listener', true);
 
       if(enable_logs){log('    👉 Cross-domain enabled for this domains:', domains.join(', '));}
@@ -222,7 +204,7 @@ function set_cross_domain_listener(full_endpoint) {
 
 
 // Build the payload
-function build_payload(temp_client_id, temp_session_id){  
+function build_payload(){  
   // Save event info in template storage
   const event_storage_name = '_nameless_analytics';
   const current_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
@@ -230,20 +212,24 @@ function build_payload(temp_client_id, temp_session_id){
   set_event_data_in_template_storage(event_storage_name, current_event_storage_value);
   
   const updated_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
-      
+
+  const user_info = {};
+  const session_info = {};
+  const event_info = updated_event_storage_value.pop();
+        
   const payload = {};
-  if(temp_client_id){payload.temp_client_id = temp_client_id;}
-  if(temp_session_id){payload.temp_session_id = temp_session_id;}
+    
   payload.event_name = event_name;
-  payload.user_id = config.user_id;
+  payload.event_id = event_info.event_id;
+  Object.delete(event_info, 'event_id');
+    
   payload.event_timestamp = timestamp;
   payload.event_origin = 'Website';
-
-  const event_info = updated_event_storage_value.pop();
   
-  // Add all dataLayer data
-  if(config.add_all_data_from_dataLayer){
-    // Ensure dataLayer has only events until current event  
+  
+  // dataLayer data
+  // Add current dataLayer state (configuration variable)
+  if(config.add_current_datalayer_state){
     let datalayer_def = [];
     let found = false;
   
@@ -255,25 +241,75 @@ function build_payload(temp_client_id, temp_session_id){
       datalayer_def.push(item);
     }
     payload.datalayer = datalayer_def;
-  } else {
-    payload.datalayer = null;
   }
+  
+  
+  // Ecommerce data
+  // Add ecommerce data from dataLayer or custom variable
+  if(data.add_ecommerce) {
+    if(data.ecommerce_method == 'from_datalayer'){
+      payload.ecommerce = copyFromDataLayer('ecommerce', 2);
+    } else {
+      payload.ecommerce = data.ecommerce_custom_variable || null;
+    }
+  }
+  
+  
+  // User data 
+  // Add user id (configuration variable)
+  if(config.add_user_id){user_info.user_id = config.user_id;}
+  
+  // Add user parameters (configuration variable)
+  if(config.add_user_params){
+    const config_user_params = config.user_params;
+    if(config_user_params != undefined){
+      for (let i = 0; i < config_user_params.length; i++) {
+        const param_name = config_user_params[i].param_name;
+        const param_value = config_user_params[i].param_value;
+        
+        user_info[param_name] = param_value;
+      }
+    }
+  }
+  
+  // Add user info to payload
+  payload.user_data = user_info;
 
-  // Add event data from dataLayer
+  
+  // Session data
+  // Add session parameters (configuration variable)
+  if(config.add_session_params){
+    const config_session_params = config.session_params;
+    if(config_session_params != undefined){
+      for (let i = 0; i < config_session_params.length; i++) {
+        const param_name = config_session_params[i].param_name;
+        const param_value = config_session_params[i].param_value;
+        
+        session_info[param_name] = param_value;
+      }
+    }
+  }
+  
+  // Add session info to payload
+  payload.session_data = session_info;
+  
+  
+  // Event data
+  // Add event parameters from dataLayer (tag field)
   if(data.add_parameters_from_dataLayer){
     const current_event_pushes = datalayer.filter(item => item.event === datalayer_event_name);
     const last_current_event_push = current_event_pushes.length > 0 ? current_event_pushes[current_event_pushes.length - 1] : null;
     
     for (var key of Object.keys(last_current_event_push)) {
-      if (key != 'event' && key != 'gtm.start' && key != 'gtm.uniqueEventId' && key != 'page_id' && key != 'event_id') {
+      if (key != 'event' && key != 'gtm.start' && key != 'gtm.uniqueEventId' && key != 'page_id' && key != 'event_id' && key != 'ecommerce') {
         event_info[key] = last_current_event_push[key];
-      } 
+      }
     }
   } 
   
-  // Add event data from configuration variable
+  // Add common event parameters (configuration variable)
   if(config.add_common_event_params){
-  const config_event_params = config.common_event_params;
+    const config_event_params = config.common_event_params;
     if(config_event_params != undefined){
       for (let i = 0; i < config_event_params.length; i++) {
         const param_name = config_event_params[i].param_name;
@@ -286,7 +322,7 @@ function build_payload(temp_client_id, temp_session_id){
     }
   }
 
-  // Add event data from tag fields
+  // Add event parameters (tag fields)
   if (data.add_parameters) {
     const event_params = data.add_event_params;
     
@@ -295,17 +331,21 @@ function build_payload(temp_client_id, temp_session_id){
         const param_name = event_params[i].param_name;
         const param_value = event_params[i].param_value;
         
-        if (param_name !== 'event_id' && param_name !== 'page_id') {
+        if (param_name != 'event_id' && param_name != 'page_id' && param_name != 'ecommerce') {
           event_info[param_name] = param_value;
         }
       }
     }
   }
   
+  // Add event info to payload
+  payload.event_data = event_info;
+  
+  
+  // Consent data
   // Add consent data
   const consent_info = {
     respect_consent_mode: (respect_consent_mode) ? 'Yes' : 'No',
-    tracking_anonimization: (respect_consent_mode)? null : ((tracking_anonymization) ? 'Yes' : 'No'),
     consent_type: (queryPermission('access_globals', 'execute', 'get_last_consent_values')) ? ((callInWindow('get_last_consent_values').consent_type == 'default') ? 'Default' : 'Update') : null,
     ad_user_data: (isConsentGranted('ad_user_data')) ? 'Granted' : 'Denied',
     ad_personalization: (isConsentGranted('ad_personalization'))? 'Granted' : 'Denied',
@@ -315,8 +355,8 @@ function build_payload(temp_client_id, temp_session_id){
     personalization_storage: (isConsentGranted("personalization_storage"))? 'Granted' : 'Denied',
     security_storage: (isConsentGranted("security_storage"))? 'Granted' : 'Denied'
   };
-
-  payload.event_data = event_info;
+  
+  // Add consent info to payload
   payload.consent_data = consent_info;
   
   return payload;
@@ -329,7 +369,7 @@ function build_payload(temp_client_id, temp_session_id){
 // Save event info in template storage
 function set_event_data_in_template_storage(storage_name, storage_value) {
   const channel_grouping = (queryPermission('access_globals', 'execute', 'get_channel_grouping')) ? callInWindow('get_channel_grouping', source, campaign): null;
-    
+            
   if (datalayer_event_name == pv_event_name || datalayer_event_name == vpv_event_name) {  
     const page_id = alphanumeric_page_id;
     const event_id = page_id + "_" + alphanumeric_event_id;
@@ -353,7 +393,7 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
       page_extension: getUrl('extension') || null,
       page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),
       cs_container_id: getContainerVersion().containerId,
-      cross_domain_id: cross_domain_id
+      cross_domain_id: (datalayer_event_name == pv_event_name) ? cross_domain_id : null
     }];
         
     templateStorage.setItem(storage_name, JSON.stringify(event_info));
@@ -384,7 +424,6 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
       page_extension: getUrl('extension') || null,
       page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),     
       cs_container_id: getContainerVersion().containerId,
-      cross_domain_id: cross_domain_id
     }];
         
     templateStorage.setItem(storage_name, JSON.stringify(event_info));
