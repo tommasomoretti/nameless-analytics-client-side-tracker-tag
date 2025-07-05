@@ -69,27 +69,13 @@ Be carefull to:
 #### Standard event
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event. 
+- consent_given: Send this event the user give consent to improve the accuracy of consents metrics. 
 - page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
   - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
-- view_promotion: Send this event when a user views a promotion
-- select_promotion: Send this event when a user interacts with a promotion
-- view_item: Send this event when a user views the details of a product
-- view_item_list: Send this event when a user views a list of products
-- select_item: Send this event when a user selects a product from a list
-- add_to_cart: Send this event when a user adds a product to the cart
-- remove_from_cart: Send this event when a user removes a product from the cart
-- add_to_wishlist: Send this event when a user adds a product to the wishlist
-- remove_from_wishlist: Send this event when a user removes a product to the wishlist
-- view_cart: Send this event when a user views the cart
-- begin_checkout: Send this event when a user starts the checkout process
-- add_payment_info: Send this event when a user provides payment information during checkout
-- add_shipping_info: Send this event when a user adds shipping information during checkout
-- purchase: Send this event when a purchase is successfully completed
-- refund: Send this event when a refund is issued
 
 #### Custom event
 Choose a custom name for the event. 
