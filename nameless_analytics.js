@@ -259,7 +259,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
     }
   };
 
-  document.body.addEventListener('click', listener)
+  document.addEventListener('click', listener)
 }
 
 
