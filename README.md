@@ -9,7 +9,7 @@ The Nameless Analytics Client-side tracker tag is a highly customizable GTM cust
 For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/#how-it-works).
 
 Table of contents:
-- [Client-side tracker tag UI](#tag-ui)
+- [Tag UI](#tag-ui)
 - Basic settings
   - [Configuration variable](#configuration-variable)
 - Event data
@@ -28,15 +28,15 @@ Table of contents:
 
 
 
-## Tag UI
+# Tag UI
 This is the UI of the Client-side tracker tag.
 
 ![Nameless Analytics - Client-side tracker tag UI](https://github.com/user-attachments/assets/c0c043de-35d3-4017-b5dd-4cb95453c5cb)
 
 
 
-## Basic settings
-### Configuration variable
+# Basic settings
+## Configuration variable
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
 
 This variable will handle settings like:
@@ -55,8 +55,8 @@ This variable will handle settings like:
 
 
 
-## Event data
-### Event type
+# Event data
+## Event type
 Choose between standard event names or custom event names. 
 
 Please note: page_view is the only mandatory event, any events triggered prior to a page_view will be rejected. 
@@ -66,7 +66,7 @@ Be carefull to:
 - Prefer using standard event names when possible
 - Follow naming convention for event name and event parameters 
 
-#### Standard event
+### Standard event
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event. 
 - consent_given: Send this event the user give consent to improve the accuracy of consents metrics. 
@@ -77,7 +77,7 @@ Choose between:
   - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
 
-#### Custom event
+### Custom event
 Choose a custom name for the event. 
 
 Please note: To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
@@ -93,7 +93,7 @@ Avoid:
 - CamelCase: ButtonClicked
 
 
-### Event parameters
+## Event parameters
 Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the event_data object in the payload. 
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
@@ -102,7 +102,7 @@ This is the hierarchy of event parameter importance:
 
 [Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) overrides [Specific event parameters](#addoverride-event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#add-shared-event-parameters) overrides [dataLayer parameters](#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-payload)
 
-#### Add/override event parameters
+### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
 
 These parameters can override:
@@ -113,7 +113,7 @@ These parameters can override:
 These parameters can be overridden by:
 - parameter added for a specific request in Nameless Analytics Server-side client tag
 
-#### Add event parameters from dataLayer
+### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
 These parameters can override:
@@ -126,13 +126,13 @@ These parameters can be overridden by:
 
 
 
-## Advanced settings
-### Send ecommerce data
+# Advanced settings
+## Send ecommerce data
 Add ecommerce data from as a json object inside ecommerce field. 
 
 Please note: The data model extracts data from the standard GA4 ecommerce structure, but it can be customized to support any ecommerce structure.
 
-#### From dataLayer
+### From dataLayer
 To add ecommerce data from dataLayer, create a tag with this settings:
 
 <img width="1265" alt="Screenshot 2025-06-13 alle 13 12 43" src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" />
@@ -145,7 +145,7 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 
 Push ecommerce data into dataLayer as follow:
 
-javascript
+```javascript
 dataLayer.push({ ecommerce: null });
 dataLayer.push({
   event: "purchase",
@@ -153,9 +153,9 @@ dataLayer.push({
     // Ecommerce data
   }
 });
+```
 
-
-#### From custom variable
+### From custom variable
 To add ecommerce data from custom variable, create a tag with this settings:
 
 <img width="1265" alt="Screenshot 2025-06-13 alle 13 13 10" src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" />
@@ -171,13 +171,13 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 <img width="1265" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
 
 
-### Add page status code
+## Add page status code
 Add page status code to the request in the event_data when a page_view happens. 
 
 Please note: this will not work for virtual_page_view.
 
 
-### Disable logs in JavaScript console for this event
+## Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 ---
