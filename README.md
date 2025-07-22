@@ -39,6 +39,8 @@ This is the UI of the Client-side tracker tag.
 ## Configuration variable
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
 
+![Basic settings](https://github.com/user-attachments/assets/f39691cb-8b2c-4ba8-bfc3-2ca470d27922)
+
 This variable will handle settings like:
 - [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#basic-settings)
 - [set user level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#user-parameters)
@@ -68,14 +70,25 @@ Be carefull to:
 
 ### Standard event
 Choose between:
-- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event. 
+- page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
+  
+  ![Page view](https://github.com/user-attachments/assets/6676046d-ac08-4940-9cf6-8bdac962b88f)
+
 - consent_given: Send this event the user give consent to improve the accuracy of consents metrics. 
+
+  ![Consent given](https://github.com/user-attachments/assets/a6b61150-1b11-41c1-badb-cef6a61d9ad7)
+
 - page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
   - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
+  
+  ![Page load time](https://github.com/user-attachments/assets/2c6eb640-0f03-4499-85a0-e402fde00d71)
+
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
+
+  ![Page closed](https://github.com/user-attachments/assets/206e2401-8901-4673-925c-c81b60b1667f)
 
 ### Custom event
 Choose a custom name for the event. 
