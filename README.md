@@ -56,7 +56,6 @@ This variable will handle settings like:
 
 
 
-
 # Event data
 ## Event type
 Choose between standard event names or custom event names. 
@@ -117,6 +116,8 @@ This is the hierarchy of event parameter importance:
 
 ### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
+
+![Add/override event parameters](https://github.com/user-attachments/assets/b1401824-a5eb-4082-bd29-2a83ccf819d0)
 
 These parameters can override:
 - default parameters
