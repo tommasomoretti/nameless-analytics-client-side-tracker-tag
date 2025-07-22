@@ -280,8 +280,6 @@ function get_last_consent_values() {
       personalization_storage: used_default ? (raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default) : null,
       security_storage: used_default ? (raw_consent_data.security_storage.update || raw_consent_data.security_storage.default) : null,
     };
-  } else {
-    return 'No GTM found';
   }
 }
 
