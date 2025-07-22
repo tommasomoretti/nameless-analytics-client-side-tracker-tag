@@ -92,6 +92,8 @@ Choose between:
 ### Custom event
 Choose a custom name for the event. 
 
+![Custom event](https://github.com/user-attachments/assets/3e22ede5-7b71-4289-96ea-9b111f891265)
+
 Please note: To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
 Examples:
@@ -129,6 +131,9 @@ These parameters can be overridden by:
 
 ### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
+
+![Add event parameters from dataLayer](https://github.com/user-attachments/assets/669ec958-c93f-4f9a-afd5-12efa0e91cd1)
+
 
 These parameters can override:
 - default event parameters
@@ -186,7 +191,9 @@ view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wish
 
 
 ## Add page status code
-Add page status code to the request in the event_data when a page_view happens. 
+Add page status code to the request in the event_data when a page_view happens. This setting will be visible in the UI only when the event name is equal to page_view.
+
+![Add page status code](https://github.com/user-attachments/assets/6446d49b-d8e7-4bd6-903a-1105ce0410a8)
 
 Please note: this will not work for virtual_page_view.
 
