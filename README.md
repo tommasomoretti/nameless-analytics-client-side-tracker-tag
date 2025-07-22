@@ -149,7 +149,7 @@ These parameters can be overridden by:
 ## Send ecommerce data
 Add ecommerce data from as a json object inside ecommerce field. 
 
-Please note: The data model extracts data from the standard GA4 ecommerce structure, but it can be customized to support any ecommerce structure.
+Please note: The data model extracts data from the standard GA4 ecommerce structure but can be customized to support any ecommerce setup by modifying the JSON paths in the user, session, ecommerce, product and funnels queries.
 
 ### From dataLayer
 To add ecommerce data from dataLayer, create a tag with this settings:
