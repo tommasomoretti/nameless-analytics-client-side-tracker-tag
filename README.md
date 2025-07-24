@@ -73,7 +73,8 @@ Choose between:
   
   <img src="https://github.com/user-attachments/assets/6676046d-ac08-4940-9cf6-8bdac962b88f" alt="Page view event configuration" />
 
-- consent_given: Send this event the user give consent to improve the accuracy of consents metrics. 
+- consent_given: Send this event the user give consent to improve the accuracy of consents metrics.
+  
   <img src="https://github.com/user-attachments/assets/a6b61150-1b11-41c1-badb-cef6a61d9ad7" alt="Consent given event configuration" />
 
 - page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
@@ -81,7 +82,7 @@ Choose between:
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
   - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
-  
+
   <img src="https://github.com/user-attachments/assets/2c6eb640-0f03-4499-85a0-e402fde00d71" alt="Page load time event configuration" />
 
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
