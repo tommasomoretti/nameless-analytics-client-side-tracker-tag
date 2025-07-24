@@ -31,7 +31,7 @@ Table of contents:
 # Tag UI
 This is the UI of the Client-side tracker tag.
 
-![Nameless Analytics - Client-side tracker tag UI](https://github.com/user-attachments/assets/c0c043de-35d3-4017-b5dd-4cb95453c5cb)
+<img src="https://github.com/user-attachments/assets/c0c043de-35d3-4017-b5dd-4cb95453c5cb" alt="Nameless Analytics - Client-side tracker tag UI" />
 
 
 
@@ -39,7 +39,7 @@ This is the UI of the Client-side tracker tag.
 ## Configuration variable
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable). 
 
-![Basic settings](https://github.com/user-attachments/assets/f39691cb-8b2c-4ba8-bfc3-2ca470d27922)
+<img src="https://github.com/user-attachments/assets/f39691cb-8b2c-4ba8-bfc3-2ca470d27922" alt="Basic settings" />
 
 This variable will handle settings like:
 - [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#basic-settings)
@@ -71,11 +71,10 @@ Be carefull to:
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
   
-  ![Page view](https://github.com/user-attachments/assets/6676046d-ac08-4940-9cf6-8bdac962b88f)
+  <img src="https://github.com/user-attachments/assets/6676046d-ac08-4940-9cf6-8bdac962b88f" alt="Page view event configuration" />
 
 - consent_given: Send this event the user give consent to improve the accuracy of consents metrics. 
-
-  ![Consent given](https://github.com/user-attachments/assets/a6b61150-1b11-41c1-badb-cef6a61d9ad7)
+  <img src="https://github.com/user-attachments/assets/a6b61150-1b11-41c1-badb-cef6a61d9ad7" alt="Consent given event configuration" />
 
 - page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
@@ -83,16 +82,18 @@ Choose between:
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
   - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
   
-  ![Page load time](https://github.com/user-attachments/assets/2c6eb640-0f03-4499-85a0-e402fde00d71)
+  <img src="https://github.com/user-attachments/assets/2c6eb640-0f03-4499-85a0-e402fde00d71" alt="Page load time event configuration" />
 
 - page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics. This event can be triggered on gtm.scrollDepth since this event is pushed every time a page is closed, but it doesn't work with back and forward browser's buttons and with History.pushState() or History.replaceState() used in Single Page Applications.
 
-  ![Page closed](https://github.com/user-attachments/assets/206e2401-8901-4673-925c-c81b60b1667f)
+  <img src="https://github.com/user-attachments/assets/206e2401-8901-4673-925c-c81b60b1667f" alt="Page closed time event configuration" />
+
 
 ### Custom event
 Choose a custom name for the event. 
 
-![Custom event](https://github.com/user-attachments/assets/3e22ede5-7b71-4289-96ea-9b111f891265)
+<img src="https://github.com/user-attachments/assets/3e22ede5-7b71-4289-96ea-9b111f891265" alt="Custom event configuration" />
+
 
 Please note: To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
 
@@ -119,7 +120,7 @@ This is the hierarchy of event parameter importance:
 ### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
 
-![Add/override event parameters](https://github.com/user-attachments/assets/b1401824-a5eb-4082-bd29-2a83ccf819d0)
+<img src="https://github.com/user-attachments/assets/b1401824-a5eb-4082-bd29-2a83ccf819d0" alt="Add/override event parameters" />
 
 These parameters can override:
 - default parameters
@@ -132,8 +133,7 @@ These parameters can be overridden by:
 ### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
-![Add event parameters from dataLayer](https://github.com/user-attachments/assets/669ec958-c93f-4f9a-afd5-12efa0e91cd1)
-
+<img src="https://github.com/user-attachments/assets/669ec958-c93f-4f9a-afd5-12efa0e91cd1" alt="Add event parameters from dataLayer" />
 
 These parameters can override:
 - default event parameters
@@ -154,13 +154,13 @@ Please note: The data model extracts data from the standard GA4 ecommerce struct
 ### From dataLayer
 To add ecommerce data from dataLayer, create a tag with this settings:
 
-<img width="1265" alt="Screenshot 2025-06-13 alle 13 12 43" src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" />
+<img src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" alt="Send ecommerce data from dataLayer" />
 
 and a trigger with this regex:
 
 view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
 
-<img width="1265" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
+<img src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" alt="Send ecommerce data from dataLayer" />
 
 Push ecommerce data into dataLayer as follow:
 
@@ -177,23 +177,23 @@ dataLayer.push({
 ### From custom variable
 To add ecommerce data from custom variable, create a tag with this settings:
 
-<img width="1265" alt="Screenshot 2025-06-13 alle 13 13 10" src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" />
+<img src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" alt="Send ecommerce data from custom variable" />
 
 and this variable
 
-<img width="1265" alt="Screenshot 2025-06-12 alle 17 47 18" src="https://github.com/user-attachments/assets/4948aa46-bfb3-4e0b-90b0-94b6340279dc" />
+<img src="https://github.com/user-attachments/assets/4948aa46-bfb3-4e0b-90b0-94b6340279dc" alt="Send ecommerce data from custom variable" />
 
 and a trigger with this regex:
 
 view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
 
-<img width="1265" alt="Screenshot 2025-06-12 alle 17 35 19" src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" />
+<img src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" alt="Send ecommerce data from custom variable" />
 
 
 ## Add page status code
 Add page status code to the request in the event_data when a page_view happens. This setting will be visible in the UI only when the event name is equal to page_view.
 
-![Add page status code](https://github.com/user-attachments/assets/6446d49b-d8e7-4bd6-903a-1105ce0410a8)
+<img src="https://github.com/user-attachments/assets/6446d49b-d8e7-4bd6-903a-1105ce0410a8" alt="Add page status code" />
 
 Please note: this will not work for virtual_page_view.
 
