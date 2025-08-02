@@ -1,7 +1,5 @@
 /* NAMELESS ANALYTICS 
-
    MAIN LIBRARY V.1.0
-
    Tommaso Moretti - 2020-2025
 */
 
@@ -83,6 +81,10 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
         console.log('  👉 Payload data: ', response_json.data);
         console.log('  ' + response_json.response);
       }
+
+      window.nameless_analytics_data = window.nameless_analytics_data || {};
+      window.nameless_analytics_data.user_data = response_json.data.user_data;
+      window.nameless_analytics_data.session_data = response_json.data.session_data;
       
       data.gtmOnSuccess();
       resolve(response_json.data);
@@ -177,7 +179,6 @@ function get_channel_grouping(source, campaign) {
 
 
 // CROSS-DOMAIN 
-
 // Cross-domain listener and link decorator
 function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_consent_mode, enable_logs) {
   const saved_full_endpoint = full_endpoint;
@@ -263,6 +264,74 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+// CONSENTS
+// Consent values 
+window.nameless_analytics_data = window.nameless_analytics_data || {};
+
+// Consent default 
+if (google_tag_data.ics.usedUpdate === false) {
+  nameless_analytics_data.consent_values = get_last_consent_values()
+}
+
+// Consent update
+function consent_update_listener(ics) {
+  let internalUsedUpdate = ics.usedUpdate;
+  let debounceTimer = null;
+
+  if (internalUsedUpdate === true) {
+    var consents = get_last_consent_values();
+    delete consents.consent_type;
+
+    window.dataLayer.push({
+      event: 'consent_update',
+      consents: consents
+    });
+    nameless_analytics_data.consent_values = get_last_consent_values();
+  }
+
+  Object.defineProperty(ics, 'usedUpdate', {
+    get() {
+      return internalUsedUpdate;
+    },
+    set(value) {
+      const previousValue = internalUsedUpdate;
+      internalUsedUpdate = value;
+
+      if (debounceTimer) clearTimeout(debounceTimer);
+
+      debounceTimer = setTimeout(() => {
+        var consents = get_last_consent_values();
+        delete consents.consent_type;
+
+        // First consent given
+        if (previousValue === false && value === true) {
+          window.dataLayer.push({
+            event: 'consent_given',
+            consents: consents
+          });
+        // Consent update or already given
+        } if (previousValue === true && value === true) {
+          window.dataLayer.push({
+            event: 'consent_update',
+            consents: consents
+          });
+        } 
+        
+        nameless_analytics_data.consent_values = get_last_consent_values();
+        debounceTimer = null;
+      }, 0);
+    },
+    configurable: true,
+    enumerable: true
+  });
+}
+
+consent_update_listener(google_tag_data.ics);
+
+
 // Get last consent values
 function get_last_consent_values() {
   if (typeof google_tag_data !== 'undefined' && google_tag_data) {
@@ -284,6 +353,9 @@ function get_last_consent_values() {
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+// USER DATA
 // Ask user data to GTM Server-side
 function get_user_data(saved_full_endpoint, payload, enable_logs) {
   if (saved_full_endpoint.split('/')[2].split('.')[1] !== 'undefined') {
