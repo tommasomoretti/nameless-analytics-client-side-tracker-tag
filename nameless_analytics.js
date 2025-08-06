@@ -8,7 +8,6 @@
 
 
 // STANDARD REQUESTS
-
 // Create requests queue
 let queue = Promise.resolve();
 
@@ -43,7 +42,6 @@ function build_payload(full_endpoint, payload, data, enable_logs) {
     payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
     payload.event_data.page_language = document.documentElement.lang;
     
-    // Fetch page status code. Only for real page_view events
     if (data.add_page_status_code && payload.event_data.event_type == 'page_view'){
       fetch(window.location.href, {method: 'HEAD'})
       .then(response => {
@@ -266,62 +264,53 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
-
 // CONSENTS
-// Consent values 
+// Detect consent updates
 window.nameless_analytics_data = window.nameless_analytics_data || {};
 
-// Consent default 
 if (google_tag_data.ics.usedUpdate === false) {
-  nameless_analytics_data.consent_values = get_last_consent_values()
+  nameless_analytics_data.consent_values = get_last_consent_values();
 }
 
-// Consent update
 function consent_update_listener(ics) {
-  let internalUsedUpdate = ics.usedUpdate;
-  let debounceTimer = null;
+  let is_update = ics.usedUpdate;
+  let debounce_timer = null;
 
-  if (internalUsedUpdate === true) {
-    var consents = get_last_consent_values();
+  if (is_update === true) {
+    const consents = get_last_consent_values();
     delete consents.consent_type;
-
+    
+    nameless_analytics_data.consent_values = consents;
+    
     window.dataLayer.push({
       event: 'consent_update',
       consents: consents
     });
-    nameless_analytics_data.consent_values = get_last_consent_values();
   }
 
   Object.defineProperty(ics, 'usedUpdate', {
     get() {
-      return internalUsedUpdate;
+      return is_update;
     },
     set(value) {
-      const previousValue = internalUsedUpdate;
-      internalUsedUpdate = value;
+      is_update = value;
 
-      if (debounceTimer) clearTimeout(debounceTimer);
+      if (debounce_timer) clearTimeout(debounce_timer);
 
-      debounceTimer = setTimeout(() => {
-        var consents = get_last_consent_values();
+      debounce_timer = setTimeout(() => {
+        const consents = get_last_consent_values();
         delete consents.consent_type;
 
-        // First consent given
-        if (previousValue === false && value === true) {
-          window.dataLayer.push({
-            event: 'consent_given',
-            consents: consents
-          });
-        // Consent update or already given
-        } if (previousValue === true && value === true) {
+        if (value === true) {
+          nameless_analytics_data.consent_values = consents;
+
           window.dataLayer.push({
             event: 'consent_update',
             consents: consents
           });
-        } 
-        
-        nameless_analytics_data.consent_values = get_last_consent_values();
-        debounceTimer = null;
+        }
+
+        debounce_timer = null;
       }, 0);
     },
     configurable: true,
@@ -356,7 +345,7 @@ function get_last_consent_values() {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 // USER DATA
-// Ask user data to GTM Server-side
+// Get user data from GTM Server-side
 function get_user_data(saved_full_endpoint, payload, enable_logs) {
   if (saved_full_endpoint.split('/')[2].split('.')[1] !== 'undefined') {
     return fetch(saved_full_endpoint, {
