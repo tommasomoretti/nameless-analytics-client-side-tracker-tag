@@ -1,6 +1,7 @@
-/* NAMELESS ANALYTICS 
-   MAIN LIBRARY V.1.0
-   Tommaso Moretti - 2020-2025
+/* 
+  NAMELESS ANALYTICS 
+  MAIN LIBRARY V.1.0
+  Tommaso Moretti - 2020-2025
 */
 
 
