@@ -248,7 +248,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
             }
           })
           .catch(error => {
-            console.error('Errore nel recupero dei dati utente:', error);
+            console.error('  🔴 Error fetching user data:', error);
             if (popupWindow) {
               popupWindow.location.href = original_href;
             } else {
@@ -270,7 +270,13 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 window.nameless_analytics_data = window.nameless_analytics_data || {};
 
 if (google_tag_data.ics.usedUpdate === false) {
-  nameless_analytics_data.consent_values = get_last_consent_values();
+  const consents = get_last_consent_values();
+
+  nameless_analytics_data.consent_values = consents;
+  window.dataLayer.push({
+    event: 'consent_default',
+    consents: consents
+  });
 }
 
 function consent_update_listener(ics) {
@@ -279,7 +285,7 @@ function consent_update_listener(ics) {
 
   if (is_update === true) {
     const consents = get_last_consent_values();
-    delete consents.consent_type;
+    // delete consents.consent_type;
     
     nameless_analytics_data.consent_values = consents;
     
@@ -300,7 +306,7 @@ function consent_update_listener(ics) {
 
       debounce_timer = setTimeout(() => {
         const consents = get_last_consent_values();
-        delete consents.consent_type;
+        // delete consents.consent_type;
 
         if (value === true) {
           nameless_analytics_data.consent_values = consents;
@@ -330,7 +336,7 @@ function get_last_consent_values() {
     const raw_consent_data = google_tag_data.ics.entries;
 
     return {
-      consent_type: (!used_default && !used_update) ? "Consent mode not present" : ((used_default && !used_update) ? "default" : "update"),
+      consent_type: (!used_default) ? "Consent mode not present" : ((used_default && !used_update) ? "default" : "update"),
       ad_user_data: used_default ? (raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default) : null,
       ad_personalization: used_default ? (raw_consent_data.ad_personalization.update || raw_consent_data.ad_personalization.default) : null,
       ad_storage: used_default ? (raw_consent_data.ad_storage.update || raw_consent_data.ad_storage.default) : null,
@@ -338,7 +344,7 @@ function get_last_consent_values() {
       functionality_storage: used_default ? (raw_consent_data.functionality_storage.update || raw_consent_data.functionality_storage.default) : null,
       personalization_storage: used_default ? (raw_consent_data.personalization_storage.update || raw_consent_data.personalization_storage.default) : null,
       security_storage: used_default ? (raw_consent_data.security_storage.update || raw_consent_data.security_storage.default) : null,
-    };
+    }
   }
 }
 
