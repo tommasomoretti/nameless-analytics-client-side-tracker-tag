@@ -336,7 +336,7 @@ function get_last_consent_values() {
     const raw_consent_data = google_tag_data.ics.entries;
 
     return {
-      consent_type: (!used_default) ? "Consent mode not present" : ((used_default && !used_update) ? "default" : "update"),
+      consent_type: (!used_default) ? "Consent mode not present" : ((used_default && !used_update) ? "Default" : "Update"),
       ad_user_data: used_default ? (raw_consent_data.ad_user_data.update || raw_consent_data.ad_user_data.default) : null,
       ad_personalization: used_default ? (raw_consent_data.ad_personalization.update || raw_consent_data.ad_personalization.default) : null,
       ad_storage: used_default ? (raw_consent_data.ad_storage.update || raw_consent_data.ad_storage.default) : null,
