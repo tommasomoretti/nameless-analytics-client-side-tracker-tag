@@ -96,7 +96,7 @@ Choose a custom name for the event.
 <img src="https://github.com/user-attachments/assets/3e22ede5-7b71-4289-96ea-9b111f891265" alt="Custom event configuration" />
 
 
-Please note: To maintain consistency between events, it is highly recommended to use underscores between words to create descriptive, easily interpretable names. 
+Please note: To maintain consistency between events, it is highly recommended to use _snake_case_ notation style (with underscores between words) to create descriptive, easily interpretable names. 
 
 Examples:
 - button_clicked
