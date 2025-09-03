@@ -42,17 +42,17 @@ The Nameless Analytics Client-side tracker tag inherits configuration settings f
 <img src="https://github.com/user-attachments/assets/f39691cb-8b2c-4ba8-bfc3-2ca470d27922" alt="Basic settings" />
 
 This variable will handle settings like:
-- [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#basic-settings)
-- [set user level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#user-parameters)
-- [set session level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#session-parameters)
-- [set common event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#event-parameters)
-- [respect Google Consent Mode](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#respect-google-consent-mode)
-- [enable cross-domain tracking](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#enable-cross-domain-tracking)
-- [customize source and campaigns url parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#customize-source-and-campaigns-url-parameters)
-- [change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#change-default-JavaScript-page-view-event-names)
-- [load main library from custom location](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#load-main-library-from-custom-location)
-- [add current dataLayer state](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#add-current-dataLayer-state)
-- [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#enable-logs-in-javascript-console)
+- [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#basic-settings)
+- [set user level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
+- [set session level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
+- [set common event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#event-parameters)
+- [respect Google Consent Mode](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#respect-google-consent-mode)
+- [enable cross-domain tracking](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking)
+- [customize source and campaigns url parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#customize-source-and-campaigns-url-parameters)
+- [change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#change-default-JavaScript-page-view-event-names)
+- [load main library from custom location](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#load-main-library-from-custom-location)
+- [add current dataLayer state](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-current-dataLayer-state)
+- [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console)
 
 
 
@@ -116,7 +116,7 @@ Please note: if a parameter has the same name as another, it can override or be 
 
 This is the hierarchy of event parameter importance:
 
-[Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) overrides [Specific event parameters](#addoverride-event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#add-shared-event-parameters) overrides [dataLayer parameters](#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
+[Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) overrides [Specific event parameters](#addoverride-event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) overrides [dataLayer parameters](#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
 
 ### Add/override event parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
@@ -200,7 +200,7 @@ Please note: this will not work for virtual_page_view.
 
 
 ## Disable logs in JavaScript console for this event
-Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
+Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 ---
 
