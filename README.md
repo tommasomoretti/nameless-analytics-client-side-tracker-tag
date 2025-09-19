@@ -153,10 +153,10 @@ This is the request payload with only standard parameters and no customization a
 |                            | user_device_type              | String   | Server-Side | User device type                |
 |                            | user_channel_grouping         | String   | Server-Side | User channel grouping           |
 |                            | user_source                   | String   | Server-Side | User traffic source             |
-|                            | user_first_session_timestamp  | String   | Server-Side | User first session timestamp    |
 |                            | user_date                     | String   | Server-Side | User first session date         |
 |                            | user_campaign                 | String   | Server-Side | User campaign                   |
 |                            | user_language                 | String   | Server-Side | User language                   |
+|                            | user_first_session_timestamp  | String   | Server-Side | User first session timestamp    |
 |                            | user_last_session_timestamp   | Integer  | Server-Side | User last session timestamp     |
 | session_id                 |                               | String   | Server-Side | Unique session identifier       |
 | session_data               | session_date                  | String   | Server-Side | Session date                    |
@@ -173,10 +173,11 @@ This is the request payload with only standard parameters and no customization a
 |                            | session_landing_page_category | String   | Server-Side | Landing page category           |
 |                            | session_landing_page_location | String   | Server-Side | Landing page path               |
 |                            | session_landing_page_title    | String   | Server-Side | Landing page title              |
+|                            | session_exit_page_category    | String   | Server-Side | Landing page category           |
 |                            | session_exit_page_location    | String   | Server-Side | Exit page path                  |
 |                            | session_exit_page_title       | String   | Server-Side | Exit page title                 |
-|                            | session_end_timestamp         | Integer  | Server-Side | Session end timestamp           |
 |                            | session_start_timestamp       | Integer  | Server-Side | Session start timestamp         |
+|                            | session_end_timestamp         | Integer  | Server-Side | Session end timestamp           |
 | event_name                 |                               | String   | Client-Side | Event name                      |
 | event_id                   |                               | String   | Client-Side | Unique event identifier         |
 | event_data                 | event_type                    | String   | Client-Side | Event type                      |
