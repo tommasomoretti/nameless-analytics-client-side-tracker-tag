@@ -36,10 +36,8 @@ This is the UI of the Client-side tracker tag.
 
 
 
-# Request payload
-This is the request payload with only standard parameters and no customization at all. 
-
-<details><summary>Request payload</summary>
+## Request payload
+<details><summary>Request payload example with only standard parameters and no customization at all.</summary>
 
 ```json
 {
@@ -225,9 +223,17 @@ This is the request payload with only standard parameters and no customization a
 |                            | personalization_storage       | String   | Client-Side | Personalization storage consent |
 |                            | security_storage              | String   | Client-Side | Security storage consent        |
 
+### Cross domain data
+When cross-domain tracking is enabled, a cross_domain_session parameter and a cross_domain_id parameter will be added to standard payload:
+
+| **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
+|----------------------------|-------------------------------|----------|-------------|---------------------------------|
+| session_data               | is_cross_domain_session       | String   | Client-Side | Is cross domain session         |
+| event_data                 | cross_domain_id               | JSON     | Client-Side | Cross domain id                 |
+
 </details>
 
-<details><summary>Optional data</summary>
+<details><summary>Request payload additional data parameters.</summary>
 
 ### Ecommerce data
 When add ecommerce data is enable, an ecommerce parameter will be added to standard payload:
@@ -243,15 +249,8 @@ When add ecommerce data is enable, a dataLayer parameter will be added to standa
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | dataLayer                  |                               | JSON     | Client-Side | DataLayer data                  |
 
-### Cross domain data
-When cross-domain tracking is enabled, a cross_domain_session parameter and a cross_domain_id parameter will be added to standard payload:
-
-| **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
-|----------------------------|-------------------------------|----------|-------------|---------------------------------|
-| session_data               | is_cross_domain_session       | String   | Client-Side | Is cross domain session         |
-| event_data                 | cross_domain_id               | JSON     | Client-Side | Cross domain id                 |
-
 </details>
+
 
 
 # Basic settings
