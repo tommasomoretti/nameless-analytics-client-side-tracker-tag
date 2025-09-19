@@ -32,7 +32,7 @@ Table of contents:
 # Tag UI
 This is the UI of the Client-side tracker tag.
 
-<img src="https://github.com/user-attachments/assets/c0c043de-35d3-4017-b5dd-4cb95453c5cb" alt="Nameless Analytics - Client-side tracker tag UI" />
+<img src="https://github.com/user-attachments/assets/19a3f06d-5175-447f-a271-205e991c180a" alt="Nameless Analytics - Client-side tracker tag UI" />
 
 
 
