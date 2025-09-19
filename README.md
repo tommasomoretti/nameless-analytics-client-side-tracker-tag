@@ -293,7 +293,7 @@ Choose between:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
-  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart </br>
+  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart </br></br>
 
   <img src="https://github.com/user-attachments/assets/2c6eb640-0f03-4499-85a0-e402fde00d71" alt="Page load time event configuration" />
 
