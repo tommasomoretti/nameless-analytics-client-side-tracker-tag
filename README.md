@@ -377,9 +377,8 @@ To add ecommerce data from dataLayer, create a tag with this settings:
 
 <img src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" alt="Send ecommerce data from dataLayer" />
 
-and a trigger that matches all ecommerce event names.
+and a trigger that matches all ecommerce event names: view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
 
-view_promotion|select_promotion|view_item_list|select_item|view_item|add_to_wishlist|add_to_cart|remove_from_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|refund
 <img src="https://github.com/user-attachments/assets/4fd258be-6d25-4190-af27-22523457632d" alt="Send ecommerce data from dataLayer" />
 
 Push ecommerce data into dataLayer as follow:
@@ -399,7 +398,7 @@ To add ecommerce data from custom variable, create a tag with this settings:
 
 <img src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" alt="Send ecommerce data from custom variable" />
 
-and a trigger that matches all ecommerce event names.
+Create a custom variable that return a JSON value with custom ecommerce schema (remember to modify the table function queries accordingly) and a trigger that matches all ecommerce custom event names.
 
 
 ## Add page status code
