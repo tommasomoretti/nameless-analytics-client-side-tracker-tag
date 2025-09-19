@@ -223,21 +223,21 @@ This is the request payload with only standard parameters and no customization a
 |                            | security_storage              | String   | Client-Side | Security storage consent        |
 
 ### Ecommerce data
-When add ecommerce data is enable, one parameter will be added to standard payload:
+When add ecommerce data is enable, an ecommerce parameter will be added to standard payload:
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | ecommerce                  |                               | JSON     | Client-Side | Ecommerce data                  |
 
 ### Add dataLater data
-When add ecommerce data is enable, one parameter will be added to standard payload: 
+When add ecommerce data is enable, a dataLayer parameter will be added to standard payload: 
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | dataLayer                  |                               | JSON     | Client-Side | DataLayer data                  |
 
 ### Cross domain data
-When cross-domain tracking is enabled, two parameters will be added to standard payload:
+When cross-domain tracking is enabled, a cross_domain_session parameter and a cross_domain_id parameter will be added to standard payload:
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
