@@ -37,8 +37,6 @@ This is the UI of the Client-side tracker tag.
 
 
 # Request payload
-<details><summary>Request payload</summary>
-
 This is the request payload with only standard parameters and no customization at all. 
 
 ```json
@@ -224,6 +222,8 @@ This is the request payload with only standard parameters and no customization a
 |                            | functionality_storage         | String   | Client-Side | Functionality storage consent   |
 |                            | personalization_storage       | String   | Client-Side | Personalization storage consent |
 |                            | security_storage              | String   | Client-Side | Security storage consent        |
+
+<details><summary>Optional data</summary>
 
 ### Ecommerce data
 When add ecommerce data is enable, an ecommerce parameter will be added to standard payload:
