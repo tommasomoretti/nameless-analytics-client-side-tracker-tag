@@ -39,6 +39,8 @@ This is the UI of the Client-side tracker tag.
 # Request payload
 This is the request payload with only standard parameters and no customization at all. 
 
+<details><summary>Request payload</summary>
+
 ```json
 {
   "event_date": "2025-06-12",
@@ -222,6 +224,8 @@ This is the request payload with only standard parameters and no customization a
 |                            | functionality_storage         | String   | Client-Side | Functionality storage consent   |
 |                            | personalization_storage       | String   | Client-Side | Personalization storage consent |
 |                            | security_storage              | String   | Client-Side | Security storage consent        |
+
+</details>
 
 <details><summary>Optional data</summary>
 
