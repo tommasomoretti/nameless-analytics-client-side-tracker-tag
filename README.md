@@ -242,7 +242,7 @@ When cross-domain tracking is enabled, a cross_domain_session parameter and a cr
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
-| session_data               | cross_domain_session          | String   | Client-Side | Is cross domain session         |
+| session_data               | is_cross_domain_session       | String   | Client-Side | Is cross domain session         |
 | event_data                 | cross_domain_id               | JSON     | Client-Side | Cross domain id                 |
 
 
