@@ -39,6 +39,8 @@ This is the UI of the Client-side tracker tag.
 # Request payload
 This is the request payload with only standard parameters and no customization at all. 
 
+<details><summary>Request payload </summary>
+
 ```json
 {
   "event_date": "2025-06-12",
@@ -245,6 +247,7 @@ When cross-domain tracking is enabled, a cross_domain_session parameter and a cr
 | session_data               | is_cross_domain_session       | String   | Client-Side | Is cross domain session         |
 | event_data                 | cross_domain_id               | JSON     | Client-Side | Cross domain id                 |
 
+</details>
 
 
 # Basic settings
