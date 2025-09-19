@@ -277,7 +277,7 @@ Please note: page_view is the only mandatory event, any events triggered prior t
 Be carefull to:
 - Always trigger a page_view event as the very first event on every page load, any event triggered before to a page_view will be rejected.
 - Prefer using standard event names when possible
-- Follow naming convention for event name and event parameters 
+- Follow naming convention for event name and event parameters
 
 ### Standard event
 Choose between:
@@ -293,7 +293,7 @@ Choose between:
   - time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
   - page_render_time: performance.timing.domComplete - performance.timing.domLoading
   - time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
-  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart
+  - total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart </br>
 
   <img src="https://github.com/user-attachments/assets/2c6eb640-0f03-4499-85a0-e402fde00d71" alt="Page load time event configuration" />
 
