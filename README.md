@@ -37,9 +37,9 @@ This is the UI of the Client-side tracker tag.
 
 
 # Request payload
-This is the request payload with only standard parameters and no customization at all. 
+<details><summary>Request payload</summary>
 
-<details><summary>Request payload </summary>
+This is the request payload with only standard parameters and no customization at all. 
 
 ```json
 {
