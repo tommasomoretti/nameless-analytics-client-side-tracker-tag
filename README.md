@@ -342,8 +342,8 @@ Add or overwrite parameters for a specific event. Values accepted: strings, Inte
 <img src="https://github.com/user-attachments/assets/b1401824-a5eb-4082-bd29-2a83ccf819d0" alt="Add/override event parameters" />
 
 These parameters can override:
-- default parameters
-- parameters taken from dataLayer in Nameless Analytics Client-side Tracker tag
+- default event parameters
+- dataLayer event parameters added in Nameless Analytics Client-side tracker tag
 - shared event parameters added in Nameless Analytics Client-side Configuration variable
 
 These parameters can be overridden by:
