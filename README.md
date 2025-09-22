@@ -10,7 +10,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Table of contents:
 - [Client-side tracker tag UI](#tag-ui)
-- [Request payload](#request-payload)
+  - [Request payload](#request-payload)
 - Basic settings
   - [Configuration variable](#configuration-variable)
 - Event data
