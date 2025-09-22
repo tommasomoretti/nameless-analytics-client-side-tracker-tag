@@ -344,10 +344,10 @@ Add or overwrite parameters for a specific event. Values accepted: strings, Inte
 These parameters can override:
 - default event parameters
 - dataLayer event parameters added in Nameless Analytics Client-side tracker tag
-- shared event parameters added in Nameless Analytics Client-side Configuration variable
+- shared event parameters added in Nameless Analytics Client-side configuration variable
 
 These parameters can be overridden by:
-- parameter added in Nameless Analytics Server-side client tag
+- event parameter added in Nameless Analytics Server-side client tag
 
 ### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
