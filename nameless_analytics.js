@@ -1,7 +1,7 @@
 /* 
   NAMELESS ANALYTICS 
   MAIN LIBRARY V.1.0
-  Tommaso Moretti - 2020-2025
+  Tommaso Moretti - 2020-2026
 */
 
 
@@ -12,17 +12,17 @@
 // Create requests queue
 let queue = Promise.resolve();
 
-function send_queued_requests(full_endpoint, payload, data, enable_logs, ) {
+function send_queued_requests(full_endpoint, payload, data, enable_logs, add_page_status_code) {
   // Ensure that, even in case of an error, the queue continues processing subsequent requests.
   queue = queue
   .catch(() => {}) // Swallow previous error
-  .then(() => build_payload(full_endpoint, payload, data, enable_logs));
+  .then(() => build_payload(full_endpoint, payload, data, enable_logs, add_page_status_code));
   return queue;
 }
 
 
 // Build payload
-function build_payload(full_endpoint, payload, data, enable_logs) {
+function build_payload(full_endpoint, payload, data, enable_logs, add_page_status_code) {
   return new Promise((resolve, reject) => {
     const timestamp = payload.event_timestamp;
     const formatted_datetime = format_datetime(timestamp);
@@ -43,7 +43,7 @@ function build_payload(full_endpoint, payload, data, enable_logs) {
     payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
     payload.event_data.page_language = document.documentElement.lang;
     
-    if (data.add_page_status_code && payload.event_data.event_type == 'page_view'){
+    if (add_page_status_code && payload.event_data.event_type == 'page_view'){
       fetch(window.location.href, {method: 'HEAD'})
       .then(response => {
         payload.event_data.page_status_code = response.status
