@@ -1,4 +1,4 @@
-const log = require('logToConsole');
+﻿const log = require('logToConsole');
 const getTimestampMillis = require('getTimestampMillis');
 const queryPermission = require('queryPermission');
 const injectScript = require('injectScript');
@@ -10,23 +10,16 @@ const isConsentGranted = require('isConsentGranted');
 const addConsentListener = require('addConsentListener');
 const templateStorage = require('templateStorage');
 const JSON = require('JSON');
-const makeString = require('makeString');
-const makeNumber = require('makeNumber');
 const getQueryParameters = require('getQueryParameters');
 const getContainerVersion = require('getContainerVersion');
 const copyFromDataLayer = require('copyFromDataLayer');
 const copyFromWindow = require('copyFromWindow'); 
 const Object = require('Object');
 const generateRandom = require('generateRandom');
-const addEventCallback = require('addEventCallback');
-const getCookieValues = require('getCookieValues');
-const setCookie = require('setCookie');
-
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const config = data.config_variable;
-// log(config.add_page_status_code);
 
 const hostname = getUrl('host');
 const referrer_hostname = getReferrerUrl('host');
@@ -41,12 +34,26 @@ const datalayer = copyFromWindow('dataLayer');
 const datalayer_event_name = copyFromDataLayer('event', 2);
 const datalayer_unique_event_id = copyFromDataLayer('gtm.uniqueEventId', 2);
 
-const enable_logs = (data.disable_this_log) ? false : config.enable_logs;
+// Logs
+let enable_logs = false;
+
+if (config.enable_logs) {
+  if (config.enable_logs_debug_mode_only) {
+    enable_logs = getContainerVersion().debugMode === true;
+  } else {
+    enable_logs = true;
+  }
+
+  if (enable_logs && data.disable_this_log) {
+    enable_logs = false;
+  }
+}
+
 const respect_consent_mode = config.respect_consent_mode;
 
 const event_name = (data.event_type == 'standard') ? data.standard_event_name : data.custom_event_name;
-const pv_event_name = (config.change_default_page_view_event_names) ? config.page_view_event_name : 'gtm.js';
-const vpv_event_name = (config.change_default_page_view_event_names) ? config.virtual_page_view_event_name : 'gtm.historyChange';
+const pv_event_name = (config.change_default_page_view_event_name) ? config.page_view_event_name : 'gtm.js';
+const vpv_event_name = (config.change_default_virtual_page_view_event_name) ? config.virtual_page_view_event_name : 'gtm.historyChange';
 
 const utm_source = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_source_name) : getQueryParameters('utm_source');
 const utm_campaign = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_campaign_name) : getQueryParameters('utm_campaign');
@@ -64,7 +71,7 @@ const utm_content = (config.set_custom_utm_parameters_names) ? getQueryParameter
 // const ttclid = getQueryParameters('ttclid'); // TikTok 
 // const twclid = getQueryParameters('twclid'); // X
 // const _pin_click_id = getQueryParameters('_pin_click_id'); // Pinterest
-// const li_fat_id = getQueryParameters('li_fat_id'); // Linkedin 
+// const li_fat_id = getQueryParameters('li_fat_id'); // Linkedin
 
 const source = (referrer_hostname == hostname) ? null : ((utm_source) ? utm_source : ((referrer_hostname == '') ? 'direct' : referrer_hostname));
 const campaign = utm_campaign || null;
@@ -79,6 +86,12 @@ const cross_domain_id = getQueryParameters('na_id');
 
 if(enable_logs){log('NAMELESS ANALYTICS');}
 if(enable_logs){log('TRACKER TAG CONFIGURATION');}
+
+if(!config.is_na_config_variable){
+  if(enable_logs){log('  🔴 Tracker configuration error:', event_name, 'event has invalid Nameless Analytics Client-Side tracker configuration variable.');}
+  data.gtmOnFailure();
+  return;
+}
 
 // Load external libraries
 if (queryPermission('inject_script', ua_parser_url)) {
@@ -137,45 +150,53 @@ function send_request(full_endpoint){
   if(respect_consent_mode){
     if(enable_logs){log('    👉 Checking consent mode...');}
     
-    // Consent denied
-    if (!isConsentGranted("analytics_storage")){            
-      if(enable_logs){log('      🔴 analytics_storage denied');}
-      
-      var consent_listener_called = false;
-      
-      // Add consent listener
-      addConsentListener("analytics_storage", (consent_type, consent_status) => {        
-        // When consent is denied  
-        if (consent_listener_called || !consent_status) {
-          return; 
-        }
-
-        // When consent is granted
-        consent_listener_called = true;
-                
-        if(enable_logs){log('      🟢 analytics_storage granted');}
+    const consent_type = callInWindow('get_last_consent_values').consent_type;
+    
+    // Check if consent mode is present
+    if(consent_type == 'Consent mode not present'){
+      if(enable_logs){log('      🔴 Consent mode not present. Request aborted.');}
+      data.gtmOnSuccess();
+    } else if (consent_type == 'Default' || consent_type == 'Update') {
+      // Consent denied
+      if (!isConsentGranted("analytics_storage")){            
+        if(enable_logs){log('      🔴 analytics_storage denied');}
         
-        // Send pending requests when consent is granted
+        var consent_listener_called = false;
+        
+        // Add consent listener
+        addConsentListener("analytics_storage", (consent_type, consent_status) => {        
+          // When consent is denied  
+          if (consent_listener_called || !consent_status) {
+            return; 
+          }
+  
+          // When consent is granted
+          consent_listener_called = true;
+                  
+          if(enable_logs){log('      🟢 analytics_storage granted');}
+          
+          // Send pending requests when consent is granted
+          if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
+            callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs, config.add_page_status_code);
+          }
+        });
+        
+      // Consent granted  
+      } else if(isConsentGranted("analytics_storage")) {
+        if(enable_logs){log('      🟢 analytics_storage granted');}
+              
+        // Send requests
         if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
-          callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs);
+          callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs, config.add_page_status_code);
         }
-      });
-      
-    // Consent granted  
-    } else if(isConsentGranted("analytics_storage")) {
-      if(enable_logs){log('      🟢 analytics_storage granted');}
-            
-      // Send requests
-      if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
-        callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs);
       }
     }
-  
+    
   // Do not respect consent mode
   } else {   
     // Send requests
     if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
-      callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs);
+      callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs, config.add_page_status_code);
     }
   }
 }
@@ -227,7 +248,7 @@ function build_payload(){
   payload.event_origin = 'Website';
   
   
-  // dataLayer data
+  // DATALAYER DATA
   // Add current dataLayer state (configuration variable)
   if(config.add_current_datalayer_state){
     let datalayer_def = [];
@@ -244,7 +265,7 @@ function build_payload(){
   }
   
   
-  // Ecommerce data
+  // ECOMMERCE DATA
   // Add ecommerce data from dataLayer or custom variable
   if(data.add_ecommerce) {
     if(data.ecommerce_method == 'from_datalayer'){
@@ -255,13 +276,14 @@ function build_payload(){
   }
   
   
-  // User data 
+  // USER DATA
   // Add user id (configuration variable)
   if(config.add_user_id){user_info.user_id = config.user_id;}
   
   // Add user parameters (configuration variable)
   if(config.add_user_params){
     const config_user_params = config.user_params;
+    
     if(config_user_params != undefined){
       for (let i = 0; i < config_user_params.length; i++) {
         const param_name = config_user_params[i].param_name;
@@ -276,10 +298,11 @@ function build_payload(){
   payload.user_data = user_info;
 
   
-  // Session data
+  // SESSION DATA
   // Add session parameters (configuration variable)
   if(config.add_session_params){
     const config_session_params = config.session_params;
+    
     if(config_session_params != undefined){
       for (let i = 0; i < config_session_params.length; i++) {
         const param_name = config_session_params[i].param_name;
@@ -294,14 +317,14 @@ function build_payload(){
   payload.session_data = session_info;
   
   
-  // Event data
-  // Add event parameters from dataLayer (tag field)
+  // EVENT DATA
+  // Add event parameters from dataLayer (tag fields)
   if(data.add_parameters_from_dataLayer){
     const current_event_pushes = datalayer.filter(item => item.event === datalayer_event_name);
     const last_current_event_push = current_event_pushes.length > 0 ? current_event_pushes[current_event_pushes.length - 1] : null;
     
     for (var key of Object.keys(last_current_event_push)) {
-      if (key != 'event' && key != 'gtm.start' && key != 'gtm.uniqueEventId' && key != 'page_id' && key != 'event_id' && key != 'ecommerce') {
+      if (key != 'event' && key != 'gtm.start' && key != 'gtm.uniqueEventId' && key != 'event_id' && key != 'page_id' && key != 'source' && key != 'campaign' && key != 'campaign_id' && key != 'campaign_term' && key != 'campaign_content' && key != 'ecommerce') {
         event_info[key] = last_current_event_push[key];
       }
     }
@@ -310,18 +333,32 @@ function build_payload(){
   // Add common event parameters (configuration variable)
   if(config.add_common_event_params){
     const config_event_params = config.common_event_params;
+    
     if(config_event_params != undefined){
       for (let i = 0; i < config_event_params.length; i++) {
         const param_name = config_event_params[i].param_name;
         const param_value = config_event_params[i].param_value;
         
-        if (param_name !== 'event_id' && param_name !== 'page_id') {
-          event_info[param_name] = param_value;
-        }
-      }
-    }
+        event_info[param_name] = param_value;
+      } 
+   }
   }
+  
 
+  // PAGE DATA
+  // Add page category (configuration variable)
+    event_info.page_category = config.page_category;
+  
+  // Add page data if virtual page view event name != gtm.historyChange
+  if (config.page_title != undefined && config.page_location != undefined) {
+    event_info.page_title = config.page_title;
+    event_info.page_location = config.page_location;
+    event_info.page_fragment = config.page_fragment;
+    event_info.page_query = config.page_query;
+    event_info.page_extension = config.page_extension;
+  }
+     
+  
   // Add event parameters (tag fields)
   if (data.add_parameters) {
     const event_params = data.add_event_params;
@@ -331,29 +368,42 @@ function build_payload(){
         const param_name = event_params[i].param_name;
         const param_value = event_params[i].param_value;
         
-        if (param_name != 'event_id' && param_name != 'page_id' && param_name != 'ecommerce') {
-          event_info[param_name] = param_value;
-        }
+        event_info[param_name] = param_value;
       }
     }
   }
+  
+  // Remove event data (tag fields)
+  if (data.remove_parameters) {
+    const event_params = data.remove_event_params;
+    
+    if (event_params !== undefined) {
+      for (let i = 0; i < event_params.length; i++) {
+        const param_name = event_params[i].param_name;
+        
+        Object.delete(event_info.event_data, param_name);
+      }
+    }
+  } 
   
   // Add event info to payload
   payload.event_data = event_info;
   
   
-  // Consent data
+  // CONSENT DATA
   // Add consent data
+  const consents = callInWindow('get_last_consent_values');
+  
   const consent_info = {
+    consent_type: consents.consent_type,
     respect_consent_mode: (respect_consent_mode) ? 'Yes' : 'No',
-    consent_type: (queryPermission('access_globals', 'execute', 'get_last_consent_values')) ? ((callInWindow('get_last_consent_values').consent_type == 'default') ? 'Default' : 'Update') : null,
-    ad_user_data: (isConsentGranted('ad_user_data')) ? 'Granted' : 'Denied',
-    ad_personalization: (isConsentGranted('ad_personalization'))? 'Granted' : 'Denied',
-    ad_storage: (isConsentGranted("ad_storage"))? 'Granted' : 'Denied',
-    analytics_storage: (isConsentGranted("analytics_storage"))? 'Granted' : 'Denied',
-    functionality_storage: (isConsentGranted("functionality_storage"))? 'Granted' : 'Denied',
-    personalization_storage: (isConsentGranted("personalization_storage"))? 'Granted' : 'Denied',
-    security_storage: (isConsentGranted("security_storage"))? 'Granted' : 'Denied'
+    ad_user_data: (consents.ad_user_data) ? 'Granted' : ((consents.ad_user_data == null) ? null : 'Denied'),
+    ad_personalization: (consents.ad_personalization) ? 'Granted' : ((consents.ad_personalization == null) ? null : 'Denied'),
+    ad_storage: (consents.ad_storage) ? 'Granted' : ((consents.ad_storage == null) ? null : 'Denied'),
+    analytics_storage: (consents.analytics_storage) ? 'Granted' : ((consents.analytics_storage == null) ? null : 'Denied'),
+    functionality_storage: (consents.functionality_storage) ? 'Granted' : ((consents.functionality_storage == null) ? null : 'Denied'),
+    personalization_storage: (consents.personalization_storage) ? 'Granted' : ((consents.personalization_storage == null) ? null : 'Denied'),
+    security_storage: (consents.security_storage) ? 'Granted' : ((consents.security_storage == null) ? null : 'Denied')
   };
   
   // Add consent info to payload
@@ -369,7 +419,7 @@ function build_payload(){
 // Save event info in template storage
 function set_event_data_in_template_storage(storage_name, storage_value) {
   const channel_grouping = (queryPermission('access_globals', 'execute', 'get_channel_grouping')) ? callInWindow('get_channel_grouping', source, campaign): null;
-            
+    
   if (datalayer_event_name == pv_event_name || datalayer_event_name == vpv_event_name) {  
     const page_id = alphanumeric_page_id;
     const event_id = page_id + "_" + alphanumeric_event_id;
@@ -398,7 +448,11 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
         
     templateStorage.setItem(storage_name, JSON.stringify(event_info));
   } else if (!storage_value) {
-    if(enable_logs){log('🔴 This event is been fired before a page view event. The first event ever must be a page view. Request aborted.');}
+    if (event_name == 'page_view') {
+      if(enable_logs){log('🔴 Page view fired on wrong event. Change default JavaScript page view event names in Nameless Analytics Client-Side tracker configuration variable. Request aborted.');}   
+    } else {
+      if(enable_logs){log('🔴', event_name, 'fired before a page view event. The first event on a page view ever must be page_view. Request aborted.');}
+    }
     data.gtmOnSuccess();
   } else {
     const current_event_info = storage_value.pop();
