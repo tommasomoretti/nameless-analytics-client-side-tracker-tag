@@ -16,7 +16,7 @@ Table of contents:
     - [Standard event](#standard-events)
     - [Custom event](#custom-events)
   - [Event parameters](#event-parameters)
-    - [Add/override event level parameters](#addoverride-event-level-parameters)
+    - [Add/override event level parameters](#addoverride-event-parameters)
     - [Remove event level parameters](#remove-event-level-parameters)
     - [Add event level parameters from dataLayer](#add-event-level-parameters-from-datalayer)
     - [Add ecommerce data](#send-ecommerce-data)
