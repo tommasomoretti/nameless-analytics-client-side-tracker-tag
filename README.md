@@ -33,8 +33,9 @@ This is the UI of the Client-side tracker tag.
 <img src="https://github.com/user-attachments/assets/b4f232e8-bdce-481c-90d0-e5ecf335c889" alt="Nameless Analytics - Client-side tracker tag UI" />
 
 
-## Request payload
-<details><summary>Request payload example with only standard parameters and no customization at all.</summary>
+
+# Request payload
+Request payload example with only standard parameters and no customization at all.
 
 ```json
 {
@@ -136,6 +137,8 @@ This is the UI of the Client-side tracker tag.
 }
 ```
 
+<details><summary>Standard payload details</summary>
+
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | event_date                 |                               | String   | Client-Side | Event date                      |
@@ -227,11 +230,9 @@ When cross-domain tracking is enabled, a cross_domain_session parameter and a cr
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | session_data               | is_cross_domain_session       | String   | Client-Side | Is cross domain session         |
 | event_data                 | cross_domain_id               | JSON     | Client-Side | Cross domain id                 |
-
 </details>
 
-<details><summary>Request payload additional data parameters.</summary>
-
+<details><summary>Request payload additional data parameters</summary>
 ### Ecommerce data
 When add ecommerce data is enable, an ecommerce parameter will be added to standard payload:
 
@@ -245,7 +246,6 @@ When add ecommerce data is enable, a dataLayer parameter will be added to standa
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | dataLayer                  |                               | JSON     | Client-Side | DataLayer data                  |
-
 </details>
 
 
