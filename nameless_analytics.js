@@ -46,7 +46,7 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
     if (add_page_status_code && payload.event_data.event_type == 'page_view'){
       fetch(window.location.href, {method: 'HEAD'})
       .then(response => {
-        payload.event_data.page_status_code = response.status
+        payload.page_data.page_status_code = response.status
         send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
       })
     } else {
