@@ -12,9 +12,9 @@ Table of contents:
 - [Tracker tag UI](#tag-ui)
 - [Request payload](#request-payload)
 - Event data
-  - [Event type](#event-type)
-    - [Standard event](#standard-events)
-    - [Custom event](#custom-events)
+  - [Event name](#event-type)
+    - [Standard event name](#standard-events)
+    - [Custom event name](#custom-events)
   - [Event parameters](#event-parameters)
     - [Add/override event level parameters](#addoverride-event-level-parameters)
     - [Remove event level parameters](#remove-event-level-parameters)
