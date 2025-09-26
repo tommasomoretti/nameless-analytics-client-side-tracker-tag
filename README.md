@@ -16,7 +16,7 @@ Table of contents:
     - [Standard event](#standard-events)
     - [Custom event](#custom-events)
   - [Event parameters](#event-parameters)
-    - [Add/override event level parameters](#addoverride-event-parameters)
+    - [Add/override event level parameters](#addoverride-event-level-parameters)
     - [Remove event level parameters](#remove-event-level-parameters)
     - [Add event level parameters from dataLayer](#add-event-level-parameters-from-datalayer)
     - [Add ecommerce data](#send-ecommerce-data)
@@ -311,7 +311,7 @@ This is the hierarchy of event parameter importance:
 
 [Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) overrides [Specific event parameters](#addoverride-event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) overrides [dataLayer parameters](#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
 
-### Add/override event parameters
+### Add/override event level parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
 
 <img src="https://github.com/user-attachments/assets/b1401824-a5eb-4082-bd29-2a83ccf819d0" alt="Add/override event parameters" />
