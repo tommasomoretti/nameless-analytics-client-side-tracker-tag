@@ -233,6 +233,7 @@ When cross-domain tracking is enabled, a cross_domain_session parameter and a cr
 </details>
 
 <details><summary>Request payload additional data parameters</summary>
+
 ### Ecommerce data
 When add ecommerce data is enable, an ecommerce parameter will be added to standard payload:
 
@@ -257,7 +258,7 @@ Choose between standard event names or custom event names.
 Please note: page_view is the only mandatory event, any events triggered prior to a page_view will be rejected. 
 
 Be carefull to:
-- Always trigger a page_view event as the very first event on every page load, any event triggered before to a page_view will be rejected.
+- Always trigger a page_view event as the very first event on every page load. Any event triggered before to a page_view will be rejected.
 - Prefer using standard event names when possible
 - Follow naming convention for event name and event parameters
 
