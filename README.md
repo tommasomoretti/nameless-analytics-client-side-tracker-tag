@@ -11,20 +11,18 @@ For an overview of how Nameless Analytics works [start from here](https://github
 Table of contents:
 - [Client-side tracker tag UI](#tag-ui)
   - [Request payload](#request-payload)
-- Basic settings
-  - [Configuration variable](#configuration-variable)
 - Event data
   - [Event type](#event-type)
     - [Standard event](#standard-events)
     - [Custom event](#custom-events)
   - [Event parameters](#event-parameters)
     - [Add/override event level parameters](#addoverride-event-level-parameters)
+    - [Remove event level parameters](#remove-event-level-parameters)
     - [Add event level parameters from dataLayer](#add-event-level-parameters-from-datalayer)
+    - [Add ecommerce data](#send-ecommerce-data)
+- Settings
+  - [Configuration variable](#configuration-variable)
 - Advanced settings
-  - [Add ecommerce data](#send-ecommerce-data)
-    - [From dataLayer](#from-dataLayer)
-    - [From custom variable](#from-custom-variable)
-  - [Add page status code](#add-page-status-code)
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 
 
@@ -398,15 +396,6 @@ To add ecommerce data from custom variable, create a tag with this settings:
 <img src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" alt="Send ecommerce data from custom variable" />
 
 Create a custom variable that return a JSON value with custom ecommerce schema (remember to modify the table function queries accordingly) and a trigger that matches all ecommerce custom event names.
-
-
-## Add page status code
-Add page status code to the request in the event_data when a page_view happens. This setting will be visible in the UI only when the event name is equal to page_view.
-
-<img src="https://github.com/user-attachments/assets/6446d49b-d8e7-4bd6-903a-1105ce0410a8" alt="Add page status code" />
-
-Please note: this will not work for virtual_page_view.
-
 
 ## Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
