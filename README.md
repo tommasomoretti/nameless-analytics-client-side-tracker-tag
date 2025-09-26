@@ -250,27 +250,6 @@ When add ecommerce data is enable, a dataLayer parameter will be added to standa
 
 
 
-# Basic settings
-## Configuration variable
-The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side tracker configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/). 
-
-<img src="https://github.com/user-attachments/assets/f39691cb-8b2c-4ba8-bfc3-2ca470d27922" alt="Basic settings" />
-
-This variable will handle settings like:
-- [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#basic-settings)
-- [set user level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
-- [set session level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
-- [set common event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#event-parameters)
-- [respect Google Consent Mode](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#respect-google-consent-mode)
-- [enable cross-domain tracking](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking)
-- [customize source and campaigns url parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#customize-source-and-campaigns-url-parameters)
-- [change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#change-default-JavaScript-page-view-event-names)
-- [load main library from custom location](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#load-main-library-from-custom-location)
-- [add current dataLayer state](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-current-dataLayer-state)
-- [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console)
-
-
-
 # Event data
 ## Event type
 Choose between standard event names or custom event names. 
@@ -310,7 +289,6 @@ Choose a custom name for the event.
 
 <img src="https://github.com/user-attachments/assets/3e22ede5-7b71-4289-96ea-9b111f891265" alt="Custom event configuration" />
 
-
 Please note: To maintain consistency between events, it is highly recommended to use _snake_case_ notation style (with underscores between words) to create descriptive, easily interpretable names. 
 
 Examples:
@@ -325,7 +303,7 @@ Avoid:
 
 
 ## Event parameters
-Add event parameters manually or via dataLayer for a specific event. The parameters will be added in the event_data object in the payload. 
+Add event parameters for a specific event. The parameters will be added in the event_data object in the payload. 
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
 
@@ -346,6 +324,9 @@ These parameters can override:
 These parameters can be overridden by:
 - event parameter added in Nameless Analytics Server-side client tag
 
+### Remove event level parameters
+Remove event level parameters in event_data object in the payload.
+
 ### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
@@ -359,17 +340,14 @@ These parameters can be overridden by:
 - event parameters added in Nameless Analytics Client-side tracker tag
 - event parameters added in Nameless Analytics Server-side client tag
 
-
-
-# Advanced settings
-## Send ecommerce data
+### Add ecommerce data
 Add ecommerce data from as a JSON object inside ecommerce field. 
 
 Please note: 
 - By default, the table function queries extract data from standard GA4 ecommerce data structure
 - The data model can be customized to support any ecommerce data structure by modifying the relative JSON paths in the user, session, ecommerce, product and funnels table function queries
 
-### From dataLayer
+#### From dataLayer
 To add ecommerce data from dataLayer, create a tag with this settings:
 
 <img src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" alt="Send ecommerce data from dataLayer" />
@@ -390,13 +368,37 @@ dataLayer.push({
 });
 ```
 
-### From custom variable
+#### From custom variable
 To add ecommerce data from custom variable, create a tag with this settings:
 
 <img src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" alt="Send ecommerce data from custom variable" />
 
 Create a custom variable that return a JSON value with custom ecommerce schema (remember to modify the table function queries accordingly) and a trigger that matches all ecommerce custom event names.
 
+
+
+# Configuration variable settings
+## Configuration variable
+The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side tracker configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/). 
+
+<img src="https://github.com/user-attachments/assets/f39691cb-8b2c-4ba8-bfc3-2ca470d27922" alt="Basic settings" />
+
+This variable will handle settings like:
+- [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#basic-settings)
+- [set user level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
+- [set session level parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
+- [set common event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#event-parameters)
+- [respect Google Consent Mode](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#respect-google-consent-mode)
+- [enable cross-domain tracking](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking)
+- [customize source and campaigns url parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#customize-source-and-campaigns-url-parameters)
+- [change default JavaScript page view event names](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#change-default-JavaScript-page-view-event-names)
+- [load main library from custom location](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#load-main-library-from-custom-location)
+- [add current dataLayer state](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-current-dataLayer-state)
+- [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console)
+
+
+
+# Advanced settings
 ## Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
