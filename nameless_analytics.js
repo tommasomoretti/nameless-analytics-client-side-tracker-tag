@@ -58,7 +58,7 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
 
 // Send requests
 function send_requests (full_endpoint, payload, data, enable_logs, resolve, reject){
-  if (enable_logs) console.log(payload.event_name, '>', ' SENDING REQUEST...');
+  if (enable_logs) console.log(payload.event_name, '>', 'SENDING REQUEST...');
       
   if (full_endpoint.split('/')[2] === 'undefined') {
     if (enable_logs) console.log(payload.event_name, '>', ' 🔴 This website is not authorized to send Nameless Analytics requests.');
