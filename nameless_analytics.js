@@ -58,10 +58,10 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
 
 // Send requests
 function send_requests (full_endpoint, payload, data, enable_logs, resolve, reject){
-  if (enable_logs) console.log(payload.event_name, ' SENDING REQUEST...');
+  if (enable_logs) console.log(payload.event_name, '>', ' SENDING REQUEST...');
       
   if (full_endpoint.split('/')[2] === 'undefined') {
-    if (enable_logs) console.log(payload.event_name,' 🔴 This website is not authorized to send Nameless Analytics requests.');
+    if (enable_logs) console.log(payload.event_name, '>', ' 🔴 This website is not authorized to send Nameless Analytics requests.');
     return reject(new Error('Unauthorized'));
   }
       
@@ -76,9 +76,9 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
   .then(response_json => {
     if (response_json.status_code === 200) {
       if (enable_logs) {
-        console.log(payload.event_name, '  👉 Event name: ' + response_json.data.event_name);
-        console.log(payload.event_name, '  👉 Payload data: ', response_json.data);
-        console.log(payload.event_name, '  ' + response_json.response);
+        console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);
+        console.log(payload.event_name, '>', '  👉 Payload data: ', response_json.data);
+        console.log(payload.event_name, '>', '  ' + response_json.response);
       }
 
       window.nameless_analytics_data = window.nameless_analytics_data || {};
@@ -88,14 +88,14 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
       data.gtmOnSuccess();
       resolve(response_json.data);
     } else {
-      if (enable_logs) console.log(payload.event_name, '  ' + response_json.response);
+      if (enable_logs) console.log(payload.event_name, '>', '  ', response_json.response);
       
       data.gtmOnFailure();
-      reject(new Error(payload.event_name + ' Server error: ' + response_json.response));
+      reject(new Error(payload.event_name, '>', ' Server error:', response_json.response));
       }
     })
   .catch(error => {
-    if (enable_logs) console.log(payload.event_name, '  🔴 Error while fetch', error);
+    if (enable_logs) console.log(payload.event_name, '>', '  🔴 Error while fetch', error);
       
     data.gtmOnFailure();
     reject(error);
