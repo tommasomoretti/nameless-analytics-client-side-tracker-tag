@@ -239,20 +239,20 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
             const client_id = user_data.client_id;
             const session_id = user_data.session_id;
 
-            if (enable_logs) {
-              console.log('CROSS-DOMAIN');
-            }
+            if (enable_logs) {console.log('cross-domain > NAMELESS ANALYTICS');}
 
-            if (enable_logs) {console.log('  👉 User data: ', user_data)}
+            if (enable_logs) {console.log('cross-domain > ASK USER DATA...');}
+            if (enable_logs) {console.log('cross-domain >   👉 User data: ', user_data)}
             
+            if (enable_logs) {console.log('cross-domain > CHECK USER DATA...');}
             if (session_id !== 'undefined') {
-              if (enable_logs) {console.log('  🟢 Valid user data. Cross-domain URL link decoration will be applied.')}
+              if (enable_logs) {console.log('cross-domain >   🟢 Valid user data. Cross-domain URL link decoration will be applied.')}
               link_url.searchParams.set('na_id', session_id);
             } else {
-              if (enable_logs) {console.log('  🔴 Invalid user data. No cross-domain URL link decoration will be applied.')}
+              if (enable_logs) {console.log('cross-domain >   🔴 Invalid user data. No cross-domain URL link decoration will be applied.')}
             }
 
-            if (enable_logs) {console.log('  👉 Redirect to: ' + link_url.href)}
+            if (enable_logs) {console.log('cross-domain >   👉 Redirect to: ' + link_url.href)}
             
             if (popupWindow) {
               popupWindow.location.href = link_url.href;
@@ -261,7 +261,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
             }
           })
           .catch(error => {
-            console.error('  🔴 Error fetching user data:', error);
+            console.error('cross-domain >   🔴 Error fetching user data:', error);
             if (popupWindow) {
               popupWindow.location.href = original_href;
             } else {
@@ -380,22 +380,16 @@ function get_user_data(saved_full_endpoint, payload, enable_logs) {
         if (response_json.status_code === 200) {
           return response_json.data;
         } else {
-          if (enable_logs) {
-            console.log(response_json.response);
-          }
+          if (enable_logs) {console.log(response_json.response);}
           return {};
         }
       })
       .catch(error => {
-        if (enable_logs) {
-          console.log("🔴 Error while fetch");
-        }
+        if (enable_logs) {console.log("🔴 Error while fetch");}
         return {};
       });
   } else {
-    if (enable_logs) {
-      console.log("🔴 Undefined endpoint domain");
-    }
+    if (enable_logs) {console.log("🔴 Undefined endpoint domain");}
     return Promise.resolve({});
   }
 }
