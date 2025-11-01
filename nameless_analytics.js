@@ -41,7 +41,7 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
     payload.event_data.os_version = ua_info.os.version;
     payload.event_data.screen_size = window.screen.width + "x" + window.screen.height;
     payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
-    payload.event_data.page_language = document.documentElement.lang;
+    payload.page_data.page_language = document.documentElement.lang;
     
     if (add_page_status_code && payload.event_data.event_type == 'page_view'){
       fetch(window.location.href, {method: 'HEAD'})
