@@ -24,12 +24,12 @@ function send_queued_requests(full_endpoint, payload, data, enable_logs, add_pag
 // Build payload
 function build_payload(full_endpoint, payload, data, enable_logs, add_page_status_code) {
   return new Promise((resolve, reject) => {
-    const timestamp = payload.event_timestamp;
-    const formatted_datetime = format_datetime(timestamp);
+    const formatted_event_datetime = format_datetime(payload.event_timestamp);
+    const formatted_page_datetime = format_datetime(payload.page_data.page_timestamp);
     const ua_info = parse_user_agent();
   
-    payload.event_date = formatted_datetime.date;
-    payload.event_datetime = formatted_datetime.date_time_micros;
+    payload.event_date = formatted_event_datetime.date;
+    // payload.event_datetime = formatted_event_datetime.date_time_micros;
     payload.event_data.user_agent = ua_info.ua;
     payload.event_data.browser_name = ua_info.browser.name;
     payload.event_data.browser_language = ua_info.browser.language;
@@ -41,6 +41,7 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
     payload.event_data.os_version = ua_info.os.version;
     payload.event_data.screen_size = window.screen.width + "x" + window.screen.height;
     payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
+    payload.page_date = formatted_page_datetime.date;
     payload.page_data.page_language = document.documentElement.lang;
     
     if (add_page_status_code && payload.event_data.event_type == 'page_view'){
