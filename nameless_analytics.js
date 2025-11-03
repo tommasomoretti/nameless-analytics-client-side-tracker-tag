@@ -80,6 +80,7 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
   })
   .then(res => res.json())
   .then(response_json => {
+    console.log(response_json);
     if (response_json.status_code === 200) {
       if (enable_logs) {
         // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
@@ -95,24 +96,17 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
       
       data.gtmOnSuccess();
       resolve(response_json.data);
-    } else {
-      if (enable_logs) console.log(payload.event_name, '>', ' ', response_json.response);
-
-      if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}
-      if(enable_logs){console.log(payload.event_name, '>', '  🔴 Tag execution failed.');}
-      
-      data.gtmOnSuccess();     
-      reject(new Error(payload.event_name, '>', ' Server error:', response_json.response));
-      }
-    })
+    }
+  })
   .catch(error => {
-    if (enable_logs) console.log(payload.event_name, '>', '  🔴 Error while fetch', error);
-
+    if (enable_logs) console.log(payload.event_name, '>', '  🔴 Error while fetch:', full_endpoint);
+    if (enable_logs) console.log(payload.event_name, '>', '  🔴', error);
+  
     if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}
     if(enable_logs){console.log(payload.event_name, '>', '  🔴 Tag execution failed.');}
-    
+     
     data.gtmOnSuccess();      
-    reject(error);
+    // reject(error);
   });
 }
 
