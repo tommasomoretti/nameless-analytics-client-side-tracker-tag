@@ -95,6 +95,14 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
       
       data.gtmOnSuccess();
       resolve(response_json.data);
+    } else {
+      if(enable_logs){console.log(payload.event_name, '>  ', response_json.response);}
+      
+      if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}
+      if(enable_logs){console.log(payload.event_name, '>', '  🔴 Tag execution failed.');}
+
+      data.gtmOnSuccess();
+      resolve(response_json.data);
     }
   })
   .catch(error => {
@@ -105,7 +113,7 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
     if(enable_logs){console.log(payload.event_name, '>', '  🔴 Tag execution failed.');}
      
     data.gtmOnSuccess();      
-    // reject(error);
+    reject(error);
   });
 }
 
