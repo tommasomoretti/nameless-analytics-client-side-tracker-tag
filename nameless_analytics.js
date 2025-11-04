@@ -80,7 +80,6 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
   })
   .then(res => res.json())
   .then(response_json => {
-    console.log(response_json);
     if (response_json.status_code === 200) {
       if (enable_logs) {
         // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
