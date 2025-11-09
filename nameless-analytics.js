@@ -48,11 +48,11 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
       fetch(window.location.href, {method: 'HEAD'})
       .then(response => {
         payload.page_data.page_status_code = response.status
-        send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
       })
-    } else {
-      send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
     }
+    
+    send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
+
   });
 }
 
@@ -198,20 +198,21 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
   const saved_full_endpoint = full_endpoint;
   const saved_cross_domain_domains = cross_domain_domains;
 
-  let listener = function(event) {
+  let cross_domain_listener = function(event) {
     var target = event.target.closest('a');
+    
     if (target && target.getAttribute("href")) {
       var original_href = target.getAttribute("href");
       var link_url = new URL(original_href);
-      var link_hostname = link_url.hostname;
-      var link_target = target.getAttribute("target");
+      const is_junk = /^(#|javascript:|tel:|mailto:)/.test(link_url.href);
 
-      const domain_matches = saved_cross_domain_domains.some(domain => link_hostname === domain || link_hostname.endsWith(`.${domain}`));
-      const is_self = link_hostname.includes(window.location.hostname);
-      const url_junk = /^(#|javascript:|tel:|mailto:)/.test(link_url.href);
+      if (!is_junk) {
+        var link_hostname = link_url.hostname;
 
-      if (!url_junk) {
-        window.dataLayer = window.dataLayer || [];
+        const domain_matches = saved_cross_domain_domains.some(domain => link_hostname === domain || link_hostname.endsWith(`.${domain}`));
+        const is_self = link_hostname.includes(window.location.hostname);
+        var link_target = target.getAttribute("target");
+
         const consent_values = get_last_consent_values();
         const analytics_storage_value = (consent_values.analytics_storage == true || consent_values.analytics_storage == null) ? true : false;
         const consent_granted_or_not_needed = (respect_consent_mode) ? analytics_storage_value : true;
@@ -227,7 +228,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         if (domain_matches && !consent_granted_or_not_needed) {
           return;
         }
-
+        
         // If the link is cross-domain and consent is granted
         event.preventDefault();
 
@@ -235,18 +236,17 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         if (domain_matches && link_target === "_blank") {
           popupWindow = window.open("about:blank", "_blank");
         }
-
+        
         get_user_data(saved_full_endpoint, { event_name: 'get_user_data', event_origin: 'Website' }, enable_logs)
           .then(user_data => {
             const client_id = user_data.client_id;
             const session_id = user_data.session_id;
 
             if (enable_logs) {console.log('cross-domain > NAMELESS ANALYTICS');}
-
             if (enable_logs) {console.log('cross-domain > ASK USER DATA...');}
             if (enable_logs) {console.log('cross-domain >   👉 User data: ', user_data)}
-            
             if (enable_logs) {console.log('cross-domain > CHECK USER DATA...');}
+            
             if (session_id !== 'undefined') {
               if (enable_logs) {console.log('cross-domain >   🟢 Valid user data. Cross-domain URL link decoration will be applied.')}
               link_url.searchParams.set('na_id', session_id);
@@ -274,42 +274,22 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
     }
   };
 
-  document.addEventListener('click', listener)
+  document.addEventListener('click', cross_domain_listener)
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
+
 // CONSENTS
 // Detect consent updates
-window.nameless_analytics_data = window.nameless_analytics_data || {};
-
-if (google_tag_data.ics.usedUpdate === false) {
-  const consents = get_last_consent_values();
-
-  nameless_analytics_data.consent_values = consents;
-  window.dataLayer.push({
-    event: 'consent_default',
-    consents: consents
-  });
-}
-
 function consent_update_listener(ics) {
+  window.dataLayer = window.dataLayer || {};
+  window.nameless_analytics_data = window.nameless_analytics_data || {};
+
   let is_update = ics.usedUpdate;
   let debounce_timer = null;
-
-  if (is_update === true) {
-    const consents = get_last_consent_values();
-    // delete consents.consent_type;
-    
-    nameless_analytics_data.consent_values = consents;
-    
-    window.dataLayer.push({
-      event: 'consent_update',
-      consents: consents
-    });
-  }
-
+  
   Object.defineProperty(ics, 'usedUpdate', {
     get() {
       return is_update;
@@ -321,15 +301,14 @@ function consent_update_listener(ics) {
 
       debounce_timer = setTimeout(() => {
         const consents = get_last_consent_values();
-        // delete consents.consent_type;
 
         if (value === true) {
-          nameless_analytics_data.consent_values = consents;
-
           window.dataLayer.push({
             event: 'consent_update',
             consents: consents
           });
+
+          nameless_analytics_data.consent_values = consents;  
         }
 
         debounce_timer = null;
@@ -365,6 +344,7 @@ function get_last_consent_values() {
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 // USER DATA
 // Get user data from GTM Server-side
