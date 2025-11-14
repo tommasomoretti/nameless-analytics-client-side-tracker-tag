@@ -52,7 +52,6 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
     }
     
     send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
-
   });
 }
 
