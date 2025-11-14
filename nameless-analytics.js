@@ -171,12 +171,12 @@ function get_channel_grouping(source, campaign) {
   if (!source) return 'internal_traffic';
   if (source === 'direct') return 'direct';
   if (source === 'tagassistant.google.com') return 'gtm_debugger';
-  if (patterns.search_engine.test(source)) {return campaign ? 'paid_search_engine' : 'organic_search_engine';}
-  if (patterns.social.test(source)) {return campaign ? 'paid_social' : 'organic_social';}
-  if (patterns.shopping.test(source)) {return campaign ? 'paid_shopping' : 'organic_shopping';}
-  if (patterns.video.test(source)) { return campaign ? 'paid_video' : 'organic_video';}
+  if (patterns.search_engine.test(source)) return campaign ? 'paid_search_engine' : 'organic_search_engine';
+  if (patterns.social.test(source)) return campaign ? 'paid_social' : 'organic_social';
+  if (patterns.shopping.test(source)) return campaign ? 'paid_shopping' : 'organic_shopping';
+  if (patterns.video.test(source)) return campaign ? 'paid_video' : 'organic_video';
   if (patterns.ai.test(source)) return 'ai';
-  if (patterns.email.test(source)) { return campaign ? 'email' : 'undefined';}
+  if (patterns.email.test(source)) return campaign ? 'email' : 'undefined';
   if (!campaign) return 'referral';
   if (campaign) return 'affiliate';
 
