@@ -282,46 +282,6 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
 
 
 // CONSENTS
-// Detect consent updates
-function consent_update_listener(ics) {
-  window.dataLayer = window.dataLayer || {};
-  window.nameless_analytics_data = window.nameless_analytics_data || {};
-
-  let is_update = ics.usedUpdate;
-  let debounce_timer = null;
-  
-  Object.defineProperty(ics, 'usedUpdate', {
-    get() {
-      return is_update;
-    },
-    set(value) {
-      is_update = value;
-
-      if (debounce_timer) clearTimeout(debounce_timer);
-
-      debounce_timer = setTimeout(() => {
-        const consents = get_last_consent_values();
-
-        if (value === true) {
-          window.dataLayer.push({
-            event: 'consent_update',
-            consents: consents
-          });
-
-          nameless_analytics_data.consent_values = consents;  
-        }
-
-        debounce_timer = null;
-      }, 0);
-    },
-    configurable: true,
-    enumerable: true
-  });
-}
-
-consent_update_listener(google_tag_data.ics);
-
-
 // Get last consent values
 function get_last_consent_values() {
   if (typeof google_tag_data !== 'undefined' && google_tag_data) {
