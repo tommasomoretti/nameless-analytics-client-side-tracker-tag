@@ -88,10 +88,6 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
         if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}            
         if(enable_logs){console.log(payload.event_name, '>', ' ', response_json.response);}
       }
-
-      window.nameless_analytics_data = window.nameless_analytics_data || {};
-      window.nameless_analytics_data.user_data = response_json.data.user_data;
-      window.nameless_analytics_data.session_data = response_json.data.session_data;
       
       data.gtmOnSuccess();
       resolve(response_json.data);
