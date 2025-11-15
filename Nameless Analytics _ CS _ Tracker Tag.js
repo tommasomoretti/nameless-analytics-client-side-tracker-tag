@@ -1,4 +1,4 @@
-﻿const log = require('logToConsole');
+const log = require('logToConsole');
 const getTimestampMillis = require('getTimestampMillis');
 const queryPermission = require('queryPermission');
 const injectScript = require('injectScript');
@@ -16,28 +16,19 @@ const copyFromDataLayer = require('copyFromDataLayer');
 const copyFromWindow = require('copyFromWindow'); 
 const Object = require('Object');
 const generateRandom = require('generateRandom');
+const addEventCallback = require('addEventCallback');
+
+
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
 const config = data.config_variable;
-
-const hostname = getUrl('host');
-const referrer_hostname = getReferrerUrl('host');
-
-// External scripts
-const library_path = 'https://' + hostname + config.custom_library_location;
-const script_url = (config.load_main_library_from_custom_location) ? library_path + '/nameless_analytics.min.js' : 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-side-tracker-tag@main/nameless_analytics.js';
-const ua_parser_url = (config.load_main_library_from_custom_location) ? library_path + '/ua-parser.min.js' : 'https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js';
-
-const timestamp = getTimestampMillis();
-const datalayer = copyFromWindow('dataLayer');
-const datalayer_event_name = copyFromDataLayer('event', 2);
-const datalayer_unique_event_id = copyFromDataLayer('gtm.uniqueEventId', 2);
+const event_name = (data.event_type == 'standard') ? data.standard_event_name : data.custom_event_name;
 
 // Logs
 let enable_logs = false;
-
-if (config.enable_logs) {
+if (config != undefined && config.enable_logs) {
   if (config.enable_logs_debug_mode_only) {
     enable_logs = getContainerVersion().debugMode === true;
   } else {
@@ -47,90 +38,152 @@ if (config.enable_logs) {
   if (enable_logs && data.disable_this_log) {
     enable_logs = false;
   }
+} else {
+  enable_logs = true;
 }
 
-const respect_consent_mode = config.respect_consent_mode;
+// Check configuration variable
+if(enable_logs){log(event_name, '>', 'NAMELESS ANALYTICS');}
+if(enable_logs){log(event_name, '>', 'CHECKING CONFIGURATION VARIABLE...');}
 
-const event_name = (data.event_type == 'standard') ? data.standard_event_name : data.custom_event_name;
+if(config == undefined || config.is_na_config_variable != true){
+  if(enable_logs){log(event_name, '>', '  🔴 Tracker configuration error: event has invalid Nameless Analytics Client-Side tracker configuration variable.');}
+
+  if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+  if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
+  data.gtmOnSuccess();
+  return;
+} else {
+  if(enable_logs){log(event_name, '>', '  🟢 Valid Nameless Analytics Client-Side tracker configuration variable.');}
+}
+
+// Event data
 const pv_event_name = (config.change_default_page_view_event_name) ? config.page_view_event_name : 'gtm.js';
 const vpv_event_name = (config.change_default_virtual_page_view_event_name) ? config.virtual_page_view_event_name : 'gtm.historyChange';
 
+const timestamp = getTimestampMillis();
+const hostname = getUrl('host');
+const referrer_hostname = getReferrerUrl('host');
+const datalayer = copyFromWindow('dataLayer');
+const datalayer_event_name = copyFromDataLayer('event', 2);
+const datalayer_unique_event_id = copyFromDataLayer('gtm.uniqueEventId', 2);
+
+const alphanumeric_page_id = generate_alphanumeric();
+const alphanumeric_event_id = generate_alphanumeric();
+const cross_domain_id = getQueryParameters('na_id');
+
+const respect_consent_mode = config.respect_consent_mode;
+
+// Acquisition
 const utm_source = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_source_name) : getQueryParameters('utm_source');
 const utm_campaign = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_campaign_name) : getQueryParameters('utm_campaign');
 const utm_id = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_id_name) : getQueryParameters('utm_id');
 const utm_term = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_term_name) : getQueryParameters('utm_term');
 const utm_content = (config.set_custom_utm_parameters_names) ? getQueryParameters(config.custom_content_name) : getQueryParameters('utm_content');
 
-// const gclid = getQueryParameters('gclid'); // Google
-// const dclid = getQueryParameters('dclid'); // Google
-// const gclsrc = getQueryParameters('gclsrc'); // Google
-// const wbraid = getQueryParameters('wbraid'); // Google
-// const gbraid = getQueryParameters('gbraid'); // Google
-// const msclkid = getQueryParameters('msclkid'); // Bing
-// const fbclid = getQueryParameters('fbclid'); // Facebook 
-// const ttclid = getQueryParameters('ttclid'); // TikTok 
-// const twclid = getQueryParameters('twclid'); // X
-// const _pin_click_id = getQueryParameters('_pin_click_id'); // Pinterest
-// const li_fat_id = getQueryParameters('li_fat_id'); // Linkedin
+const gclid = getQueryParameters('gclid'); // Google Ads
+const gclsrc = getQueryParameters('gclsrc'); // Google Ads
+const wbraid = getQueryParameters('wbraid'); // Google Ads
+const gbraid = getQueryParameters('gbraid'); // Google Ads
+const dclid = getQueryParameters('dclid'); // Google Floodlight
+const msclkid = getQueryParameters('msclkid'); // Bing
+const fbclid = getQueryParameters('fbclid'); // Facebook 
+const ttclid = getQueryParameters('ttclid'); // TikTok 
+const twclid = getQueryParameters('twclid'); // X
+const epik = getQueryParameters('epik'); // Pinterest
+const li_fat_id = getQueryParameters('li_fat_id'); // Linkedin
+const sccid = getQueryParameters('sccid'); // SnapChat
 
 const source = (referrer_hostname == hostname) ? null : ((utm_source) ? utm_source : ((referrer_hostname == '') ? 'direct' : referrer_hostname));
-const campaign = utm_campaign || null;
-// const campaign = utm_campaign || gclid || dclid || gclsrc || wbraid || gbraid || msclkid || fbclid || ttclid || twclid || _pin_click_id || li_fat_id || null;
+const campaign = utm_campaign || null; 
 const campaign_id = utm_id || null;
+const campaign_click_id = gclid || dclid || gclsrc || wbraid || gbraid || msclkid || fbclid || ttclid || twclid || epik || li_fat_id || sccid || null;
 const campaign_term = utm_term || null;
 const campaign_content = utm_content || null;
 
-const alphanumeric_page_id = generate_alphanumeric();
-const alphanumeric_event_id = generate_alphanumeric();
-const cross_domain_id = getQueryParameters('na_id');
+// Default script paths
+const default_na_url = 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-side-tracker-tag@main/nameless-analytics.js';
+const default_ua_parser_url = 'https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js';
 
-if(enable_logs){log('NAMELESS ANALYTICS');}
-if(enable_logs){log('TRACKER TAG CONFIGURATION');}
+// Custom script paths
+const custom_libraries_path = 'https://' + config.custom_libraries_domain + config.custom_libraries_path;
 
-if(!config.is_na_config_variable){
-  if(enable_logs){log('  🔴 Tracker configuration error:', event_name, 'event has invalid Nameless Analytics Client-Side tracker configuration variable.');}
-  data.gtmOnFailure();
-  return;
-}
+// Script paths
+const na_url = (config.load_libraries_from_custom_location) ? custom_libraries_path + '/nameless-analytics.js' : default_na_url;
+const ua_parser_url = (config.load_libraries_from_custom_location) ? custom_libraries_path + '/ua-parser.min.js' : default_ua_parser_url;
 
-// Load external libraries
+// Server side path
+const endpoint_domain_name = config.endpoint_domain_name;            
+const endpoint_path = config.endpoint_path;
+const full_endpoint = 'https://' + endpoint_domain_name + endpoint_path;
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'TRACKER TAG CONFIGURATION:');}
+if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  👉 Server-side requests endpoint path:', full_endpoint);}
+if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  👉 Load libraries in first-party mode:', (config.load_libraries_from_custom_location) ? 'Yes' : 'No');}
+if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  👉 Enable cross-domain tracking?', (config.enable_cross_domain_tracking) ? 'Yes' : 'No');}
+if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  👉 Respect Google Consent Mode?', (respect_consent_mode) ? 'Yes' : 'No');}
+
+
+if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'LOADING LIBRARIES...');}
+if(enable_logs && event_name != 'page_view'){log(event_name, '>', 'CHECKING LIBRARIES...');}
+
+// Load UA parser library
 if (queryPermission('inject_script', ua_parser_url)) {
   injectScript(
     ua_parser_url, 
-    () => { //Injection succeed
-        
-      // Inject main script
-      if (queryPermission('inject_script', script_url)) {
+    () => { // UA parser library loaded
+      if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🟢 UA parser library loaded from:', ua_parser_url);}
+      if(enable_logs && event_name != 'page_view'){log(event_name, '>', '  🟢 UA parser library found');}
+      
+      // Load Main library
+      if (queryPermission('inject_script', na_url)) {
         injectScript(
-          script_url,
-          () => { // Injection succeed
-            
-            const endpoint_domain_name = config.endpoint_domain_name;            
-            const endpoint_path = config.endpoint_path;
-            const full_endpoint = 'https://' + endpoint_domain_name + endpoint_path;
+          na_url,
+          () => { // Main library loaded  
+            if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🟢 Main library loaded from:', na_url);}
+            if(enable_logs && event_name != 'page_view'){log(event_name, '>', '  🟢 Main library found');}
             
             send_request(full_endpoint);  
           },
-          () => { // External script not loaded
-            if(enable_logs){log('  🔴 Main script not loaded');}
-            data.gtmOnFailure();
-          }, script_url // cache the external js
+          () => { // Main library not loaded
+            if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 Main library not loaded from:', na_url);}
+            if(enable_logs && event_name != 'page_view') {log(event_name, '>', '  🔴 Missing Main library');}
+    
+            if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+            if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
+            data.gtmOnSuccess();
+          }, na_url // cached Main library
         );
-      } else { // Incorrect script path
-        if(enable_logs){log('  🔴 Main script, incorrect path');}
-        data.gtmOnFailure();
+      } else {
+        if(enable_logs){log(event_name, '>', '  🔴 Permission denied: unable to load Main library from', na_url);}
+        
+        if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+        if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 Request aborted');}
+        data.gtmOnSuccess();
       }
+      
     },
-    () => { // External script not loaded
-      if(enable_logs){log('    🔴 UA parser script not loaded');}
-      data.gtmOnFailure();
-    }, ua_parser_url // cache the external js
+    () => { // UA parser library not loaded
+      if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 UA parser library not loaded from:', ua_parser_url);}
+      if(enable_logs && event_name != 'page_view') {log(event_name, '>', '  🔴 Missing UA parser library');}
+  
+      if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+      if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
+      data.gtmOnSuccess();
+    }, ua_parser_url // cached UA parser library
   );
-} else { // Incorrect script path
-  if(enable_logs){log('    🔴 UA parser script, incorrect path');}
-  data.gtmOnFailure();
-} 
-
+} else {
+  if(enable_logs){log(event_name, '>', '  🔴 Permission denied: unable to load UA parser library from', ua_parser_url);}
+  
+  if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+  if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 Request aborted');}
+  data.gtmOnSuccess();
+}
+  
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -138,28 +191,27 @@ if (queryPermission('inject_script', ua_parser_url)) {
 // Send request
 function send_request(full_endpoint){
   // Enable cross-domain
-  if(enable_logs){log('  👉 Enable cross-domain tracking?', (config.enable_cross_domain_tracking) ? 'Yes' : 'No');}
   if (config.enable_cross_domain_tracking) {
     set_cross_domain_listener(full_endpoint);
   }
   
-  // Check if respect consent mode
-  if(enable_logs){log('  👉 Respect consent choises? ' + ((respect_consent_mode) ? 'Yes' : 'No'));}
-  
   // Respect consent mode
   if(respect_consent_mode){
-    if(enable_logs){log('    👉 Checking consent mode...');}
+    if(enable_logs){log(event_name, '>', 'CHECKING GOOGLE CONSENT MODE...');}
     
     const consent_type = callInWindow('get_last_consent_values').consent_type;
     
     // Check if consent mode is present
     if(consent_type == 'Consent mode not present'){
-      if(enable_logs){log('      🔴 Consent mode not present. Request aborted.');}
+      if(enable_logs){log(event_name, '>', '  🔴 Google Consent Mode not found.');}
+
+      if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+      if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
       data.gtmOnSuccess();
     } else if (consent_type == 'Default' || consent_type == 'Update') {
       // Consent denied
       if (!isConsentGranted("analytics_storage")){            
-        if(enable_logs){log('      🔴 analytics_storage denied');}
+        if(enable_logs){log(event_name, '>', '  🔴 analytics_storage denied');}
         
         var consent_listener_called = false;
         
@@ -173,9 +225,9 @@ function send_request(full_endpoint){
           // When consent is granted
           consent_listener_called = true;
                   
-          if(enable_logs){log('      🟢 analytics_storage granted');}
+          if(enable_logs){log(event_name, '>', '  🟢 analytics_storage granted');}
           
-          // Send pending requests when consent is granted
+          // Send pending requests when consent is granted          
           if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
             callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs, config.add_page_status_code);
           }
@@ -183,7 +235,7 @@ function send_request(full_endpoint){
         
       // Consent granted  
       } else if(isConsentGranted("analytics_storage")) {
-        if(enable_logs){log('      🟢 analytics_storage granted');}
+        if(enable_logs){log(event_name, '>', '  🟢 analytics_storage granted');}
               
         // Send requests
         if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
@@ -207,6 +259,8 @@ function send_request(full_endpoint){
 
 // Set cross-domain listener
 function set_cross_domain_listener(full_endpoint) {
+  if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'ENABLING CROSS-DOMAIN TRACKING...');}
+  
   var cross_domain_listener_status = templateStorage.getItem('cross_domain_listener') || false;
   const domains = config.cross_domain_domains.map(obj => obj.domain);
   
@@ -215,7 +269,7 @@ function set_cross_domain_listener(full_endpoint) {
       callInWindow('set_cross_domain_listener', full_endpoint, domains, respect_consent_mode, enable_logs);
       templateStorage.setItem('cross_domain_listener', true);
 
-      if(enable_logs){log('    👉 Cross-domain enabled for this domains:', domains.join(', '));}
+      if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  👉 Cross-domain enabled for:', domains.join(', '));}
     }
   }
 }
@@ -227,25 +281,38 @@ function set_cross_domain_listener(full_endpoint) {
 // Build the payload
 function build_payload(){  
   // Save event info in template storage
-  const event_storage_name = '_nameless_analytics';
-  const current_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
-
-  set_event_data_in_template_storage(event_storage_name, current_event_storage_value);
+  const event_storage_name = 'data_storage';
   
+  const current_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
+  set_event_data_in_template_storage(event_storage_name, current_event_storage_value);
   const updated_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
+  
+  const payload = {};
 
   const user_info = {};
   const session_info = {};
   const event_info = updated_event_storage_value.pop();
-        
-  const payload = {};
-    
+  const page_info = {
+    page_title: readTitle(),
+    page_hostname_protocol: getUrl('protocol'),
+    page_hostname: hostname,
+    page_location: getUrl('path'),
+    page_fragment: getUrl('fragment') || null,
+    page_query: getUrl('query') || null,
+    page_extension: getUrl('extension') || null,
+    page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),
+    page_timestamp: event_info.page_timestamp
+  };
+
+  payload.event_origin = 'Website';
+  payload.event_timestamp = timestamp;
   payload.event_name = event_name;
   payload.event_id = event_info.event_id;
+  payload.page_id = event_info.page_id;
+
   Object.delete(event_info, 'event_id');
-    
-  payload.event_timestamp = timestamp;
-  payload.event_origin = 'Website';
+  Object.delete(event_info, 'page_id');
+  Object.delete(event_info, 'page_timestamp'); 
   
   
   // DATALAYER DATA
@@ -317,6 +384,21 @@ function build_payload(){
   payload.session_data = session_info;
   
   
+  // PAGE DATA
+  // Add page category (configuration variable)
+  page_info.page_category = config.page_category;
+  
+  // Add page data if virtual page view event name != gtm.historyChange
+  if (config.page_title != undefined && config.page_location != undefined) {
+    page_info.page_title = config.page_title;
+    page_info.page_location = config.page_location;
+    page_info.page_fragment = config.page_fragment;
+    page_info.page_query = config.page_query;
+    page_info.page_extension = config.page_extension;    
+  }
+  payload.page_data = page_info;
+  
+  
   // EVENT DATA
   // Add event parameters from dataLayer (tag fields)
   if(data.add_parameters_from_dataLayer){
@@ -341,23 +423,8 @@ function build_payload(){
         
         event_info[param_name] = param_value;
       } 
-   }
-  }
-  
-
-  // PAGE DATA
-  // Add page category (configuration variable)
-    event_info.page_category = config.page_category;
-  
-  // Add page data if virtual page view event name != gtm.historyChange
-  if (config.page_title != undefined && config.page_location != undefined) {
-    event_info.page_title = config.page_title;
-    event_info.page_location = config.page_location;
-    event_info.page_fragment = config.page_fragment;
-    event_info.page_query = config.page_query;
-    event_info.page_extension = config.page_extension;
-  }
-     
+    }
+  }     
   
   // Add event parameters (tag fields)
   if (data.add_parameters) {
@@ -388,7 +455,7 @@ function build_payload(){
   
   // Add event info to payload
   payload.event_data = event_info;
-  
+
   
   // CONSENT DATA
   // Add consent data
@@ -409,6 +476,18 @@ function build_payload(){
   // Add consent info to payload
   payload.consent_data = consent_info;
   
+  
+  // REQUEST DATA
+  const gtm_data = {
+    cs_hostname: hostname,      
+    cs_container_id: getContainerVersion().containerId,
+    cs_tag_name: null,
+    cs_tag_id: data.gtmTagId
+  };
+  
+  // Add request info to payload
+  payload.gtm_data = gtm_data;
+  
   return payload;
 }
 
@@ -418,6 +497,8 @@ function build_payload(){
 
 // Save event info in template storage
 function set_event_data_in_template_storage(storage_name, storage_value) {
+  if(enable_logs){log(event_name, '>', 'CHECKING EVENT...');} 
+  
   const channel_grouping = (queryPermission('access_globals', 'execute', 'get_channel_grouping')) ? callInWindow('get_channel_grouping', source, campaign): null;
     
   if (datalayer_event_name == pv_event_name || datalayer_event_name == vpv_event_name) {  
@@ -431,32 +512,33 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
       source: source,
       campaign: campaign,
       campaign_id: campaign_id,
+      campaign_click_id: campaign_click_id,
       campaign_term: campaign_term,
       campaign_content: campaign_content,
       page_id: page_id,
-      page_title: readTitle(),
-      page_hostname_protocol: getUrl('protocol'),
-      page_hostname: hostname,
-      page_location: getUrl('path'),
-      page_fragment: getUrl('fragment') || null,
-      page_query: getUrl('query') || null,
-      page_extension: getUrl('extension') || null,
-      page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),
-      cs_container_id: getContainerVersion().containerId,
+      page_timestamp: timestamp,
       cross_domain_id: (datalayer_event_name == pv_event_name) ? cross_domain_id : null
     }];
         
     templateStorage.setItem(storage_name, JSON.stringify(event_info));
-  } else if (!storage_value) {
+    
+    if(enable_logs){log(event_name, '>', '  🟢 Valid', event_name);}    
+  } else if (!storage_value) { 
     if (event_name == 'page_view') {
-      if(enable_logs){log('🔴 Page view fired on wrong event. Change default JavaScript page view event names in Nameless Analytics Client-Side tracker configuration variable. Request aborted.');}   
+      if(enable_logs){log(event_name, '>', '  🔴 Page view fired on wrong event. Change default JavaScript page view event names in Nameless Analytics Client-Side tracker configuration variable.');}   
     } else {
-      if(enable_logs){log('🔴', event_name, 'fired before a page view event. The first event on a page view ever must be page_view. Request aborted.');}
+      if(enable_logs){log(event_name, '>', '  🔴 Event fired before a page view event. The first event on a page view ever must be page_view. Request aborted.');}
     }
+    
+    if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+    if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
+    
     data.gtmOnSuccess();
+    
   } else {
     const current_event_info = storage_value.pop();
     const full_page_id = current_event_info.page_id;
+    const page_timestamp = current_event_info.page_timestamp;
     const event_id = full_page_id + "_" + alphanumeric_event_id;
     
     const event_info = [{
@@ -466,21 +548,17 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
       source: source,
       campaign: campaign,
       campaign_id: campaign_id,
+      campaign_click_id: campaign_click_id,
       campaign_term: campaign_term,
       campaign_content: campaign_content,
       page_id: full_page_id,
-      page_title: readTitle(),
-      page_hostname_protocol: getUrl('protocol'),
-      page_hostname: hostname,
-      page_location: getUrl('path'),
-      page_fragment: getUrl('fragment') || null,
-      page_query: getUrl('query') || null,
-      page_extension: getUrl('extension') || null,
-      page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),     
-      cs_container_id: getContainerVersion().containerId,
+      page_timestamp: page_timestamp,
+      cross_domain_id: (datalayer_event_name == pv_event_name) ? cross_domain_id : null
     }];
         
     templateStorage.setItem(storage_name, JSON.stringify(event_info));
+    
+    if(enable_logs){log(event_name, '>', '  🟢 Valid', event_name);}  
   }
 }
 
