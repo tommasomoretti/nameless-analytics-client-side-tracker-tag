@@ -25,14 +25,14 @@ Table of contents:
 - Advanced settings
   - [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 
-
+</br>
 
 # Tag UI
 This is the UI of the Client-side tracker tag.
 
 <img src="https://github.com/user-attachments/assets/b4f232e8-bdce-481c-90d0-e5ecf335c889" alt="Nameless Analytics - Client-side tracker tag UI" />
 
-
+</br>
 
 # Request payload
 Request payload example with only standard parameters and no customization at all.
@@ -249,7 +249,7 @@ When add ecommerce data is enable, a dataLayer parameter will be added to standa
 | dataLayer                  |                               | JSON     | Client-Side | DataLayer data                  |
 </details>
 
-
+</br>
 
 # Event data
 ## Event type
@@ -376,7 +376,7 @@ To add ecommerce data from custom variable, create a tag with this settings:
 
 Create a custom variable that return a JSON value with custom ecommerce schema (remember to modify the table function queries accordingly) and a trigger that matches all ecommerce custom event names.
 
-
+</br>
 
 # Configuration variable settings
 ## Configuration variable
@@ -397,12 +397,12 @@ This variable will handle settings like:
 - [add current dataLayer state](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-current-dataLayer-state)
 - [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console)
 
-
+</br>
 
 # Advanced settings
 ## Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
----
+#
 
 Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [Linkedin](https://www.linkedin.com/in/tommasomoretti/)
