@@ -68,6 +68,7 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
     
     data.gtmOnSuccess();
     reject(new Error('Unauthorized'));
+    return 
   }
       
   fetch(full_endpoint, {
@@ -80,13 +81,11 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
   .then(res => res.json())
   .then(response_json => {
     if (response_json.status_code === 200) {
-      if (enable_logs) {
-        // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
-        if(enable_logs){console.log(payload.event_name, '>', '  👉 Payload data: ', response_json.data);}
+      // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
+      if(enable_logs){console.log(payload.event_name, '>', '  👉 Payload data: ', response_json.data);}
 
-        if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}            
-        if(enable_logs){console.log(payload.event_name, '>', ' ', response_json.response);}
-      }
+      if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}            
+      if(enable_logs){console.log(payload.event_name, '>', ' ', response_json.response);}
       
       data.gtmOnSuccess();
       resolve(response_json.data);
