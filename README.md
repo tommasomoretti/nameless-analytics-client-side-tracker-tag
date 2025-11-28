@@ -27,14 +27,14 @@ Table of contents:
 
 </br>
 
-# Tag UI
+## Tag UI
 This is the UI of the Client-side tracker tag.
 
 <img src="https://github.com/user-attachments/assets/6e3b004f-e213-43b8-82d1-eb3251308fc0" alt="Nameless Analytics - Client-side tracker tag UI" />
 
 </br>
 
-# Request payload
+## Request payload
 Request payload example with only standard parameters and no customization at all.
 
 ```json
@@ -251,8 +251,8 @@ When add ecommerce data is enable, a dataLayer parameter will be added to standa
 
 </br>
 
-# Event data
-## Event type
+## Event data
+### Event type
 Choose between standard event names or custom event names. 
 
 Please note: page_view is the only mandatory event, any events triggered prior to a page_view will be rejected. 
@@ -262,7 +262,7 @@ Be carefull to:
 - Prefer using standard event names when possible
 - Follow naming convention for event name and event parameters
 
-### Standard event
+#### Standard event
 Choose between:
 - page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
   
@@ -285,7 +285,7 @@ Choose between:
   <img src="https://github.com/user-attachments/assets/206e2401-8901-4673-925c-c81b60b1667f" alt="Page closed time event configuration" />
 
 
-### Custom event
+#### Custom event
 Choose a custom name for the event. 
 
 <img src="https://github.com/user-attachments/assets/3e22ede5-7b71-4289-96ea-9b111f891265" alt="Custom event configuration" />
@@ -303,7 +303,7 @@ Avoid:
 - CamelCase: ButtonClicked
 
 
-## Event parameters
+### Event parameters
 Add event parameters for a specific event. The parameters will be added in the event_data object in the payload. 
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
@@ -312,7 +312,7 @@ This is the hierarchy of event parameter importance:
 
 [Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) overrides [Specific event parameters](#addoverride-event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) overrides [dataLayer parameters](#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
 
-### Add/override event level parameters
+#### Add/override event level parameters
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
 
 <img src="https://github.com/user-attachments/assets/b1401824-a5eb-4082-bd29-2a83ccf819d0" alt="Add/override event parameters" />
@@ -325,10 +325,10 @@ These parameters can override:
 These parameters can be overridden by:
 - event parameter added in Nameless Analytics Server-side client tag
 
-### Remove event level parameters
+#### Remove event level parameters
 Remove event level parameters in event_data object in the payload.
 
-### Add event parameters from dataLayer
+#### Add event parameters from dataLayer
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
 <img src="https://github.com/user-attachments/assets/669ec958-c93f-4f9a-afd5-12efa0e91cd1" alt="Add event parameters from dataLayer" />
@@ -341,14 +341,14 @@ These parameters can be overridden by:
 - event parameters added in Nameless Analytics Client-side tracker tag
 - event parameters added in Nameless Analytics Server-side client tag
 
-### Add ecommerce data
+#### Add ecommerce data
 Add ecommerce data from as a JSON object inside ecommerce field. 
 
 Please note: 
 - By default, the table function queries extract data from standard GA4 ecommerce data structure
 - The data model can be customized to support any ecommerce data structure by modifying the relative JSON paths in the user, session, ecommerce, product and funnels table function queries
 
-#### From dataLayer
+##### From dataLayer
 To add ecommerce data from dataLayer, create a tag with this settings:
 
 <img src="https://github.com/user-attachments/assets/73761561-879c-4dd1-93be-d4ad0bd245a0" alt="Send ecommerce data from dataLayer" />
@@ -369,7 +369,7 @@ dataLayer.push({
 });
 ```
 
-#### From custom variable
+##### From custom variable
 To add ecommerce data from custom variable, create a tag with this settings:
 
 <img src="https://github.com/user-attachments/assets/6a6b7d8b-99e9-4793-be73-58cbd6f5bfba" alt="Send ecommerce data from custom variable" />
@@ -378,8 +378,8 @@ Create a custom variable that return a JSON value with custom ecommerce schema (
 
 </br>
 
-# Configuration variable settings
-## Configuration variable
+## Configuration variable settings
+### Configuration variable
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side tracker configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/). 
 
 <img src="https://github.com/user-attachments/assets/f39691cb-8b2c-4ba8-bfc3-2ca470d27922" alt="Basic settings" />
@@ -399,10 +399,10 @@ This variable will handle settings like:
 
 </br>
 
-# Advanced settings
-## Disable logs in JavaScript console for this event
+## Advanced settings
+### Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
-#
+---
 
 Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [Linkedin](https://www.linkedin.com/in/tommasomoretti/)
