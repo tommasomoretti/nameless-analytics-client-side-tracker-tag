@@ -239,21 +239,21 @@ This is the UI of the Client-side tracker tag.
 
 </br>
 
-### Add dataLater data
+#### Add dataLater data
 When Add current dataLayer state in Nameless Analytics Client-side configuration variable is enable, a dataLayer parameter will be added to standard payload: 
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | dataLayer                  |                               | JSON     | Client-Side | DataLayer data                  |
 
-### Ecommerce data
+#### Ecommerce data
 When add ecommerce data in Nameless Analytics Client-side tracker tag is enable, an ecommerce parameter will be added to standard payload:
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | ecommerce                  |                               | JSON     | Client-Side | Ecommerce data                  |
 
-### Cross domain data
+#### Cross domain data
 When Enable cross domain tracking Nameless Analytics Client-side configuration variable is enabled, a cross_domain_session parameter and a cross_domain_id parameter will be added to standard payload:
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
