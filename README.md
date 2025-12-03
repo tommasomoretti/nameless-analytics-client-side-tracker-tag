@@ -26,12 +26,17 @@ Table of contents:
 * Advanced settings
   * [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 
+</br>
+
 
 
 ## Tag UI
 This is the UI of the Client-side tracker tag.
 
 <img src="https://github.com/user-attachments/assets/6e3b004f-e213-43b8-82d1-eb3251308fc0" alt="Nameless Analytics - Client-side tracker tag UI"/>
+
+</br>
+</br>
 
 
 
@@ -226,7 +231,6 @@ This is the UI of the Client-side tracker tag.
 |                            | security_storage              | String   | Client-Side | Security storage consent        |
 </details>
 
-
 <details><summary>Request payload additional data parameters</summary>
 
 ### Add dataLater data
@@ -251,6 +255,8 @@ When Enable cross domain tracking Nameless Analytics Client-side configuration v
 | event_data                 | cross_domain_id               | JSON     | Client-Side | Cross domain id                 |
 | session_data               | is_cross_domain_session       | String   | Server-Side | Is cross domain session         |
 </details>
+
+</br>
 
 
 
@@ -361,6 +367,8 @@ dataLayer.push({
 });
 ```
 
+</br>
+
 
 
 ## Configuration variable settings
@@ -379,6 +387,8 @@ This variable will handle settings like:
 - [load main library from custom location](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#load-main-library-from-custom-location)
 - [add current dataLayer state](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-current-dataLayer-state)
 - [show logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console)
+
+</br>
 
 
 
