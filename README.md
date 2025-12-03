@@ -4,7 +4,6 @@
 ---
 
 # Client-side tracker tag
-
 The Nameless Analytics Client-side tracker tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/#how-it-works).
@@ -13,13 +12,14 @@ Table of contents:
 * [Tracker tag UI](#tag-ui)
 * [Request payload](#request-payload)
 * Event data
-  * [Event name](#event-type)
+  * [Event name](#event-name)
     * [Standard event name](#standard-event-name)
     * [Custom event name](#custom-event-name)
   * [Event parameters](#event-parameters)
     * [Add/override event level parameters](#addoverride-event-level-parameters)
     * [Remove event level parameters](#remove-event-level-parameters)
     * [Add event level parameters from dataLayer](#add-event-level-parameters-from-datalayer)
+  * [Ecommerce]
     * [Add ecommerce data](#send-ecommerce-data)
 * Configuration variable settings
   * [Configuration variable](#configuration-variable)
@@ -29,15 +29,13 @@ Table of contents:
 
 
 ## Tag UI
-
 This is the UI of the Client-side tracker tag.
 
-<img src="https://github.com/user-attachments/assets/6e3b004f-e213-43b8-82d1-eb3251308fc0" alt="Nameless Analytics - Client-side tracker tag UI" />
+<img src="https://github.com/user-attachments/assets/6e3b004f-e213-43b8-82d1-eb3251308fc0" alt="Nameless Analytics - Client-side tracker tag UI"/>
 
 
 
 ## Request payload data
-
 <details><summary>Request payload example with only standard parameters and no customization at all.</summary>
 
 ```json
@@ -226,11 +224,27 @@ This is the UI of the Client-side tracker tag.
 |                            | functionality_storage         | String   | Client-Side | Functionality storage consent   |
 |                            | personalization_storage       | String   | Client-Side | Personalization storage consent |
 |                            | security_storage              | String   | Client-Side | Security storage consent        |
+</details>
 
+
+<details><summary>Request payload additional data parameters</summary>
+
+### Add dataLater data
+When Add current dataLayer state in Nameless Analytics Client-side configuration variable is enable, a dataLayer parameter will be added to standard payload: 
+
+| **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
+|----------------------------|-------------------------------|----------|-------------|---------------------------------|
+| dataLayer                  |                               | JSON     | Client-Side | DataLayer data                  |
+
+### Ecommerce data
+When add ecommerce data in Nameless Analytics Client-side tracker tag is enable, an ecommerce parameter will be added to standard payload:
+
+| **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
+|----------------------------|-------------------------------|----------|-------------|---------------------------------|
+| ecommerce                  |                               | JSON     | Client-Side | Ecommerce data                  |
 
 ### Cross domain data
-
-When cross-domain tracking is enabled, a cross_domain_session parameter and a cross_domain_id parameter will be added to standard payload:
+When Enable cross domain tracking Nameless Analytics Client-side configuration variable is enabled, a cross_domain_session parameter and a cross_domain_id parameter will be added to standard payload:
 
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
@@ -238,32 +252,10 @@ When cross-domain tracking is enabled, a cross_domain_session parameter and a cr
 | session_data               | is_cross_domain_session       | String   | Server-Side | Is cross domain session         |
 </details>
 
-<details><summary>Request payload additional data parameters</summary>
-
-
-### Ecommerce data</h3
-
-When add ecommerce data is enable, an ecommerce parameter will be added to standard payload:
-
-| **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
-|----------------------------|-------------------------------|----------|-------------|---------------------------------|
-| ecommerce                  |                               | JSON     | Client-Side | Ecommerce data                  |
-
-
-### Add dataLater data</h3
-
-When add ecommerce data is enable, a dataLayer parameter will be added to standard payload: 
-
-| **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
-|----------------------------|-------------------------------|----------|-------------|---------------------------------|
-| dataLayer                  |                               | JSON     | Client-Side | DataLayer data                  |
-</details>
-
 
 
 ## Event data
-### Event type
-
+### Event name
 Choose between standard event names or custom event names. 
 
 Be carefull to:
@@ -272,8 +264,7 @@ Be carefull to:
 - Follow naming convention for event name and event parameters
 
 #### Standard event name
-
-Standard event names:
+Choose a standard event name for the event:
 
 * page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
 * consent_given: Send this event the user give consent to improve the accuracy of consents metrics.
@@ -285,8 +276,9 @@ Standard event names:
 * page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics.
 
 #### Custom event name
+Choose a custom event name for the event.
 
-Custom event names: to maintain consistency between events, it is highly recommended to use _snake_case_ notation style (with underscores between words) to create descriptive, easily interpretable names. 
+To maintain consistency between events, it is highly recommended to use _snake_case_ notation style (with underscores between words) to create descriptive, easily interpretable names. 
 
 Examples:
 * button_clicked
@@ -300,7 +292,6 @@ Avoid
 
 
 ### Event parameters
-
 Add event parameters for a specific event. The parameters will be added in the event_data object in the payload. 
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
@@ -310,7 +301,6 @@ This is the hierarchy of event parameter importance:
 [Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) overrides [Specific event parameters](#addoverride-event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) overrides [dataLayer parameters](#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
 
 #### Add/override event level parameters
-
 Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
 
 These parameters can override:
@@ -322,11 +312,9 @@ These parameters can be overridden by:
 - event parameter added in Nameless Analytics Server-side client tag
 
 #### Remove event level parameters
-
 Remove event level parameters in event_data object in the payload.
 
 #### Add event parameters from dataLayer
-
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
 These parameters can override:
@@ -338,7 +326,6 @@ These parameters can be overridden by:
 - event parameters added in Nameless Analytics Server-side client tag
 
 #### Add ecommerce data
-
 Add ecommerce data as a JSON object inside the ecommerce field.
 
 Please note: 
@@ -378,7 +365,6 @@ dataLayer.push({
 
 ## Configuration variable settings
 ### Configuration variable
-
 The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side tracker configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/). 
 
 This variable will handle settings like:
@@ -398,7 +384,6 @@ This variable will handle settings like:
 
 ## Advanced settings
 ### Disable logs in JavaScript console for this event
-
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
 
 ---
