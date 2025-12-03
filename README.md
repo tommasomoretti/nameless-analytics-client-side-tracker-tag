@@ -43,6 +43,8 @@ This is the UI of the Client-side tracker tag.
 ## Request payload data
 <details><summary>Request payload example with only standard parameters and no customization at all.</summary>
 
+</br>
+
 ```json
 {
   "event_date": "2025-06-12",
@@ -146,6 +148,8 @@ This is the UI of the Client-side tracker tag.
 
 <details><summary>Standard payload details</summary>
 
+</br>
+
 | **Parameter name**         | **Sub-parameter**             | **Type** | **Added**   | **Field description**           |
 |----------------------------|-------------------------------|----------|-------------|---------------------------------|
 | event_date                 |                               | String   | Client-Side | Event date                      |
@@ -232,6 +236,8 @@ This is the UI of the Client-side tracker tag.
 </details>
 
 <details><summary>Request payload additional data parameters</summary>
+
+</br>
 
 ### Add dataLater data
 When Add current dataLayer state in Nameless Analytics Client-side configuration variable is enable, a dataLayer parameter will be added to standard payload: 
