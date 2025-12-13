@@ -232,7 +232,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         }
         
         get_user_data(saved_full_endpoint, { event_name: 'get_user_data', event_origin: 'Website' }, enable_logs)
-          .then(user_data => {
+          .then(user_data => {            
             const client_id = user_data.client_id;
             const session_id = user_data.session_id;
 
@@ -313,12 +313,7 @@ function get_user_data(saved_full_endpoint, payload, enable_logs) {
     })
       .then(response => response.json())
       .then(response_json => {
-        if (response_json.status_code === 200) {
-          return response_json.data;
-        } else {
-          if (enable_logs) {console.log(response_json.response);}
-          return {};
-        }
+        return response_json.data;
       })
       .catch(error => {
         if (enable_logs) {console.log("🔴 Error while fetch");}
