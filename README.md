@@ -285,8 +285,6 @@ Data are structured in:
 
 <details><summary>Request payload additional data parameters</summary>
 
-</br>
-
 #### Add dataLater data
 When Add current dataLayer state in Nameless Analytics Client-side configuration variable is enable, a dataLayer parameter will be added to standard payload: 
 
