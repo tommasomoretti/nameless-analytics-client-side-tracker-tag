@@ -37,7 +37,7 @@ Settings:
 ## Tag UI
 This is the UI of the Client-side tracker tag.
 
-<img src="https://github.com/user-attachments/assets/6e3b004f-e213-43b8-82d1-eb3251308fc0" alt="Nameless Analytics - Client-side tracker tag UI"/>
+<img src="https://github.com/user-attachments/assets/c2a49aa4-7270-427c-992d-eb5da92441df" alt="Nameless Analytics - Client-side tracker tag UI"/>
 
 </br>
 </br>
