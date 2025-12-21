@@ -44,16 +44,16 @@ This is the UI of the Client-side tracker tag.
 
 
 
-## Request payload data
-The requests data are sent via POST request in JSON format.
+### Request payload data
+The request data is sent via a POST request in JSON format.
 
-Data are structured in:
-* user data: data related to users
-* session data: data related to sessions
-* page data: data related to pages
-* event data: data related to events
-* dataLayer data:
-* ecommerce data:
+Data is structured into:
+* User data: data related to users.
+* Session data: data related to sessions.
+* Page data: data related to pages.
+* Event data: data related to events.
+* dataLayer data.
+* Ecommerce data.
 
 <details><summary>Request payload example with only standard parameters and no customization at all</summary>
 
@@ -263,7 +263,7 @@ Data are structured in:
 |                    | city                          | String   | Server-Side | Event geolocation city                   |
 |                    | tld_source                    | String   | Client-Side | Event top-level domain source            |
 | consent_data       | consent_type                  | String   | Client-Side | Consent update type                      |
-|                    | respect_consent_mode          | String   | Client-Side | Whether consent mode is respected        |
+|                    | respect_consent_mode          | String   | Client-Side | Whether Consent Mode is respected        |
 |                    | ad_user_data                  | String   | Client-Side | Ad user data consent                     |
 |                    | ad_personalization            | String   | Client-Side | Ad personalization consent               |
 |                    | ad_storage                    | String   | Client-Side | Ad storage consent                       |
@@ -285,22 +285,22 @@ Data are structured in:
 
 <details><summary>Request payload additional data parameters</summary>
 
-#### Add dataLater data
-When Add current dataLayer state in Nameless Analytics Client-side configuration variable is enable, a dataLayer parameter will be added to standard payload: 
+#### Add dataLayer data
+When the "Add current dataLayer state" option in the Nameless Analytics Client-side configuration variable is enabled, a `dataLayer` parameter will be added to the standard payload: 
 
 | **Parameter name** | **Sub-parameter** | **Type** | **Added**   | **Field description** |
 |--------------------|-------------------|----------|-------------|-----------------------|
 | dataLayer          |                   | JSON     | Client-Side | DataLayer data        |
 
 #### Ecommerce data
-When add ecommerce data in Nameless Analytics Client-side tracker tag is enable, an ecommerce parameter will be added to standard payload:
+When "Add ecommerce data" in the Nameless Analytics Client-side tracker tag is enabled, an `ecommerce` parameter will be added to the standard payload:
 
 | **Parameter name** | **Sub-parameter** | **Type** | **Added**   | **Field description** |
 |--------------------|-------------------|----------|-------------|-----------------------|
 | ecommerce          |                   | JSON     | Client-Side | Ecommerce data        |
 
-#### Cross domain data
-When Enable cross domain tracking Nameless Analytics Client-side configuration variable is enabled, a cross_domain_session parameter and a cross_domain_id parameter will be added to standard payload:
+#### Cross-domain data
+When "Enable cross-domain tracking" in the Nameless Analytics Client-side configuration variable is enabled, the `is_cross_domain_session` and `cross_domain_id` parameters will be added to the standard payload:
 
 | **Parameter name** | **Sub-parameter**       | **Type** | **Added**   | **Field description**   |
 |--------------------|-------------------------|----------|-------------|-------------------------|
@@ -317,22 +317,22 @@ When Enable cross domain tracking Nameless Analytics Client-side configuration v
 Choose between standard event names or custom event names. 
 
 Please note:
-- <u>Always trigger a page_view event as the very first event on every page load.</u> </br>
-  **Any event triggered before to a page_view will be rejected.**
-- Use standard event names when possible
-- Follow naming convention for event name and event parameters
+- <u>Always trigger a `page_view` event as the very first event on every page load.</u> </br>
+  **Any event triggered before a `page_view` will be rejected.**
+- Use standard event names whenever possible.
+- Follow naming conventions for event names and event parameters.
 
 #### Standard event name
 Choose a standard event name for the event:
 
-* page_view: Send this event when a page is viewed. Use this event for both standard and virtual pageviews. This is the only mandatory event.
-* consent_given: Send this event the user give consent to improve the accuracy of consents metrics.
-* page_load_time: Send this event when a page is loaded (on gtm.load javascript event) with this parameters:
-  * time_to_dom_interactive: performance.timing.domInteractive - performance.timing.responseStart
-  * page_render_time: performance.timing.domComplete - performance.timing.domLoading
-  * time_to_dom_complete: performance.timing.domComplete - performance.timing.responseStart
-  * total_page_load_time: performance.timing.loadEventEnd - performance.timing.navigationStart 
-* page_closed: Send this event when a page is closed to improve the accuracy of time_on_page, session_duration and other metrics.
+* page_view: Send this event when a page is viewed. Use this event for both standard and virtual page views. This is the only mandatory event.
+* consent_given: Send this event when the user gives consent to improve the accuracy of consent metrics.
+* page_load_time: Send this event when a page is loaded (on the `gtm.load` JavaScript event) with these parameters:
+  * time_to_dom_interactive: `performance.timing.domInteractive - performance.timing.responseStart`
+  * page_render_time: `performance.timing.domComplete - performance.timing.domLoading`
+  * time_to_dom_complete: `performance.timing.domComplete - performance.timing.responseStart`
+  * total_page_load_time: `performance.timing.loadEventEnd - performance.timing.navigationStart` 
+* page_closed: Send this event when a page is closed to improve the accuracy of `time_on_page`, `session_duration`, and other metrics.
 
 #### Custom event name
 Choose a custom event name for the event.
@@ -360,7 +360,7 @@ This is the hierarchy of event parameter importance:
 [Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) overrides [Specific event parameters](#addoverride-event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) overrides [dataLayer parameters](#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
 
 #### Add/override event level parameters
-Add or overwrite parameters for a specific event. Values accepted: strings, Integers, float and json. Page_id and event_id parameters cannot be overwritten.
+Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON. The `page_id` and `event_id` parameters cannot be overwritten.
 
 These parameters can override:
 - default event parameters
@@ -434,7 +434,7 @@ To add ecommerce data, create a tag with {{Event}} as [custom event name](#custo
 * purchase
 * refund
 
-Push ecommerce data into dataLayer as follow:
+Push ecommerce data into the dataLayer as follows:
 
 ```javascript
 dataLayer.push({ ecommerce: null });
@@ -452,4 +452,4 @@ Disable console log for this specific event when [Enable logs in JavaScript cons
 
 ---
 
-Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [Linkedin](https://www.linkedin.com/in/tommasomoretti/)
+Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [LinkedIn](https://www.linkedin.com/in/tommasomoretti/)
