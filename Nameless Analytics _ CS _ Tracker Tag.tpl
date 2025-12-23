@@ -42,19 +42,146 @@ ___TEMPLATE_PARAMETERS___
     "subParams": [
       {
         "type": "RADIO",
-        "name": "event_type",
-        "displayName": "Event type",
+        "name": "event_name",
+        "displayName": "Event name",
         "radioItems": [
           {
             "value": "standard",
-            "displayValue": "Standard event",
-            "subParams": [],
+            "displayValue": "Standard event name",
+            "subParams": [
+              {
+                "type": "SELECT",
+                "name": "standard_event_name",
+                "displayName": "",
+                "macrosInSelect": false,
+                "selectItems": [
+                  {
+                    "value": "page_view",
+                    "displayValue": "page_view"
+                  },
+                  {
+                    "value": "consent_update",
+                    "displayValue": "consent_update"
+                  },
+                  {
+                    "value": "page_load_time",
+                    "displayValue": "page_load_time"
+                  },
+                  {
+                    "value": "page_closed",
+                    "displayValue": "page_closed"
+                  },
+                  {
+                    "value": "search_result_view",
+                    "displayValue": "search_result_view"
+                  },
+                  {
+                    "value": "search_result_click",
+                    "displayValue": "search_result_click"
+                  },
+                  {
+                    "value": "login",
+                    "displayValue": "login"
+                  },
+                  {
+                    "value": "logout",
+                    "displayValue": "logout"
+                  }
+                ],
+                "simpleValueType": true,
+                "valueValidators": [
+                  {
+                    "type": "NON_EMPTY"
+                  }
+                ],
+                "alwaysInSummary": true,
+                "defaultValue": "page_view",
+                "enablingConditions": [
+                  {
+                    "paramName": "event_name",
+                    "paramValue": "standard",
+                    "type": "EQUALS"
+                  }
+                ]
+              }
+            ],
             "help": "Standard event name. \n\u003c/br\u003e\u003c/br\u003e\nPlease use:\u003c/br\u003e\n\u003cul\u003e\n  \u003cli\u003e\n    \u003cb\u003epage_view\u003c/b\u003e when a page is viewed. Use this event for both standard and virtual pageviews.\u003c/br\u003e\n  \u003c/li\u003e\n  \u003cli\u003e\n    \u003cb\u003econsent_given\u003c/b\u003e when the user gives consent to improve the accuracy of consent metrics.\n  \u003c/li\u003e\n  \u003cli\u003e\n    \u003cb\u003epage_load_time\u003c/b\u003e when a page is loaded to calculate page speed metrics.\n  \u003c/li\u003e\n  \u003cli\u003e\n    \u003cb\u003epage_closed\u003c/b\u003e when a page is closed to improve the accuracy of \u003ci\u003esession_duration\u003c/i\u003e, \u003ci\u003etime_on_page\u003c/i\u003e and other metrics.\n  \u003c/li\u003e\n  \u003cli\u003e\n    \u003cb\u003e search_result_view\u003c/b\u003e when a search result page is viewed.\n  \u003c/li\u003e\n  \u003cli\u003e\n    \u003cb\u003e search_result_click\u003c/b\u003e when a search result is clicked.\n  \u003c/li\u003e\n\u003c/ul\u003e"
           },
           {
             "value": "custom",
-            "displayValue": "Custom event",
-            "subParams": [],
+            "displayValue": "Custom event name",
+            "subParams": [
+              {
+                "type": "TEXT",
+                "name": "custom_event_name",
+                "displayName": "",
+                "simpleValueType": true,
+                "alwaysInSummary": true,
+                "valueValidators": [
+                  {
+                    "type": "NON_EMPTY"
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!page_view$).*"
+                    ],
+                    "errorMessage": "Please use standard event name for page_view.",
+                    "enablingConditions": []
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!consent_update$).*"
+                    ],
+                    "errorMessage": "Please use standard event name for consent_update."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!page_load_time$).*"
+                    ],
+                    "errorMessage": "Please use standard event name for page_load_time."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!page_closed$).*"
+                    ],
+                    "errorMessage": "Please use standard event name for page_closed."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!search_result_view$).*"
+                    ],
+                    "errorMessage": "Please use standard event name for search_result_view."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!search_result_click$).*"
+                    ],
+                    "errorMessage": "Please use standard event name for search_result_click."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^[a-z0-9]+(?:_[a-z0-9]+)*$"
+                    ],
+                    "errorMessage": "Please use snake_case for all event names."
+                  }
+                ],
+                "valueHint": "(not set)",
+                "enablingConditions": [
+                  {
+                    "paramName": "event_name",
+                    "paramValue": "custom",
+                    "type": "EQUALS"
+                  }
+                ]
+              }
+            ],
             "help": "Custom event name.\n\u003c/br\u003e\u003c/br\u003e\nTo maintain consistency between events, it is highly recommended to use \u003cb\u003esnake_case\u003c/b\u003e notation style (with underscores between words) to create descriptive and easily interpretable names.\u003cbr\u003e\u003cbr\u003e\n\nExamples:\u003cbr\u003e\n\u003cul\u003e\n  \u003cli\u003ebutton_clicked\u003c/li\u003e\n  \u003cli\u003eform_submitted\u003c/li\u003e\n  \u003cli\u003evideo_played\u003c/li\u003e\n\u003c/ul\u003e\u003cbr\u003e\n\nAvoid:\u003cbr\u003e\n\u003cul\u003e\n  \u003cli\u003eSpaces: button clicked\u003c/li\u003e\n  \u003cli\u003eHyphens: button-clicked\u003c/li\u003e\n  \u003cli\u003eCamelCase: ButtonClicked\u003c/li\u003e\n\u003c/ul\u003e"
           }
         ],
@@ -62,123 +189,6 @@ ___TEMPLATE_PARAMETERS___
         "subParams": [],
         "defaultValue": "standard",
         "help": "Select a name for the event.\u003c/br\u003e\u003c/br\u003eChoose between standard events and custom events, use standard events when possible."
-      },
-      {
-        "type": "SELECT",
-        "name": "standard_event_name",
-        "displayName": "Event name",
-        "macrosInSelect": false,
-        "selectItems": [
-          {
-            "value": "page_view",
-            "displayValue": "page_view"
-          },
-          {
-            "value": "consent_update",
-            "displayValue": "consent_update"
-          },
-          {
-            "value": "page_load_time",
-            "displayValue": "page_load_time"
-          },
-          {
-            "value": "page_closed",
-            "displayValue": "page_closed"
-          },
-          {
-            "value": "search_result_view",
-            "displayValue": "search_result_view"
-          },
-          {
-            "value": "search_result_click",
-            "displayValue": "search_result_click"
-          }
-        ],
-        "simpleValueType": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ],
-        "alwaysInSummary": true,
-        "defaultValue": "page_view",
-        "enablingConditions": [
-          {
-            "paramName": "event_type",
-            "paramValue": "standard",
-            "type": "EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "custom_event_name",
-        "displayName": "Event name",
-        "simpleValueType": true,
-        "alwaysInSummary": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          },
-          {
-            "type": "REGEX",
-            "args": [
-              "^(?!page_view$).*"
-            ],
-            "errorMessage": "Please use standard event name for page_view.",
-            "enablingConditions": []
-          },
-          {
-            "type": "REGEX",
-            "args": [
-              "^(?!consent_update$).*"
-            ],
-            "errorMessage": "Please use standard event name for consent_update."
-          },
-          {
-            "type": "REGEX",
-            "args": [
-              "^(?!page_load_time$).*"
-            ],
-            "errorMessage": "Please use standard event name for page_load_time."
-          },
-          {
-            "type": "REGEX",
-            "args": [
-              "^(?!page_closed$).*"
-            ],
-            "errorMessage": "Please use standard event name for page_closed."
-          },
-          {
-            "type": "REGEX",
-            "args": [
-              "^(?!search_result_view$).*"
-            ],
-            "errorMessage": "Please use standard event name for search_result_view."
-          },
-          {
-            "type": "REGEX",
-            "args": [
-              "^(?!search_result_click$).*"
-            ],
-            "errorMessage": "Please use standard event name for search_result_click."
-          },
-          {
-            "type": "REGEX",
-            "args": [
-              "^[a-z0-9]+(?:_[a-z0-9]+)*$"
-            ],
-            "errorMessage": "Please use snake_case for all event names."
-          }
-        ],
-        "valueHint": "(not set)",
-        "enablingConditions": [
-          {
-            "paramName": "event_type",
-            "paramValue": "custom",
-            "type": "EQUALS"
-          }
-        ]
       },
       {
         "type": "CHECKBOX",
@@ -768,59 +778,6 @@ ___TEMPLATE_PARAMETERS___
         "alwaysInSummary": true,
         "defaultValue": false,
         "help": "Add event parameters from the dataLayer.push() event that has triggered the tag.\u003cbr\u003e\u003c/br\u003e\n\nThis parameters can\u0027t be added: \u003c/br\u003e\n• event_type \u003c/br\u003e \n• channel_grouping \u003c/br\u003e \n• source \u003c/br\u003e \n• campaign \u003c/br\u003e \n• campaign_id \u003c/br\u003e \n• campaign_term \u003c/br\u003e \n• campaign_content \u003c/br\u003e \n• page_id \u003c/br\u003e \n• page_title \u003c/br\u003e \n• page_hostname_protocol \u003c/br\u003e \n• page_hostname \u003c/br\u003e \n• page_location \u003c/br\u003e \n• page_fragment \u003c/br\u003e \n• page_query \u003c/br\u003e \n• page_extension \u003c/br\u003e \n• page_referrer \u003c/br\u003e \n• page_language \u003c/br\u003e \n• page_status_code \u003c/br\u003e \n• cs_container_id \u003c/br\u003e \n• user_agent \u003c/br\u003e \n• browser_name \u003c/br\u003e \n• browser_language \u003c/br\u003e \n• browser_version \u003c/br\u003e \n• device_type \u003c/br\u003e \n• device_vendor \u003c/br\u003e \n• device_model \u003c/br\u003e \n• os_name \u003c/br\u003e \n• os_version \u003c/br\u003e \n• screen_size \u003c/br\u003e \n• viewport_size \u003c/br\u003e \n• country \u003c/br\u003e \n• city \u003c/br\u003e \n• ss_hostname \u003c/br\u003e \n• ss_container_id \u003c/br\u003e\n• ecommerce \u003c/br\u003e"
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "add_ecommerce",
-        "checkboxText": "Add ecommerce data",
-        "simpleValueType": true,
-        "displayName": "",
-        "alwaysInSummary": true,
-        "defaultValue": false,
-        "help": "Add ecommerce data from dataLayer or custom variable.",
-        "subParams": [
-          {
-            "type": "RADIO",
-            "name": "ecommerce_method",
-            "displayName": "From:",
-            "radioItems": [
-              {
-                "value": "from_datalayer",
-                "displayValue": "dataLayer",
-                "help": "Add ecommerce data from an ecommerce object in the current dataLayer push.\n\u003c/br\u003e\u003c/br\u003e\nExample:\u003c/br\u003e \ndataLayer.push{(\u003c/br\u003e\n\u0026nbsp \u0026nbsp  event : \"purchase\", \u003c/br\u003e\n\u0026nbsp \u0026nbsp  ecommerce: { \u003c/br\u003e\n\u0026nbsp \u0026nbsp \u0026nbsp \u0026nbsp // ecommerce values \u003c/br\u003e\n\u0026nbsp \u0026nbsp } \u003c/br\u003e\n)}"
-              },
-              {
-                "value": "from_custom_variable",
-                "displayValue": "Custom variable",
-                "help": "Add ecommerce data from a custom variable in JSON format.\n\u003c/br\u003e\u003c/br\u003e\n\u003cb\u003eReporting queries must be modify accordingly to the custom ecommerce JSON schema.\u003c/b\u003e",
-                "subParams": [
-                  {
-                    "type": "SELECT",
-                    "name": "ecommerce_custom_variable",
-                    "displayName": "",
-                    "macrosInSelect": true,
-                    "selectItems": [],
-                    "simpleValueType": true,
-                    "alwaysInSummary": true,
-                    "valueValidators": [
-                      {
-                        "type": "NON_EMPTY"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "simpleValueType": true,
-            "enablingConditions": [
-              {
-                "paramName": "add_ecommerce",
-                "paramValue": true,
-                "type": "EQUALS"
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -858,6 +815,16 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Advanced settings",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "add_ecommerce",
+        "checkboxText": "Add ecommerce data from dataLayer",
+        "simpleValueType": true,
+        "displayName": "",
+        "alwaysInSummary": true,
+        "defaultValue": false,
+        "help": "Add ecommerce data from dataLayer. The data will be taken from the ecommerce field."
+      },
       {
         "type": "CHECKBOX",
         "name": "disable_this_log",
@@ -911,12 +878,11 @@ const generateRandom = require('generateRandom');
 const addEventCallback = require('addEventCallback');
 
 
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 const config = data.config_variable;
-const event_name = (data.event_type == 'standard') ? data.standard_event_name : data.custom_event_name;
+const event_name = (data.event_name == 'standard') ? data.standard_event_name : data.custom_event_name;
 
 // Logs
 let enable_logs = false;
@@ -934,20 +900,6 @@ if (config != undefined && config.enable_logs) {
   enable_logs = true;
 }
 
-// Check configuration variable
-if(enable_logs){log(event_name, '>', 'NAMELESS ANALYTICS');}
-if(enable_logs){log(event_name, '>', 'CHECKING CONFIGURATION VARIABLE...');}
-
-if(config == undefined || config.is_na_config_variable != true){
-  if(enable_logs){log(event_name, '>', '  🔴 Tracker configuration error: event has invalid Nameless Analytics Client-Side tracker configuration variable.');}
-
-  if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
-  if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
-  data.gtmOnSuccess();
-  return;
-} else {
-  if(enable_logs){log(event_name, '>', '  🟢 Valid Nameless Analytics Client-Side tracker configuration variable.');}
-}
 
 // Event data
 const pv_event_name = (config.change_default_page_view_event_name) ? config.page_view_event_name : 'gtm.js';
@@ -1013,6 +965,22 @@ const full_endpoint = 'https://' + endpoint_domain_name + endpoint_path;
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+// Check configuration variable
+if(enable_logs){log(event_name, '>', 'NAMELESS ANALYTICS');}
+if(enable_logs){log(event_name, '>', 'CHECKING CONFIGURATION VARIABLE...');}
+
+if(config == undefined || config.is_na_config_variable != true){
+  if(enable_logs){log(event_name, '>', '  🔴 Tracker configuration error: event has invalid Nameless Analytics Client-Side tracker configuration variable.');}
+
+  if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+  if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
+  data.gtmOnSuccess();
+  return;
+} else {
+  if(enable_logs){log(event_name, '>', '  🟢 Valid Nameless Analytics Client-Side tracker configuration variable.');}
+}
+
+
 if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'TRACKER TAG CONFIGURATION:');}
 if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  👉 Server-side requests endpoint path:', full_endpoint);}
 if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  👉 Load libraries in first-party mode:', (config.load_libraries_from_custom_location) ? 'Yes' : 'No');}
@@ -1021,7 +989,6 @@ if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_
 
 
 if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'LOADING LIBRARIES...');}
-if(enable_logs && event_name != 'page_view'){log(event_name, '>', 'CHECKING LIBRARIES...');}
 
 // Load UA parser library
 if (queryPermission('inject_script', ua_parser_url)) {
@@ -1029,50 +996,46 @@ if (queryPermission('inject_script', ua_parser_url)) {
     ua_parser_url, 
     () => { // UA parser library loaded
       if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🟢 UA parser library loaded from:', ua_parser_url);}
-      if(enable_logs && event_name != 'page_view'){log(event_name, '>', '  🟢 UA parser library found');}
-      
+            
       // Load Main library
       if (queryPermission('inject_script', na_url)) {
         injectScript(
           na_url,
           () => { // Main library loaded  
             if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🟢 Main library loaded from:', na_url);}
-            if(enable_logs && event_name != 'page_view'){log(event_name, '>', '  🟢 Main library found');}
-            
-            send_request(full_endpoint);  
+                        
+            send_request(full_endpoint); 
           },
           () => { // Main library not loaded
             if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 Main library not loaded from:', na_url);}
-            if(enable_logs && event_name != 'page_view') {log(event_name, '>', '  🔴 Missing Main library');}
-    
+                
             if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
             if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
             data.gtmOnSuccess();
           }, na_url // cached Main library
         );
       } else {
-        if(enable_logs){log(event_name, '>', '  🔴 Permission denied: unable to load Main library from', na_url);}
+        if(enable_logs && enable_logs && datalayer_event_name != pv_event_name){log(event_name, '>', '  🔴 Permission denied: unable to load Main library from', na_url);}
         
-        if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'TAG EXECUTION STATUS:');}
-        if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 Request aborted');}
+        if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+        if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
         data.gtmOnSuccess();
       }
       
     },
     () => { // UA parser library not loaded
       if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 UA parser library not loaded from:', ua_parser_url);}
-      if(enable_logs && event_name != 'page_view') {log(event_name, '>', '  🔴 Missing UA parser library');}
-  
+        
       if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
       if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
       data.gtmOnSuccess();
     }, ua_parser_url // cached UA parser library
   );
 } else {
-  if(enable_logs){log(event_name, '>', '  🔴 Permission denied: unable to load UA parser library from', ua_parser_url);}
+  if(enable_logs && enable_logs && datalayer_event_name != pv_event_name){log(event_name, '>', '  🔴 Permission denied: unable to load UA parser library from', ua_parser_url);}
   
-  if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', 'TAG EXECUTION STATUS:');}
-  if(enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name){log(event_name, '>', '  🔴 Request aborted');}
+  if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+  if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
   data.gtmOnSuccess();
 }
   
@@ -1118,29 +1081,45 @@ function send_request(full_endpoint){
           consent_listener_called = true;
                   
           if(enable_logs){log(event_name, '>', '  🟢 analytics_storage granted');}
+
+          const payload = build_payload();
+          if (!payload) {
+            return;
+          }
           
           // Send pending requests when consent is granted          
           if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
-            callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs, config.add_page_status_code);
+            callInWindow('send_queued_requests', full_endpoint, payload, data, enable_logs, config.add_page_status_code);
           }
         });
         
       // Consent granted  
       } else if(isConsentGranted("analytics_storage")) {
         if(enable_logs){log(event_name, '>', '  🟢 analytics_storage granted');}
+
+        const payload = build_payload();
+        if (!payload) {
+          return;
+        }
               
         // Send requests
         if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
-          callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs, config.add_page_status_code);
+          callInWindow('send_queued_requests', full_endpoint, payload, data, enable_logs, config.add_page_status_code);
         }
       }
     }
     
   // Do not respect consent mode
-  } else {   
+  } else {
+    
+    const payload = build_payload();
+    if (!payload) {
+      return;
+    }
+
     // Send requests
     if(queryPermission('access_globals', 'execute', 'send_queued_requests')) {
-      callInWindow('send_queued_requests', full_endpoint, build_payload(), data, enable_logs, config.add_page_status_code);
+      callInWindow('send_queued_requests', full_endpoint, payload, data, enable_logs, config.add_page_status_code);
     }
   }
 }
@@ -1173,38 +1152,34 @@ function set_cross_domain_listener(full_endpoint) {
 // Build the payload
 function build_payload(){  
   // Save event info in template storage
-  const event_storage_name = 'data_storage';
+  const storage_name = 'data_storage';
   
-  const current_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
-  set_event_data_in_template_storage(event_storage_name, current_event_storage_value);
-  const updated_event_storage_value = JSON.parse(templateStorage.getItem(event_storage_name));
+  const storage_value = JSON.parse(templateStorage.getItem(storage_name));
+  const res = set_event_data_in_template_storage(storage_name, storage_value);
+  
+  if(!res){return;}
+  
+  const updated_storage_value = JSON.parse(templateStorage.getItem(storage_name));
+
+  const updated_event_storage_value = updated_storage_value[0];
+  const updated_page_storage_value = updated_storage_value[1];
   
   const payload = {};
 
   const user_info = {};
   const session_info = {};
-  const event_info = updated_event_storage_value.pop();
-  const page_info = {
-    page_title: readTitle(),
-    page_hostname_protocol: getUrl('protocol'),
-    page_hostname: hostname,
-    page_location: getUrl('path'),
-    page_fragment: getUrl('fragment') || null,
-    page_query: getUrl('query') || null,
-    page_extension: getUrl('extension') || null,
-    page_referrer: (getReferrerUrl() == '') ? null : getReferrerUrl(),
-    page_timestamp: event_info.page_timestamp
-  };
+  const event_info = updated_event_storage_value;
+  const page_info = updated_page_storage_value;
 
-  payload.event_origin = 'Website';
-  payload.event_timestamp = timestamp;
-  payload.event_name = event_name;
   payload.event_id = event_info.event_id;
-  payload.page_id = event_info.page_id;
+  payload.event_name = event_name;
+  payload.event_timestamp = timestamp;
+  payload.event_origin = 'Website';
+
+  payload.page_id = page_info.page_id;
 
   Object.delete(event_info, 'event_id');
-  Object.delete(event_info, 'page_id');
-  Object.delete(event_info, 'page_timestamp'); 
+  Object.delete(page_info, 'page_id');  
   
   
   // DATALAYER DATA
@@ -1225,20 +1200,13 @@ function build_payload(){
   
   
   // ECOMMERCE DATA
-  // Add ecommerce data from dataLayer or custom variable
+  // Add ecommerce data from dataLayer
   if(data.add_ecommerce) {
-    if(data.ecommerce_method == 'from_datalayer'){
-      payload.ecommerce = copyFromDataLayer('ecommerce', 2);
-    } else {
-      payload.ecommerce = data.ecommerce_custom_variable || null;
-    }
+    payload.ecommerce = copyFromDataLayer('ecommerce', 2);
   }
   
   
   // USER DATA
-  // Add user id (configuration variable)
-  if(config.add_user_id){user_info.user_id = config.user_id;}
-  
   // Add user parameters (configuration variable)
   if(config.add_user_params){
     const config_user_params = config.user_params;
@@ -1258,6 +1226,9 @@ function build_payload(){
 
   
   // SESSION DATA
+  // Add user id (configuration variable)
+  if(config.add_user_id){session_info.user_id = config.user_id;}
+  
   // Add session parameters (configuration variable)
   if(config.add_session_params){
     const config_session_params = config.session_params;
@@ -1276,21 +1247,11 @@ function build_payload(){
   payload.session_data = session_info;
   
   
-  // PAGE DATA
-  // Add page category (configuration variable)
-  page_info.page_category = config.page_category;
+  // PAGE DATA  
+  // Add page info to payload
+  payload.page_data = page_info;  
   
-  // Add page data if virtual page view event name != gtm.historyChange
-  if (config.page_title != undefined && config.page_location != undefined) {
-    page_info.page_title = config.page_title;
-    page_info.page_location = config.page_location;
-    page_info.page_fragment = config.page_fragment;
-    page_info.page_query = config.page_query;
-    page_info.page_extension = config.page_extension;    
-  }
-  payload.page_data = page_info;
-  
-  
+
   // EVENT DATA
   // Add event parameters from dataLayer (tag fields)
   if(data.add_parameters_from_dataLayer){
@@ -1340,7 +1301,7 @@ function build_payload(){
       for (let i = 0; i < event_params.length; i++) {
         const param_name = event_params[i].param_name;
         
-        Object.delete(event_info.event_data, param_name);
+        Object.delete(event_info, param_name);
       }
     }
   } 
@@ -1392,11 +1353,12 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
   if(enable_logs){log(event_name, '>', 'CHECKING EVENT...');} 
   
   const channel_grouping = (queryPermission('access_globals', 'execute', 'get_channel_grouping')) ? callInWindow('get_channel_grouping', source, campaign): null;
-    
-  if (datalayer_event_name == pv_event_name || datalayer_event_name == vpv_event_name) {  
+  
+  // Standard and Virtual Page View
+  if (event_name == 'page_view' && (datalayer_event_name == pv_event_name || datalayer_event_name == vpv_event_name)) {  
     const page_id = alphanumeric_page_id;
     const event_id = page_id + "_" + alphanumeric_event_id;
-  
+      
     const event_info = [{
       event_id: event_id,
       event_type: (datalayer_event_name == pv_event_name) ? 'page_view' : 'virtual_page_view',
@@ -1407,31 +1369,59 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
       campaign_click_id: campaign_click_id,
       campaign_term: campaign_term,
       campaign_content: campaign_content,
+      cross_domain_id: (datalayer_event_name == pv_event_name) ? cross_domain_id : null
+    },{
       page_id: page_id,
       page_timestamp: timestamp,
-      cross_domain_id: (datalayer_event_name == pv_event_name) ? cross_domain_id : null
+      page_hostname_protocol: getUrl('protocol'),
+      page_hostname: hostname,
+      page_category: config.page_category || null,
+      page_title: readTitle(),
+      page_location: getUrl('path'),
+      page_fragment: getUrl('fragment') || null,
+      page_query: getUrl('query') || null,
+      page_extension: getUrl('extension') || null,
+      page_referrer: (storage_value == null) ? ((getReferrerUrl() == '') ? null : getReferrerUrl()) : storage_value[1].page_location,
     }];
+
+    // Override page data if virtual_page_view event name != gtm.historyChange
+    if (datalayer_event_name == vpv_event_name && config.page_title != undefined && config.page_location != undefined) {
+      event_info[1].page_title = config.page_title;
+      event_info[1].page_location = config.page_location;
+      event_info[1].page_fragment = config.page_fragment || null;
+      event_info[1].page_query = config.page_query || null;
+      event_info[1].page_extension = config.page_extension || null;    
+    }
         
     templateStorage.setItem(storage_name, JSON.stringify(event_info));
     
-    if(enable_logs){log(event_name, '>', '  🟢 Valid', event_name);}    
-  } else if (!storage_value) { 
-    if (event_name == 'page_view') {
-      if(enable_logs){log(event_name, '>', '  🔴 Page view fired on wrong event. Change default JavaScript page view event names in Nameless Analytics Client-Side tracker configuration variable.');}   
-    } else {
-      if(enable_logs){log(event_name, '>', '  🔴 Event fired before a page view event. The first event on a page view ever must be page_view. Request aborted.');}
-    }
+    if(enable_logs){log(event_name, '>', '  🟢 Valid', event_name);} 
+    
+    return true;
+    
+  } else if (event_name == 'page_view' && (datalayer_event_name != pv_event_name || datalayer_event_name != vpv_event_name)) { 
+    if(enable_logs && datalayer_event_name != pv_event_name){log(event_name, '>', '  🔴',  (datalayer_event_name == pv_event_name) ? 'Page view' : 'Virtual page view', 'fired on wrong event:', datalayer_event_name + '. Change default JavaScript page view event name in Nameless Analytics Client-Side tracker configuration variable. Actual:', (datalayer_event_name == pv_event_name) ? pv_event_name : vpv_event_name);} 
     
     if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
     if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
     
     data.gtmOnSuccess();
+    return false;
+
+  } else if (event_name != 'page_view' && !storage_value) {
+    if(enable_logs ){log(event_name, '>', '  🔴 Event fired before a page view event. The first event on a page view ever must be page_view. Request aborted.');}
     
+    if(enable_logs){log(event_name, '>', 'TAG EXECUTION STATUS:');}
+    if(enable_logs){log(event_name, '>', '  🔴 Request aborted');}
+    
+    data.gtmOnSuccess();
+    return false;
+
   } else {
-    const current_event_info = storage_value.pop();
-    const full_page_id = current_event_info.page_id;
-    const page_timestamp = current_event_info.page_timestamp;
-    const event_id = full_page_id + "_" + alphanumeric_event_id;
+    const current_page_info = storage_value[1];
+    
+    const page_id = current_page_info.page_id;
+    const event_id = page_id + "_" + alphanumeric_event_id;
     
     const event_info = [{
       event_id: event_id,
@@ -1443,14 +1433,16 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
       campaign_click_id: campaign_click_id,
       campaign_term: campaign_term,
       campaign_content: campaign_content,
-      page_id: full_page_id,
-      page_timestamp: page_timestamp,
-      cross_domain_id: (datalayer_event_name == pv_event_name) ? cross_domain_id : null
-    }];
+      cross_domain_id: null
+    }, 
+      current_page_info
+    ];
         
     templateStorage.setItem(storage_name, JSON.stringify(event_info));
     
-    if(enable_logs){log(event_name, '>', '  🟢 Valid', event_name);}  
+    if(enable_logs){log(event_name, '>', '  🟢 Valid', event_name);} 
+    
+    return true;
   }
 }
 
@@ -2186,6 +2178,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 16/11/2025, 19:45:35
+Created on 23/12/2025, 15:40:15
 
 
