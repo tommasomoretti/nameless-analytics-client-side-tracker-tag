@@ -3,14 +3,14 @@
 
 ---
 
-# Client-side tracker tag
+# Nameless Analytics Client-side Tracker Tag
 
-The Nameless Analytics Client-side tracker tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side client tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
+The Nameless Analytics Client-side Tracker Tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side Client Tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/#technical-architecture-and-data-flow).
 
 Tag:
-* [Tracker tag UI](#tag-ui)
+* [Nameless Analytics Client-side Tracker Tag UI](#nameless-analytics-client-side-tracker-tag-ui)
 * [Request payload data](#request-payload-data)
 
 Data:
@@ -21,7 +21,7 @@ Data:
   * [Event parameters](#event-parameters)
     * [Add/override event level parameters](#addoverride-event-level-parameters)
     * [Remove event level parameters](#remove-event-level-parameters)
-    * [Add event level parameters from dataLayer](#add-event-level-parameters-from-datalayer)
+    * [Add event level parameters from dataLayer](#add-event-parameters-from-datalayer)
 
 Settings:
 * Configuration variable settings
@@ -34,10 +34,10 @@ Settings:
 
 
 
-## Tag UI
-This is the UI of the Client-side tracker tag.
+## Nameless Analytics Client-side Tracker Tag UI
+This is the UI of the Nameless Analytics Client-side Tracker Tag.
 
-<img src="https://github.com/user-attachments/assets/042ccafa-7ec5-4366-b8d5-30e82d1a530f" alt="Nameless Analytics - Client-side tracker tag UI"/>
+<img src="https://github.com/user-attachments/assets/042ccafa-7ec5-4366-b8d5-30e82d1a530f" alt="Nameless Analytics Client-side Tracker Tag UI"/>
 
 </br>
 </br>
@@ -286,21 +286,21 @@ Data is structured into:
 <details><summary>Request payload additional data parameters</summary>
 
 #### Add dataLayer data
-When the "Add current dataLayer state" option in the Nameless Analytics Client-side configuration variable is enabled, a `dataLayer` parameter will be added to the standard payload: 
+When the "Add current dataLayer state" option in the Nameless Analytics Client-side Tracker Configuration Variable is enabled, a `dataLayer` parameter will be added to the standard payload: 
 
 | **Parameter name** | **Sub-parameter** | **Type** | **Added**   | **Field description** |
 |--------------------|-------------------|----------|-------------|-----------------------|
 | dataLayer          |                   | JSON     | Client-Side | DataLayer data        |
 
 #### Ecommerce data
-When "Add ecommerce data" in the Nameless Analytics Client-side tracker tag is enabled, an `ecommerce` parameter will be added to the standard payload:
+When "Add ecommerce data" in the Nameless Analytics Client-side Tracker Tag is enabled, an `ecommerce` parameter will be added to the standard payload:
 
 | **Parameter name** | **Sub-parameter** | **Type** | **Added**   | **Field description** |
 |--------------------|-------------------|----------|-------------|-----------------------|
 | ecommerce          |                   | JSON     | Client-Side | Ecommerce data        |
 
 #### Cross-domain data
-When "Enable cross-domain tracking" in the Nameless Analytics Client-side configuration variable is enabled, the `is_cross_domain_session` and `cross_domain_id` parameters will be added to the standard payload:
+When "Enable cross-domain tracking" in the Nameless Analytics Client-side Tracker Configuration Variable is enabled, the `is_cross_domain_session` and `cross_domain_id` parameters will be added to the standard payload:
 
 | **Parameter name** | **Sub-parameter**       | **Type** | **Added**   | **Field description**   |
 |--------------------|-------------------------|----------|-------------|-------------------------|
@@ -357,18 +357,18 @@ Please note: if a parameter has the same name as another, it can override or be 
 
 This is the hierarchy of event parameter importance:
 
-[Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) override [Specific event parameters](#addoverride-event-level-parameters) override [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) override [dataLayer parameters](#add-event-parameters-from-datalayer) override [Standard parameters](#request-payload-data)
+[Nameless Analytics Server-side Client Tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#addoverride-event-parameters) override [Specific event parameters](#addoverride-event-level-parameters) override [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) override [dataLayer parameters](#add-event-parameters-from-datalayer) override [Standard parameters](#request-payload-data)
 
 #### Add/override event level parameters
 Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON. The `page_id` and `event_id` parameters cannot be overwritten.
 
 These parameters can override:
 - default event parameters
-- dataLayer event parameters added in Nameless Analytics Client-side tracker tag
-- shared event parameters added in Nameless Analytics Client-side configuration variable
+- dataLayer event parameters added in Nameless Analytics Client-side Tracker Tag
+- shared event parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
 These parameters can be overridden by:
-- event parameter added in Nameless Analytics Server-side client tag
+- event parameter added in Nameless Analytics Server-side Client Tag
 
 #### Remove event level parameters
 Remove event level parameters in event_data object in the payload.
@@ -380,17 +380,17 @@ These parameters can override:
 - default event parameters
 
 These parameters can be overridden by:
-- shared event parameters added in Nameless Analytics Client-side configuration variable
-- event parameters added in Nameless Analytics Client-side tracker tag
-- event parameters added in Nameless Analytics Server-side client tag
+- shared event parameters added in Nameless Analytics Client-side Tracker Configuration Variable
+- event parameters added in Nameless Analytics Client-side Tracker Tag
+- event parameters added in Nameless Analytics Server-side Client Tag
 
 </br>
 
 
 
 ## Configuration variable settings
-### Configuration variable
-The Nameless Analytics Client-side tracker tag inherits configuration settings from [Nameless Analytics Client-side tracker configuration variable](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/). 
+### Configuration Variable
+The Nameless Analytics Client-side Tracker Tag inherits configuration settings from [Nameless Analytics Client-side Tracker Configuration Variable](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/). 
 
 This variable will handle settings like:
 - [set requests endpoint domain name and path](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#server-side-endpoint-settings)
@@ -448,7 +448,7 @@ dataLayer.push({
 
 
 ### Disable logs in JavaScript console for this event
-Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side config variable. 
+Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side Tracker Configuration Variable. 
 
 ---
 
