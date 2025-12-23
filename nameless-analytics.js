@@ -15,8 +15,8 @@ let queue = Promise.resolve();
 function send_queued_requests(full_endpoint, payload, data, enable_logs, add_page_status_code) {
   // Ensure that, even in case of an error, the queue continues processing subsequent requests.
   queue = queue
-  .catch(() => {}) // Swallow previous error
-  .then(() => build_payload(full_endpoint, payload, data, enable_logs, add_page_status_code));
+    .catch(() => { }) // Swallow previous error
+    .then(() => build_payload(full_endpoint, payload, data, enable_logs, add_page_status_code));
   return queue;
 }
 
@@ -27,7 +27,7 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
     const formatted_event_datetime = format_datetime(payload.event_timestamp);
     const formatted_page_datetime = format_datetime(payload.page_data.page_timestamp);
     const ua_info = parse_user_agent();
-  
+
     payload.event_date = formatted_event_datetime.date;
     // payload.event_datetime = formatted_event_datetime.date_time_micros;
     payload.event_data.user_agent = ua_info.ua;
@@ -43,34 +43,34 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
     payload.event_data.viewport_size = window.innerWidth + "x" + window.innerHeight;
     payload.page_date = formatted_page_datetime.date;
     payload.page_data.page_language = document.documentElement.lang;
-    
-    if (add_page_status_code && payload.event_data.event_type == 'page_view'){
-      fetch(window.location.href, {method: 'HEAD'})
-      .then(response => {
-        payload.page_data.page_status_code = response.status
-      })
+
+    if (add_page_status_code && payload.event_data.event_type == 'page_view') {
+      fetch(window.location.href, { method: 'HEAD' })
+        .then(response => {
+          payload.page_data.page_status_code = response.status
+        })
     }
-    
+
     send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
   });
 }
 
 
 // Send requests
-function send_requests (full_endpoint, payload, data, enable_logs, resolve, reject){
+function send_requests(full_endpoint, payload, data, enable_logs, resolve, reject) {
   if (enable_logs) console.log(payload.event_name, '>', 'SENDING REQUEST...');
-      
+
   if (full_endpoint.split('/')[2] === 'undefined') {
-    if (enable_logs){console.log(payload.event_name, '>', ' 🔴 This website is not authorized to send Nameless Analytics requests.');}
-    
-    if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}
-    if(enable_logs){console.log(payload.event_name, '>', '  🔴 Tag execution failed.');}
-    
+    if (enable_logs) { console.log(payload.event_name, '>', ' 🔴 This website is not authorized to send Nameless Analytics requests.'); }
+
+    if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
+    if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed.'); }
+
     data.gtmOnSuccess();
     reject(new Error('Unauthorized'));
-    return 
+    return
   }
-      
+
   fetch(full_endpoint, {
     method: 'POST',
     credentials: 'include',
@@ -78,37 +78,37 @@ function send_requests (full_endpoint, payload, data, enable_logs, resolve, reje
     keepalive: true,
     body: JSON.stringify(payload)
   })
-  .then(res => res.json())
-  .then(response_json => {
-    if (response_json.status_code === 200) {
-      // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
-      if(enable_logs){console.log(payload.event_name, '>', '  👉 Payload data: ', response_json.data);}
+    .then(res => res.json())
+    .then(response_json => {
+      if (response_json.status_code === 200) {
+        // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
+        if (enable_logs) { console.log(payload.event_name, '>', '  👉 Payload data: ', response_json.data); }
 
-      if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}            
-      if(enable_logs){console.log(payload.event_name, '>', ' ', response_json.response);}
-      
-      data.gtmOnSuccess();
-      resolve(response_json.data);
-    } else {
-      if(enable_logs){console.log(payload.event_name, '>  ', response_json.response);}
-      
-      if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}
-      if(enable_logs){console.log(payload.event_name, '>', '  🔴 Tag execution failed.');}
+        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
+        if (enable_logs) { console.log(payload.event_name, '>', ' ', response_json.response); }
+
+        data.gtmOnSuccess();
+        resolve(response_json.data);
+      } else {
+        if (enable_logs) { console.log(payload.event_name, '>  ', response_json.response); }
+
+        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
+        if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed.'); }
+
+        data.gtmOnSuccess();
+        resolve(response_json.data);
+      }
+    })
+    .catch(error => {
+      if (enable_logs) console.log(payload.event_name, '>', '  🔴 Error while fetch:', full_endpoint);
+      if (enable_logs) console.log(payload.event_name, '>', '  🔴', error);
+
+      if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
+      if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed.'); }
 
       data.gtmOnSuccess();
-      resolve(response_json.data);
-    }
-  })
-  .catch(error => {
-    if (enable_logs) console.log(payload.event_name, '>', '  🔴 Error while fetch:', full_endpoint);
-    if (enable_logs) console.log(payload.event_name, '>', '  🔴', error);
-  
-    if(enable_logs){console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:');}
-    if(enable_logs){console.log(payload.event_name, '>', '  🔴 Tag execution failed.');}
-     
-    data.gtmOnSuccess();      
-    reject(error);
-  });
+      reject(error);
+    });
 }
 
 
@@ -147,8 +147,8 @@ function format_datetime(timestamp) {
 const parse_user_agent = function () {
   var uap = new UAParser()
   var uap_res = uap.getResult()
-  
-  uap_res.browser.language = navigator.language  
+
+  uap_res.browser.language = navigator.language
   return uap_res
 }
 
@@ -192,9 +192,9 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
   const saved_full_endpoint = full_endpoint;
   const saved_cross_domain_domains = cross_domain_domains;
 
-  let cross_domain_listener = function(event) {
+  let cross_domain_listener = function (event) {
     var target = event.target.closest('a');
-    
+
     if (target && target.getAttribute("href")) {
       var original_href = target.getAttribute("href");
       var link_url = new URL(original_href);
@@ -222,7 +222,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         if (domain_matches && !consent_granted_or_not_needed) {
           return;
         }
-        
+
         // If the link is cross-domain and consent is granted
         event.preventDefault();
 
@@ -230,26 +230,26 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
         if (domain_matches && link_target === "_blank") {
           popupWindow = window.open("about:blank", "_blank");
         }
-        
+
         get_user_data(saved_full_endpoint, { event_name: 'get_user_data', event_origin: 'Website' }, enable_logs)
-          .then(user_data => {            
+          .then(user_data => {
             const client_id = user_data.client_id;
             const session_id = user_data.session_id;
 
-            if (enable_logs) {console.log('cross-domain > NAMELESS ANALYTICS');}
-            if (enable_logs) {console.log('cross-domain > ASK USER DATA...');}
-            if (enable_logs) {console.log('cross-domain >   👉 User data: ', user_data)}
-            if (enable_logs) {console.log('cross-domain > CHECK USER DATA...');}
-            
+            if (enable_logs) { console.log('cross-domain > NAMELESS ANALYTICS'); }
+            if (enable_logs) { console.log('cross-domain > ASK USER DATA...'); }
+            if (enable_logs) { console.log('cross-domain >   👉 User data: ', user_data) }
+            if (enable_logs) { console.log('cross-domain > CHECK USER DATA...'); }
+
             if (session_id !== 'undefined') {
-              if (enable_logs) {console.log('cross-domain >   🟢 Valid user data. Cross-domain URL link decoration will be applied.')}
+              if (enable_logs) { console.log('cross-domain >   🟢 Valid user data. Cross-domain URL link decoration will be applied.') }
               link_url.searchParams.set('na_id', session_id);
             } else {
-              if (enable_logs) {console.log('cross-domain >   🔴 Invalid user data. No cross-domain URL link decoration will be applied.')}
+              if (enable_logs) { console.log('cross-domain >   🔴 Invalid user data. No cross-domain URL link decoration will be applied.') }
             }
 
-            if (enable_logs) {console.log('cross-domain >   👉 Redirect to: ' + link_url.href)}
-            
+            if (enable_logs) { console.log('cross-domain >   👉 Redirect to: ' + link_url.href) }
+
             if (popupWindow) {
               popupWindow.location.href = link_url.href;
             } else {
@@ -257,7 +257,7 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
             }
           })
           .catch(error => {
-            console.error('cross-domain >   🔴 Error fetching user data:', error);
+            console.error('cross-domain >   🔴 Error while fetch user data: ' + error);
             if (popupWindow) {
               popupWindow.location.href = original_href;
             } else {
@@ -316,11 +316,8 @@ function get_user_data(saved_full_endpoint, payload, enable_logs) {
         return response_json.data;
       })
       .catch(error => {
-        if (enable_logs) {console.log("🔴 Error while fetch");}
+        if (enable_logs) { console.log('cross-domain >   🔴 Error while fetch user data: ' + error); }
         return {};
       });
-  } else {
-    if (enable_logs) {console.log("🔴 Undefined endpoint domain");}
-    return Promise.resolve({});
   }
 }

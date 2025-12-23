@@ -30,6 +30,10 @@ Settings:
   * [Add ecommerce data from dataLayer](#add-ecommerce-data-from-datalayer)
   * [Disable logs in JavaScript console for this event](#disable-logs-in-javascript-console-for-this-event)
 
+Execution messages:
+* [Success messages](#success-messages) 
+* [Error messages](#error-messages) 
+
 </br>
 
 
@@ -310,6 +314,10 @@ When "Enable cross-domain tracking" in the Nameless Analytics Client-side Tracke
 
 </br>
 
+Per garantire l'integrità dei dati, il  Nameless Analytics Client-side Tracker Tag utilizza una coda di esecuzione sequenziale. Anche se più eventi vengono attivati contemporaneamente (es. click rapidi), le richieste vengono inviate una alla volta nel corretto ordine cronologico.
+
+</br>
+
 
 
 ## Event data
@@ -449,6 +457,31 @@ dataLayer.push({
 
 ### Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side Tracker Configuration Variable. 
+
+</br>
+
+
+
+## Execution messages
+### Success messages
+When logs are enabled, the following success and status messages may appear in the browser console:
+
+| **Message** | **Description** |
+|:---|:---|
+| `[event_name] > 🟢 Request claimed successfully` | Generic closure message indicating the event was sent successfully. |
+| `cross-domain > 🟢 Valid user data. Cross-domain URL link decoration will be applied` | Indicating that link decoration with `na_id` is performed correctly. |
+
+### Error messages
+These messages appear in the browser console when an issue prevents the correct execution of the tag:
+
+| **Message** | **Context / Cause** |
+|:---|:---|
+| `[event_name] > 🔴 Tag execution failed.` | Generic closure message indicating the event was not sent. |
+| `[event_name] > 🔴 This website is not authorized to send Nameless Analytics requests.` | The endpoint URL in the Nameless Analytics Client-side Tracker Configuration Variable is not correctly configured. |
+| `[event_name] > 🔴 Error while fetch: [URL]` | Network reachability issue for Nameless Analytics server-side endpoint: DNS error, server down, or CORS policy violation. |
+
+| `cross-domain > 🔴 Error fetching user data:` | The cross-domain listener failed to retrieve IDs from the server. |
+| `cross-domain > 🔴 Invalid user data. No cross-domain URL link decoration will be applied.` | Indicating that link decoration with `na_id` is not performed correctly. |
 
 ---
 
