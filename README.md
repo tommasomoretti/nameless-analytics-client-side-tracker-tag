@@ -7,11 +7,15 @@
 
 The Nameless Analytics Client-side Tracker Tag is a highly customizable GTM custom template designed to send requests to the [Nameless Analytics Server-side Client Tag](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag). 
 
-For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/#technical-architecture-and-data-flow).
+For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/#technical-architecture).
 
 Tag:
 * [Nameless Analytics Client-side Tracker Tag UI](#nameless-analytics-client-side-tracker-tag-ui)
 * [Request payload data](#request-payload-data)
+
+Libraries:
+* [Main Library (Unminified)](nameless-analytics.js)
+* [Main Library (Minified)](nameless-analytics.min.js)
 
 Data:
 * Event data
@@ -314,7 +318,7 @@ When "Enable cross-domain tracking" in the Nameless Analytics Client-side Tracke
 
 </br>
 
-Per garantire l'integrità dei dati, il  Nameless Analytics Client-side Tracker Tag utilizza una coda di esecuzione sequenziale. Anche se più eventi vengono attivati contemporaneamente (es. click rapidi), le richieste vengono inviate una alla volta nel corretto ordine cronologico.
+To ensure data integrity, the Nameless Analytics Client-side Tracker Tag uses a sequential execution queue. Even if multiple events are triggered simultaneously (e.g., rapid clicks), requests are sent one at a time in the correct chronological order.
 
 </br>
 
