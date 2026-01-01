@@ -44,14 +44,17 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
     payload.page_date = formatted_page_datetime.date;
     payload.page_data.page_language = document.documentElement.lang;
 
+
     if (add_page_status_code && payload.event_data.event_type == 'page_view') {
       fetch(window.location.href, { method: 'HEAD' })
         .then(response => {
           payload.page_data.page_status_code = response.status
-        })
-    }
 
-    send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
+          send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
+        })
+    } else {
+      send_requests(full_endpoint, payload, data, enable_logs, resolve, reject)
+    }
   });
 }
 
