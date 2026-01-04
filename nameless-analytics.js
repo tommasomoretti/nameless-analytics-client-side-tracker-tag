@@ -61,13 +61,13 @@ function build_payload(full_endpoint, payload, data, enable_logs, add_page_statu
 
 // Send requests
 function send_requests(full_endpoint, payload, data, enable_logs, resolve, reject) {
-  if (enable_logs) console.log(payload.event_name, '>', 'SENDING REQUEST...');
+  if (enable_logs) console.log(payload.event_name, '>', 'SENDING REQUEST');
 
   if (full_endpoint.split('/')[2] === 'undefined') {
-    if (enable_logs) { console.log(payload.event_name, '>', ' 🔴 This website is not authorized to send Nameless Analytics requests.'); }
+    if (enable_logs) { console.log(payload.event_name, '>', ' 🔴 This website is not authorized to send Nameless Analytics requests'); }
 
-    if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
-    if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed.'); }
+    if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
+    if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed'); }
 
     data.gtmOnSuccess();
     reject(new Error('Unauthorized'));
@@ -87,7 +87,7 @@ function send_requests(full_endpoint, payload, data, enable_logs, resolve, rejec
         // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
         if (enable_logs) { console.log(payload.event_name, '>', '  👉 Payload data: ', response_json.data); }
 
-        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
+        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
         if (enable_logs) { console.log(payload.event_name, '>', ' ', response_json.response); }
 
         data.gtmOnSuccess();
@@ -95,8 +95,8 @@ function send_requests(full_endpoint, payload, data, enable_logs, resolve, rejec
       } else {
         if (enable_logs) { console.log(payload.event_name, '>  ', response_json.response); }
 
-        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
-        if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed.'); }
+        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
+        if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed'); }
 
         data.gtmOnSuccess();
         resolve(response_json.data);
@@ -106,8 +106,8 @@ function send_requests(full_endpoint, payload, data, enable_logs, resolve, rejec
       if (enable_logs) console.log(payload.event_name, '>', '  🔴 Error while fetch:', full_endpoint);
       if (enable_logs) console.log(payload.event_name, '>', '  🔴', error);
 
-      if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS:'); }
-      if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed.'); }
+      if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
+      if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed'); }
 
       data.gtmOnSuccess();
       reject(error);
@@ -240,15 +240,15 @@ function set_cross_domain_listener(full_endpoint, cross_domain_domains, respect_
             const session_id = user_data.session_id;
 
             if (enable_logs) { console.log('cross-domain > NAMELESS ANALYTICS'); }
-            if (enable_logs) { console.log('cross-domain > ASK USER DATA...'); }
+            if (enable_logs) { console.log('cross-domain > ASK USER DATA'); }
             if (enable_logs) { console.log('cross-domain >   👉 User data: ', user_data) }
-            if (enable_logs) { console.log('cross-domain > CHECK USER DATA...'); }
+            if (enable_logs) { console.log('cross-domain > CHECK USER DATA'); }
 
             if (session_id !== 'undefined') {
-              if (enable_logs) { console.log('cross-domain >   🟢 Valid user data. Cross-domain URL link decoration will be applied.') }
+              if (enable_logs) { console.log('cross-domain >   🟢 Valid user data. Cross-domain URL link decoration will be applied') }
               link_url.searchParams.set('na_id', session_id);
             } else {
-              if (enable_logs) { console.log('cross-domain >   🔴 Invalid user data. No cross-domain URL link decoration will be applied.') }
+              if (enable_logs) { console.log('cross-domain >   🔴 Invalid user data. No cross-domain URL link decoration will be applied') }
             }
 
             if (enable_logs) { console.log('cross-domain >   👉 Redirect to: ' + link_url.href) }
