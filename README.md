@@ -217,7 +217,7 @@ These messages appear in the browser console when an issue prevents the correct 
 | | `[event_name] > 🔴 This website is not authorized to send Nameless Analytics requests` | The calling domain is not in the server-side authorized list. | Add your domain to the "Authorized domains" list in the Server-side Client Tag. |
 | | `[event_name] > 🔴 Error while fetch: [URL]` | The fetch request to the server-side endpoint failed. | Check server logs, endpoint URL correctness, and CORS settings. |
 | Cross-domain | `cross-domain > 🔴 Invalid user data. No cross-domain URL link decoration will be applied` | Data required for link decoration (na_id) is missing or invalid. | Ensure `page_view` has fired successfully and cookies are correctly set. |
-| | `cross-domain > 🔴 Error fetching user data: [error]` | The cross-domain listener failed to retrieve IDs from the server. | Verify the server-side client is reachable and not returning errors. |
+| | `cross-domain > 🔴 Error while fetch user data: [error]` | The cross-domain listener failed to retrieve IDs from the server. | Verify the server-side client is reachable and not returning errors. |
 
 ---
 
