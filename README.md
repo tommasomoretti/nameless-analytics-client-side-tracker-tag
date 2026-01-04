@@ -85,9 +85,9 @@ Add event parameters for a specific event. The parameters will be added in the e
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
 
-This is the hierarchy of event parameter importance:
+This is the hierarchy of event parameter importance: 
 
-[Nameless Analytics Server-side Client Tag](https://github.com/nameless-analytics/nameless-analytics-server-side-client-tag/#addoverride-event-level-parameters) override [Specific event parameters](#addoverride-event-level-parameters) override [Shared event parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) override [dataLayer parameters](#add-event-parameters-from-datalayer) override [Standard parameters](https://github.com/nameless-analytics/nameless-analytics/#request-payload-data)
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
 #### Add/override event level parameters
 Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON. The `page_id` and `event_id` parameters cannot be overwritten.
