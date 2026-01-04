@@ -201,7 +201,6 @@ These messages appear in the browser console when an issue prevents the correct 
 | `[event_name] > 🔴 Tag execution failed.` | Generic closure message indicating the event was not sent. |
 | `[event_name] > 🔴 This website is not authorized to send Nameless Analytics requests.` | The endpoint URL in the Nameless Analytics Client-side Tracker Configuration Variable is not correctly configured. |
 | `[event_name] > 🔴 Error while fetch: [URL]` | Network reachability issue for Nameless Analytics server-side endpoint: DNS error, server down, or CORS policy violation. |
-
 | `cross-domain > 🔴 Invalid user data. No cross-domain URL link decoration will be applied.` | Indicating that link decoration with `na_id` is not performed correctly. |
 | `cross-domain > 🔴 Error fetching user data: [error]` | The cross-domain listener failed to retrieve IDs from the server. |
 
