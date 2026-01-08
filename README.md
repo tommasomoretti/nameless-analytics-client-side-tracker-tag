@@ -213,7 +213,7 @@ These messages appear in the browser console when an issue prevents the correct 
 | Events | `[event_name] > 🔴 Request aborted` | A generic issue (like missing libraries or denied consent) stopped the tag execution | Check the previous logs in the console to find the specific cause |
 | | `[event_name] > 🔴 [event_name] fired on wrong event: [name]` | The trigger is firing the tag on an unexpected GTM event | Adjust the tag trigger to match the intended event (e.g., use `gtm.js` for page_view) |
 | | `[event_name] > 🔴 Event fired before a page view event. The first event on a page view ever must be page_view. Request aborted` | Sequence error: an event was triggered before a `page_view` initialized the session | Reorder your triggers to ensure `page_view` always fires first |
-| | `[event_name] > 🔴 Tag execution failed` | An internal JavaScript error occurred during execution | Check for browser console errors (red text) that might provide stack traces |
+| | `[event_name] > 🔴 Request refused` | The server rejected the request | Check the server-side tag logs for more details |
 | | `[event_name] > 🔴 This website is not authorized to send Nameless Analytics requests` | The calling domain is not in the server-side authorized list | Add your domain to the "Authorized domains" list in the Server-side Client Tag |
 | | `[event_name] > 🔴 Error while fetch: [URL]` | The fetch request to the server-side endpoint failed | Check server logs, endpoint URL correctness, and CORS settings |
 | Cross-domain | `cross-domain > 🔴 Invalid user data. No cross-domain URL link decoration will be applied` | Data required for link decoration (na_id) is missing or invalid | Ensure `page_view` has fired successfully and cookies are correctly set |

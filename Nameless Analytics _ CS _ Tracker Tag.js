@@ -156,7 +156,7 @@ if (queryPermission('inject_script', ua_parser_url)) {
           }, na_url // cached Main library
         );
       } else {
-        if (enable_logs && enable_logs && datalayer_event_name != pv_event_name) { log(event_name, '>', '  🔴 Permission denied: unable to load Main library from', na_url); }
+        if (enable_logs && datalayer_event_name != pv_event_name) { log(event_name, '>', '  🔴 Permission denied: unable to load Main library from', na_url); }
 
         if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
         if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
@@ -173,7 +173,7 @@ if (queryPermission('inject_script', ua_parser_url)) {
     }, ua_parser_url // cached UA parser library
   );
 } else {
-  if (enable_logs && enable_logs && datalayer_event_name != pv_event_name) { log(event_name, '>', '  🔴 Permission denied: unable to load UA parser library from', ua_parser_url); }
+  if (enable_logs && datalayer_event_name != pv_event_name) { log(event_name, '>', '  🔴 Permission denied: unable to load UA parser library from', ua_parser_url); }
 
   if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
   if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
