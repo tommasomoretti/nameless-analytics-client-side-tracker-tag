@@ -959,28 +959,28 @@ const full_endpoint = 'https://' + endpoint_domain_name + endpoint_path;
 
 // Check configuration variable
 if (enable_logs) { log(event_name, '>', 'NAMELESS ANALYTICS'); }
-if (enable_logs) { log(event_name, '>', 'CHECKING CONFIGURATION VARIABLE...'); }
+if (enable_logs) { log(event_name, '>', 'CHECKING CONFIGURATION VARIABLE'); }
 
 if (config == undefined || config.is_na_config_variable != true) {
-  if (enable_logs) { log(event_name, '>', '  🔴 Tracker configuration error: event has invalid Nameless Analytics Client-Side tracker configuration variable.'); }
+  if (enable_logs) { log(event_name, '>', '  🔴 Tracker configuration error: event has invalid Nameless Analytics Client-Side tracker configuration variable'); }
 
   if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
   if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
   data.gtmOnSuccess();
   return;
 } else {
-  if (enable_logs) { log(event_name, '>', '  🟢 Valid Nameless Analytics Client-Side tracker configuration variable.'); }
+  if (enable_logs) { log(event_name, '>', '  🟢 Valid Nameless Analytics Client-Side tracker configuration variable'); }
 }
 
 
-if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', 'TRACKER TAG CONFIGURATION:'); }
+if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', 'TRACKER TAG CONFIGURATION'); }
 if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', '  👉 Server-side requests endpoint path:', full_endpoint); }
 if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', '  👉 Load libraries in first-party mode:', (config.load_libraries_from_custom_location) ? 'Yes' : 'No'); }
 if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', '  👉 Enable cross-domain tracking?', (config.enable_cross_domain_tracking) ? 'Yes' : 'No'); }
 if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', '  👉 Respect Google Consent Mode?', (respect_consent_mode) ? 'Yes' : 'No'); }
 
 
-if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', 'LOADING LIBRARIES...'); }
+if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', 'LOADING LIBRARIES'); }
 
 // Load UA parser library
 if (queryPermission('inject_script', ua_parser_url)) {
@@ -1044,13 +1044,13 @@ function send_request(full_endpoint) {
 
   // Respect consent mode
   if (respect_consent_mode) {
-    if (enable_logs) { log(event_name, '>', 'CHECKING GOOGLE CONSENT MODE...'); }
+    if (enable_logs) { log(event_name, '>', 'CHECKING GOOGLE CONSENT MODE'); }
 
     const consent_type = callInWindow('get_last_consent_values').consent_type;
 
     // Check if consent mode is present
     if (consent_type == 'Consent mode not present') {
-      if (enable_logs) { log(event_name, '>', '  🔴 Google Consent Mode not found.'); }
+      if (enable_logs) { log(event_name, '>', '  🔴 Google Consent Mode not found'); }
 
       if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
       if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
@@ -1122,7 +1122,7 @@ function send_request(full_endpoint) {
 
 // Set cross-domain listener
 function set_cross_domain_listener(full_endpoint) {
-  if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', 'ENABLING CROSS-DOMAIN TRACKING...'); }
+  if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', 'ENABLING CROSS-DOMAIN TRACKING'); }
 
   var cross_domain_listener_status = templateStorage.getItem('cross_domain_listener') || false;
   const domains = config.cross_domain_domains.map(obj => obj.domain);
@@ -1342,7 +1342,7 @@ function build_payload() {
 
 // Save event info in template storage
 function set_event_data_in_template_storage(storage_name, storage_value) {
-  if (enable_logs) { log(event_name, '>', 'CHECKING EVENT...'); }
+  if (enable_logs) { log(event_name, '>', 'CHECKING EVENT'); }
 
   const channel_grouping = (queryPermission('access_globals', 'execute', 'get_channel_grouping')) ? callInWindow('get_channel_grouping', source, campaign) : null;
 
@@ -1401,7 +1401,7 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
     return false;
 
   } else if (event_name != 'page_view' && !storage_value) {
-    if (enable_logs) { log(event_name, '>', '  🔴 Event fired before a page view event. The first event on a page view ever must be page_view. Request aborted.'); }
+    if (enable_logs) { log(event_name, '>', '  🔴 Event fired before a page view event. The first event on a page view ever must be page_view. Request aborted'); }
 
     if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
     if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
