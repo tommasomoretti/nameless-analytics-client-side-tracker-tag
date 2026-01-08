@@ -87,14 +87,15 @@ const campaign_term = utm_term || null;
 const campaign_content = utm_content || null;
 
 // Default script paths
-const default_na_url = 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-side-tracker-tag@main/nameless-analytics.js';
+// const default_na_url = 'https://cdn.jsdelivr.net/gh/tommasomoretti/nameless-analytics-client-side-tracker-tag@main/nameless-analytics.js';
+const default_na_url_min = 'https://cdn.jsdelivr.net/gh/nameless-analytics/nameless-analytics-client-side-tracker-tag@main/nameless-analytics.min.js';
 const default_ua_parser_url = 'https://cdn.jsdelivr.net/npm/ua-parser-js/src/ua-parser.min.js';
 
 // Custom script paths
 const custom_libraries_path = 'https://' + config.custom_libraries_domain + config.custom_libraries_path;
 
-// Script paths
-const na_url = (config.load_libraries_from_custom_location) ? custom_libraries_path + '/nameless-analytics.js' : default_na_url;
+// Script pathss
+const na_url = (config.load_libraries_from_custom_location) ? custom_libraries_path + '/nameless-analytics.js' : default_na_url_min;
 const ua_parser_url = (config.load_libraries_from_custom_location) ? custom_libraries_path + '/ua-parser.min.js' : default_ua_parser_url;
 
 // Server side path
