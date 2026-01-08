@@ -113,7 +113,7 @@ if (enable_logs) { log(event_name, '>', 'CHECKING CONFIGURATION VARIABLE...'); }
 if (config == undefined || config.is_na_config_variable != true) {
   if (enable_logs) { log(event_name, '>', '  🔴 Tracker configuration error: event has invalid Nameless Analytics Client-Side tracker configuration variable.'); }
 
-  if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+  if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
   if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
   data.gtmOnSuccess();
   return;
@@ -150,7 +150,7 @@ if (queryPermission('inject_script', ua_parser_url)) {
           () => { // Main library not loaded
             if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', '  🔴 Main library not loaded from:', na_url); }
 
-            if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+            if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
             if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
             data.gtmOnSuccess();
           }, na_url // cached Main library
@@ -158,7 +158,7 @@ if (queryPermission('inject_script', ua_parser_url)) {
       } else {
         if (enable_logs && enable_logs && datalayer_event_name != pv_event_name) { log(event_name, '>', '  🔴 Permission denied: unable to load Main library from', na_url); }
 
-        if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+        if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
         if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
         data.gtmOnSuccess();
       }
@@ -167,7 +167,7 @@ if (queryPermission('inject_script', ua_parser_url)) {
     () => { // UA parser library not loaded
       if (enable_logs && event_name == 'page_view' && datalayer_event_name == pv_event_name) { log(event_name, '>', '  🔴 UA parser library not loaded from:', ua_parser_url); }
 
-      if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+      if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
       if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
       data.gtmOnSuccess();
     }, ua_parser_url // cached UA parser library
@@ -175,7 +175,7 @@ if (queryPermission('inject_script', ua_parser_url)) {
 } else {
   if (enable_logs && enable_logs && datalayer_event_name != pv_event_name) { log(event_name, '>', '  🔴 Permission denied: unable to load UA parser library from', ua_parser_url); }
 
-  if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+  if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
   if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
   data.gtmOnSuccess();
 }
@@ -201,7 +201,7 @@ function send_request(full_endpoint) {
     if (consent_type == 'Consent mode not present') {
       if (enable_logs) { log(event_name, '>', '  🔴 Google Consent Mode not found.'); }
 
-      if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+      if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
       if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
       data.gtmOnSuccess();
     } else if (consent_type == 'Default' || consent_type == 'Update') {
@@ -543,7 +543,7 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
   } else if (event_name == 'page_view' && (datalayer_event_name != pv_event_name || datalayer_event_name != vpv_event_name)) {
     if (enable_logs && datalayer_event_name != pv_event_name) { log(event_name, '>', '  🔴', (datalayer_event_name == pv_event_name) ? 'Page view' : 'Virtual page view', 'fired on wrong event:', datalayer_event_name + '. Change default JavaScript page view event name in Nameless Analytics Client-Side tracker configuration variable. Actual:', (datalayer_event_name == pv_event_name) ? pv_event_name : vpv_event_name); }
 
-    if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+    if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
     if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
 
     data.gtmOnSuccess();
@@ -552,7 +552,7 @@ function set_event_data_in_template_storage(storage_name, storage_value) {
   } else if (event_name != 'page_view' && !storage_value) {
     if (enable_logs) { log(event_name, '>', '  🔴 Event fired before a page view event. The first event on a page view ever must be page_view. Request aborted.'); }
 
-    if (enable_logs) { log(event_name, '>', 'TAG EXECUTION STATUS:'); }
+    if (enable_logs) { log(event_name, '>', 'REQUEST STATUS'); }
     if (enable_logs) { log(event_name, '>', '  🔴 Request aborted'); }
 
     data.gtmOnSuccess();
