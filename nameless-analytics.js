@@ -66,8 +66,8 @@ function send_requests(full_endpoint, payload, data, enable_logs, resolve, rejec
   if (full_endpoint.split('/')[2] === 'undefined') {
     if (enable_logs) { console.log(payload.event_name, '>', ' 🔴 This website is not authorized to send Nameless Analytics requests'); }
 
-    if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
-    if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed'); }
+    if (enable_logs) { console.log(payload.event_name, '>', 'REQUEST STATUS'); }
+    if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Request aborted'); }
 
     data.gtmOnSuccess();
     reject(new Error('Unauthorized'));
@@ -87,7 +87,7 @@ function send_requests(full_endpoint, payload, data, enable_logs, resolve, rejec
         // if(enable_logs){console.log(payload.event_name, '>', '  👉 Event name: ' + response_json.data.event_name);}
         if (enable_logs) { console.log(payload.event_name, '>', '  👉 Payload data: ', response_json.data); }
 
-        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
+        if (enable_logs) { console.log(payload.event_name, '>', 'REQUEST STATUS'); }
         if (enable_logs) { console.log(payload.event_name, '>', ' ', response_json.response); }
 
         data.gtmOnSuccess();
@@ -95,8 +95,8 @@ function send_requests(full_endpoint, payload, data, enable_logs, resolve, rejec
       } else {
         if (enable_logs) { console.log(payload.event_name, '>  ', response_json.response); }
 
-        if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
-        if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed'); }
+        if (enable_logs) { console.log(payload.event_name, '>', 'REQUEST STATUS'); }
+        if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Request aborted'); }
 
         data.gtmOnSuccess();
         resolve(response_json.data);
@@ -106,8 +106,8 @@ function send_requests(full_endpoint, payload, data, enable_logs, resolve, rejec
       if (enable_logs) console.log(payload.event_name, '>', '  🔴 Error while fetch:', full_endpoint);
       if (enable_logs) console.log(payload.event_name, '>', '  🔴', error);
 
-      if (enable_logs) { console.log(payload.event_name, '>', 'TAG EXECUTION STATUS'); }
-      if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Tag execution failed'); }
+      if (enable_logs) { console.log(payload.event_name, '>', 'REQUEST STATUS'); }
+      if (enable_logs) { console.log(payload.event_name, '>', '  🔴 Request aborted'); }
 
       data.gtmOnSuccess();
       reject(error);
