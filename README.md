@@ -35,7 +35,7 @@ Execution messages:
 ## Nameless Analytics Client-side Tracker Tag UI
 This is the UI of the Nameless Analytics Client-side Tracker Tag.
 
-![Nameless Analytics Client-side Tracker Tag UI](https://github.com/user-attachments/assets/042ccafa-7ec5-4366-b8d5-30e82d1a530f)
+![Nameless Analytics Client-side Tracker Tag UI](https://github.com/user-attachments/assets/30449ace-ae5d-4b1d-9b82-4af0a535ac18)
 
 </br>
 </br>
