@@ -147,35 +147,6 @@ Please note:
 - By default, the table function queries extract data from standard GA4 ecommerce data structure
 - The data model can be customized to support any ecommerce data structure by modifying the relative JSON paths in the user, session, ecommerce, product and funnels table function queries
 
-To add ecommerce data, create a tag with {{Event}} as [custom event name](#custom-event-name) and a trigger that matches all ecommerce event names: 
-
-* view_promotion
-* select_promotion
-* view_item_list
-* select_item
-* view_item
-* add_to_wishlist
-* add_to_cart
-* remove_from_cart
-* view_cart
-* begin_checkout
-* add_shipping_info
-* add_payment_info
-* purchase
-* refund
-
-Push ecommerce data into the dataLayer as follows:
-
-```javascript
-dataLayer.push({ ecommerce: null });
-dataLayer.push({
-  event: "purchase",
-  ecommerce: {
-    // Ecommerce data
-  }
-});
-```
-
 
 ### Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side Tracker Configuration Variable. 
