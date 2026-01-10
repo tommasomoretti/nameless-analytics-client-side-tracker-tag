@@ -28,7 +28,7 @@ Execution messages:
 * [Success messages](#success-messages) 
 * [Error messages](#error-messages) 
 
-</br></br>
+</br>
 
 
 
@@ -114,7 +114,7 @@ These parameters can be overridden by:
 - event parameters added in Nameless Analytics Client-side Tracker Tag
 - event parameters added in Nameless Analytics Server-side Client Tag
 
-</br></br>
+</br>
 
 
 
@@ -135,7 +135,7 @@ This variable will handle settings like:
 - [add current dataLayer state](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-current-datalayer-state)
 - [show logs in JavaScript console](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console)
 
-</br></br>
+</br>
 
 
 
@@ -180,7 +180,7 @@ dataLayer.push({
 ### Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side Tracker Configuration Variable. 
 
-</br></br>
+</br>
 
 
 
