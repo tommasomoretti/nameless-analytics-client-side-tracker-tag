@@ -28,17 +28,12 @@ Execution messages:
 * [Success messages](#success-messages) 
 * [Error messages](#error-messages) 
 
-</br>
-
 
 
 ## Nameless Analytics Client-side Tracker Tag UI
 This is the UI of the Nameless Analytics Client-side Tracker Tag.
 
 ![Nameless Analytics Client-side Tracker Tag UI](https://github.com/user-attachments/assets/30449ace-ae5d-4b1d-9b82-4af0a535ac18)
-
-</br>
-</br>
 
 
 
@@ -47,8 +42,7 @@ This is the UI of the Nameless Analytics Client-side Tracker Tag.
 Choose between standard event names or custom event names. 
 
 Please note:
-- <u>Always trigger a `page_view` event as the very first event on every page load.</u> </br>
-  **Any event triggered before a `page_view` will be rejected.**
+- Always trigger a `page_view` event as the very first event on every page load. **Any event triggered before a `page_view` will be rejected.**
 - Use standard event names whenever possible.
 - Follow naming conventions for event names and event parameters.
 
@@ -114,8 +108,6 @@ These parameters can be overridden by:
 - event parameters added in Nameless Analytics Client-side Tracker Tag
 - event parameters added in Nameless Analytics Server-side Client Tag
 
-</br>
-
 
 
 ## Configuration variable settings
@@ -135,8 +127,6 @@ This variable will handle settings like:
 - [add current dataLayer state](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-current-datalayer-state)
 - [show logs in JavaScript console](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console)
 
-</br> 
-
 
 
 ## Advanced settings
@@ -150,8 +140,6 @@ Please note:
 
 ### Disable logs in JavaScript console for this event
 Disable console log for this specific event when [Enable logs in JavaScript console](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-logs-in-javascript-console) is enabled in the Nameless Analytics Client-side Tracker Configuration Variable. 
-
-</br>
 
 
 
@@ -168,6 +156,7 @@ When logs are enabled, the following success and status messages may appear in t
 | Events | `[event_name] > 🟢 Valid [event_name]` | The event was successfully built and validated |
 | | `[event_name] > 🟢 Request claimed successfully` | The event was successfully sent to the server-side endpoint |
 | Cross-domain | `cross-domain > 🟢 Valid user data. Cross-domain URL link decoration will be applied` | Success log for `na_id` link decoration |
+
 
 ### Error messages
 These messages appear in the browser console when an issue prevents the correct execution of the tag:
