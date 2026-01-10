@@ -50,7 +50,7 @@ Please note:
 Choose a standard event name for the event:
 
 * page_view: Send this event when a page is viewed. Use this event for both standard and virtual page views. This is the only mandatory event.
-* consent_given: Send this event when the user gives consent to improve the accuracy of consent metrics.
+* consent_update: Send this event when the user gives or withdraws consent to improve the accuracy of consent metrics.
 * page_load_time: Send this event when a page is loaded (on the `gtm.load` JavaScript event) with these parameters:
   * time_to_dom_interactive: `performance.timing.domInteractive - performance.timing.responseStart`
   * page_render_time: `performance.timing.domComplete - performance.timing.domLoading`
