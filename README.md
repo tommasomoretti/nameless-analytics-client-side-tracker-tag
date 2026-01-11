@@ -84,15 +84,15 @@ This is the hierarchy of event parameter importance:
 See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
 #### Add/override event level parameters
-Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON. The `page_id` and `event_id` parameters cannot be overwritten.
+Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
-- default event parameters
+- Shared event parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 - dataLayer event parameters added in Nameless Analytics Client-side Tracker Tag
-- shared event parameters added in Nameless Analytics Client-side Tracker Configuration Variable
+- Default event parameters
 
 These parameters can be overridden by:
-- event parameter added in Nameless Analytics Server-side Client Tag
+- Event parameter added in Nameless Analytics Server-side Client Tag
 
 #### Remove event level parameters
 Remove event level parameters in event_data object in the payload.
@@ -101,12 +101,12 @@ Remove event level parameters in event_data object in the payload.
 Retrieve current dataLayer values from the dataLayer.push() event that triggered the tag.
 
 These parameters can override:
-- default event parameters
+- Default event parameters
 
 These parameters can be overridden by:
-- shared event parameters added in Nameless Analytics Client-side Tracker Configuration Variable
-- event parameters added in Nameless Analytics Client-side Tracker Tag
-- event parameters added in Nameless Analytics Server-side Client Tag
+- Event parameters added in Nameless Analytics Server-side Client Tag
+- Event parameters added in Nameless Analytics Client-side Tracker Tag
+- Shared event parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
 
 
